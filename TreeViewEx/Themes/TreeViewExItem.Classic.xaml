@@ -1,0 +1,35 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:System.Windows.Controls">
+
+	<Style TargetType="{x:Type Controls:TreeViewExItem}">
+		<Setter Property="BorderBrushSelectedPreview" Value="{x:Null}"/>
+		<Setter Property="BackgroundSelectedPreview" Value="{x:Null}"/>
+		<Setter Property="BackgroundSelectedHovered" Value="{x:Null}"/>
+		<Setter Property="BorderBrushFocused" Value="{x:Null}"/>
+		<Setter Property="BackgroundFocused" Value="{x:Null}"/>
+		<Setter Property="BorderBrushSelected">
+			<Setter.Value>
+				<DynamicResource ResourceKey="{x:Static SystemColors.HighlightBrushKey}" />
+			</Setter.Value>
+		</Setter>
+		<Setter Property="BackgroundSelected">
+			<Setter.Value>
+				<DynamicResource ResourceKey="{x:Static SystemColors.HighlightBrushKey}" />
+			</Setter.Value>
+		</Setter>
+		<Setter Property="BorderBrushHovered" Value="{x:Null}"/>
+		<Setter Property="BackgroundHovered" Value="{x:Null}"/>
+		<Setter Property="BorderBrushInactive">
+			<Setter.Value>
+				<DynamicResource ResourceKey="{x:Static SystemColors.ControlBrushKey}" />
+			</Setter.Value>
+		</Setter>
+		<Setter Property="BackgroundInactive">
+			<Setter.Value>
+				<DynamicResource ResourceKey="{x:Static SystemColors.ControlBrushKey}" />
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

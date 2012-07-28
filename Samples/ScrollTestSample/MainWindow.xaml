@@ -1,0 +1,18 @@
+﻿<Window x:Class="W7StyleSample.MainWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx"
+      xmlns:Model="clr-namespace:W7StyleSample.Model" Title="MainWindow" Height="350" Width="261"
+      AutomationProperties.Name="TestApp2Window">
+   <Window.Resources>
+      <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type Model:Node}">
+         <TextBlock Text="{Binding Name}" />
+      </HierarchicalDataTemplate>
+   </Window.Resources>
+
+      <DockPanel DockPanel.Dock="Left">
+         <Button Click="Button_Click" DockPanel.Dock="Bottom">Add 5 items</Button>
+         <Controls:TreeViewEx AutomationProperties.Name="TestApp2Tree"
+               ItemsSource="{Binding Path=Children}" />
+      </DockPanel>
+</Window>

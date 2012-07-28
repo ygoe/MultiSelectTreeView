@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>TreeViewEx</id>
+    <title>TreeViewEx</title>
+    <version>0.1.0.0</version>
+    <authors>Goroll</authors>
+    <owners>Goroll</owners>
+    <licenseUrl>http://treeviewex.codeplex.com/license</licenseUrl>
+    <projectUrl>http://treeviewex.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>A tree view supporting multi select.</description>
+    <copyright>Copyright 2012</copyright>
+    <tags>nuget wpf treeview tree control</tags>
+  </metadata>
+</package>

@@ -1,0 +1,67 @@
+﻿<Window 
+    x:Class="BindingSample.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx" 
+    xmlns:Model1="clr-namespace:BindingSample.Model" 
+    Title="MainWindow" Height="350" Width="1000">
+    <Window.Resources>
+        <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type Model1:Node}">
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} (IsFocused: {1}, IsSelected: {2}, IsSelectedPreview: {3})">
+                        <Binding Path="Name" />
+                        <Binding Path="IsFocused" RelativeSource="{RelativeSource AncestorType={x:Type Controls:TreeViewExItem}}"/>
+                        <Binding Path="IsSelected" RelativeSource="{RelativeSource AncestorType={x:Type Controls:TreeViewExItem}}"/>
+                        <Binding Path="IsSelectedPreview" RelativeSource="{RelativeSource AncestorType={x:Type Controls:TreeViewExItem}}"/>
+                    </MultiBinding> 
+                </TextBlock.Text>
+            </TextBlock>
+        </HierarchicalDataTemplate>
+        <Style TargetType="Controls:TreeViewExItem">
+            <Setter Property="BackgroundSelectedPreview" Value="LightSalmon"/>
+            <Setter Property="BorderBrushSelectedPreview" Value="Red"/>
+            
+            <Setter Property="BackgroundSelected" Value="AliceBlue"/>
+            <Setter Property="BorderBrushSelected" Value="Blue"/>
+            
+            <Setter Property="BackgroundFocused" Value="LightGray"/>
+            <Setter Property="BorderBrushFocused" Value="Black"/>
+            
+            <Setter Property="BackgroundHovered" Value="LightBlue"/>
+            <Setter Property="BorderBrushHovered" Value="Blue"/>
+            
+            <Setter Property="BackgroundInactive" Value="LightCyan"/>
+            <Setter Property="BorderBrushInactive" Value="Green"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+            <TextBlock Background="LightGray">Focused</TextBlock>
+            <TextBlock Background="AliceBlue">Selected</TextBlock>
+            <TextBlock Background="LightSalmon">SelectedPreview</TextBlock>
+            <TextBlock Background="LightBlue">Hovered</TextBlock>
+            <TextBlock Background="LightCyan">Inactive</TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+            <Label Content="SelectedItem: "/>
+            <Label Content="{Binding LastSelectedItem.Name, ElementName=leftTree}"/>
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Controls:TreeViewEx 
+                ItemsSource="{Binding Path=Children}"
+                x:Name="leftTree"
+                AutomationProperties.AutomationId="leftTree"/>
+            <GridSplitter Width="5" />
+            <Controls:TreeViewEx 
+                Grid.Column="1"
+                ItemsSource="{Binding Path=Children}"
+                SelectedItems="{Binding ElementName=leftTree, Path=SelectedItems}"
+                AutomationProperties.AutomationId="rightTree"/>
+        </Grid>
+    </DockPanel>
+</Window>

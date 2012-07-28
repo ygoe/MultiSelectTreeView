@@ -1,0 +1,84 @@
+﻿<Window 
+    x:Class="W7StyleSample.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx" 
+    xmlns:Model="clr-namespace:W7StyleSample.Model" 
+    Title="MainWindow" Height="350" Width="290"
+    AutomationProperties.Name="TestApp2Window" WindowStartupLocation="CenterScreen"
+	TextOptions.TextFormattingMode="Display">
+    <DockPanel>
+		<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="6,6,6,0">
+			<Button Padding="4,1" Content="Clear children" Name="ClearChildrenButton" Click="ClearChildrenButton_Click" ToolTip="Removes all child nodes from all selected nodes."/>
+			<Button Margin="6,0,0,0" Padding="4,1" Content="Add child" Name="AddChildButton" Click="AddChildButton_Click" ToolTip="Adds a child node to each selected node."/>
+			<Button Margin="6,0,0,0" Padding="4,1" Content="Dummy" ToolTip="Does nothing. Click this just to get the focus out of the tree view."/>
+		</StackPanel>
+		
+		<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="6,6,6,0">
+			<Button Padding="4,1" Content="Hide" Name="HideNodesButton" Click="HideNodesButton_Click" ToolTip="Hides all selected nodes."/>
+			<Button Margin="6,0,0,0" Padding="4,1" Content="Show all" Name="ShowNodesButton" Click="ShowNodesButton_Click" ToolTip="Shows all nodes."/>
+			<CheckBox Margin="6,0,0,0" Content="Rulers" IsChecked="{Binding VerticalRulers, ElementName=TheTreeView}" VerticalAlignment="Center"/>
+		</StackPanel>
+		
+		<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="6,6,6,0">
+			<TextBlock VerticalAlignment="Center">Select</TextBlock>
+			<Button Margin="6,0,0,0" Padding="2" Name="SelectNoneButton" Click="SelectNoneButton_Click" ToolTip="Select none">
+				<Image Source="/W7StyleSample;component/Images/select_none_11.png" Width="11" Height="11"/>
+			</Button>
+			<Button Margin="6,0,0,0" Padding="2" Name="SelectSomeButton" Click="SelectSomeButton_Click" ToolTip="Select some">
+				<Image Source="/W7StyleSample;component/Images/select_some_11.png" Width="11" Height="11"/>
+			</Button>
+			<Button Margin="6,0,0,0" Padding="2" Name="SelectAllButton" Click="SelectAllButton_Click" ToolTip="Select all">
+				<Image Source="/W7StyleSample;component/Images/select_all_11.png" Width="11" Height="11"/>
+			</Button>
+			<Button Margin="6,0,0,0" Padding="2" Name="ToggleSelectButton" Click="ToggleSelectButton_Click" ToolTip="Toggle selections">
+				<Image Source="/W7StyleSample;component/Images/select_toggle_11.png" Width="11" Height="11"/>
+			</Button>
+		</StackPanel>
+
+		<TextBlock DockPanel.Dock="Bottom" Margin="6,0,6,6">
+			<Run>Currently are</Run>
+			<Run Text="{Binding ElementName=TheTreeView, Path=SelectedItems.Count, Mode=OneWay}"/>
+			<Run>elements selected.</Run>
+		</TextBlock>
+
+		<Controls:TreeViewEx Name="TheTreeView" Margin="6" VerticalRulers="False"
+			AutomationProperties.Name="TestApp2Tree"
+			ItemsSource="{Binding Path=Children}">
+
+			<Controls:TreeViewEx.ItemContainerStyle>
+				<Style TargetType="{x:Type Controls:TreeViewExItem}">
+					<Setter Property="DisplayName" Value="{Binding DisplayName, Mode=TwoWay}" />
+					<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+					<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+					<!--EventSetter Event="Expanded" Handler="TreeViewItem_Expanded" /-->
+					<Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}" />
+					<!-- TODO,FIXME: Setting IsEnabled = false still has issues with focus, selection and navigation! Don't use it. -->
+					<Setter Property="IsVisible" Value="{Binding IsVisible, Mode=TwoWay}" />
+					<Setter Property="IsEditable" Value="{Binding IsEditable}" />
+				</Style>
+			</Controls:TreeViewEx.ItemContainerStyle>
+
+			<Controls:TreeViewEx.Resources>
+				<HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type Model:Node}">
+					<StackPanel Orientation="Horizontal">
+						<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16" SnapsToDevicePixels="True"/>
+						<Label Content="{Binding DisplayName}" Padding="4,0,2,0"/>
+					</StackPanel>
+				</HierarchicalDataTemplate>
+				<Style TargetType="{x:Type Controls:TreeViewExItem}">
+					<Setter Property="ContentTemplateEdit">
+						<Setter.Value>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16"/>
+									<Controls:EditTextBox Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Padding="2,0,0,0"/>
+								</StackPanel>
+							</DataTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</Controls:TreeViewEx.Resources>
+		</Controls:TreeViewEx>
+	</DockPanel>
+</Window>
