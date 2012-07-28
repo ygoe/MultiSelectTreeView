@@ -119,6 +119,10 @@
 		<Setter Property="Margin" Value="0" />
 		<!-- Clear the default focus rectangle which would span the entire item in full width and with all visible children -->
 		<Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+		
+		<!-- Pass on the TreeViewEx' HoverHighlighting value to each item because we couldn't access it otherwise in the triggers -->
+		<Setter Property="HoverHighlighting"
+			Value="{Binding (Controls:TreeViewEx.HoverHighlighting), RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}}" />
 
 		<Setter Property="Control.Template">
 			<Setter.Value>
@@ -255,32 +259,24 @@
 						</Grid>
 					</StackPanel>
 					<ControlTemplate.Triggers>
+
 						<!-- Set the visibility of the item -->
 						<Trigger Property="IsVisible" Value="False">
 							<Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
 						</Trigger>
-						<!-- Set the border and background when the mouse is located over the item -->
-						<!--Trigger Property="Controls:TreeViewExItem.IsMouseOver" Value="True" SourceName="ElementGrid">
+						
+						<!-- Set the border and background when the mouse is located over the item and HoverHighlighting is active -->
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="Controls:TreeViewExItem.HoverHighlighting" Value="True"/>
+								<Condition Property="Controls:TreeViewExItem.IsMouseOver" Value="True" SourceName="ElementGrid"/>
+							</MultiTrigger.Conditions>
 							<Setter Property="Control.Background"
 								Value="{Binding BackgroundHovered, RelativeSource={RelativeSource Self}}" />
 							<Setter Property="Border.BorderBrush"
 								Value="{Binding BorderBrushHovered, RelativeSource={RelativeSource Self}}" />
-						</Trigger-->
-						<!-- TEST,DEBUG: Set the border and background when the mouse is located over the item *and* TreeViewEx.HoverHighlighting = true -->
-						<MultiDataTrigger>
-							<MultiDataTrigger.Conditions>
-								<Condition
-									Binding="{Binding HoverHighlighting, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}}"
-									Value="True"/>
-								<Condition
-									Binding="{Binding (Controls:TreeViewExItem.IsMouseOver), RelativeSource={RelativeSource Mode=Self}}"
-									Value="True"/>
-							</MultiDataTrigger.Conditions>
-							<Setter Property="Control.Background"
-								Value="{Binding BackgroundHovered, RelativeSource={RelativeSource Self}}" />
-							<Setter Property="Border.BorderBrush"
-								Value="{Binding BorderBrushHovered, RelativeSource={RelativeSource Self}}" />
-						</MultiDataTrigger>
+						</MultiTrigger>
+						
 						<!-- Set the border and background when the item is selected -->
 						<Trigger Property="Controls:TreeViewExItem.IsSelected" Value="True">
 							<Setter Property="Control.Background"
@@ -288,10 +284,12 @@
 							<Setter Property="Border.BorderBrush"
 								Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Self}}" />
 						</Trigger>
+						
 						<!-- Set the border colour when the item is focused -->
 						<Trigger Property="Controls:TreeViewExItem.IsFocused" Value="True">
 							<Setter TargetName="FocusRectangle" Property="Visibility" Value="Visible"/>
 						</Trigger>
+						
 						<!-- Set the border when the item is Ctrl+arrow navigated to -->
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
@@ -303,6 +301,7 @@
 							<!--Setter Property="Control.Background"
 								Value="{Binding Background, RelativeSource={RelativeSource Self}}" /-->
 						</MultiTrigger>
+						
 						<!-- Set the border and slightly darker background for a selected item when it is Ctrl+arrow navigated to -->
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
@@ -314,6 +313,7 @@
 							<Setter Property="Border.BorderBrush"
 								Value="{Binding BorderBrushSelectedPreview, RelativeSource={RelativeSource Self}}" />
 						</MultiTrigger>
+						
 						<!-- Make all selected items grey when the entire Window is inactive -->
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
@@ -329,6 +329,7 @@
 							<Setter Property="Control.Background"
 								Value="{Binding BackgroundInactive, RelativeSource={RelativeSource Self}}" />
 						</MultiDataTrigger>
+						
 						<!-- Make all selected items grey when none of this TreeView's items is focused (i.e. the TreeView is not focused) -->
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
@@ -344,9 +345,12 @@
 							<Setter Property="Control.Background"
 								Value="{Binding BackgroundInactive, RelativeSource={RelativeSource Self}}" />
 						</MultiDataTrigger>
-						<!-- Set a slightly darker background when the mouse is located over a selected item (after inactive grey to override it) -->
+
+						<!-- Set a slightly darker background when the mouse is located over a selected item and HoverHighlighting is active
+							(after inactive grey to override it) -->
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
+								<Condition Property="Controls:TreeViewExItem.HoverHighlighting" Value="True"/>
 								<Condition Property="Controls:TreeViewExItem.IsMouseOver" Value="True" SourceName="ElementGrid"/>
 								<Condition Property="IsSelected" Value="True" />
 							</MultiTrigger.Conditions>
@@ -355,14 +359,17 @@
 							<Setter Property="Border.BorderBrush"
 								Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Self}}" />
 						</MultiTrigger>
+						
 						<!-- Collapse the child items host if the node is not expanded -->
 						<Trigger Property="Controls:TreeViewExItem.IsExpanded" Value="False">
 							<Setter Property="UIElement.Visibility" TargetName="ItemsHostGrid" Value="Collapsed" />
 						</Trigger>
+						
 						<!-- Hide the expander button if there are no child nodes -->
 						<Trigger Property="ItemsControl.HasItems" Value="False">
 							<Setter Property="UIElement.Visibility" TargetName="Expander" Value="Hidden" />
 						</Trigger>
+						
 						<!-- Use grey text colour when the item is not enabled -->
 						<Trigger Property="UIElement.IsEnabled" Value="False">
 							<Setter Property="TextElement.Foreground">
@@ -371,6 +378,7 @@
 								</Setter.Value>
 							</Setter>
 						</Trigger>
+						
 						<!-- Hide vertical rulers if disabled -->
 						<DataTrigger
 							Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}, Path=VerticalRulers}"

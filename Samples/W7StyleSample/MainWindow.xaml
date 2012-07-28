@@ -18,6 +18,7 @@
 			<Button Padding="4,1" Content="Hide" Name="HideNodesButton" Click="HideNodesButton_Click" ToolTip="Hides all selected nodes."/>
 			<Button Margin="6,0,0,0" Padding="4,1" Content="Show all" Name="ShowNodesButton" Click="ShowNodesButton_Click" ToolTip="Shows all nodes."/>
 			<CheckBox Margin="6,0,0,0" Content="Rulers" IsChecked="{Binding VerticalRulers, ElementName=TheTreeView}" VerticalAlignment="Center"/>
+			<CheckBox Margin="6,0,0,0" Content="Hover" IsChecked="{Binding HoverHighlighting, ElementName=TheTreeView}" VerticalAlignment="Center"/>
 		</StackPanel>
 		
 		<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="6,6,6,0">

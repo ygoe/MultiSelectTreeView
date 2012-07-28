@@ -126,6 +126,12 @@
 			typeof(TreeViewExItem),
 			new FrameworkPropertyMetadata(null));
 
+		public static DependencyProperty HoverHighlightingProperty = DependencyProperty.Register(
+			"HoverHighlighting",
+			typeof(bool),
+			typeof(TreeViewExItem),
+			new FrameworkPropertyMetadata(false, null));
+
 		#endregion
 
 		#region Constructors and Destructors
@@ -372,6 +378,18 @@
 			set
 			{
 				SetValue(DisplayNameProperty, value);
+			}
+		}
+
+		public bool HoverHighlighting
+		{
+			get
+			{
+				return (bool) GetValue(HoverHighlightingProperty);
+			}
+			set
+			{
+				SetValue(HoverHighlightingProperty, value);
 			}
 		}
 
