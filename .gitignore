@@ -27,5 +27,7 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 .local/
-!tools/*
 TreeViewEx/Nuget/lib/*
+
+!tools/*
+!TreeViewEx/tools/*
