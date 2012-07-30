@@ -43,7 +43,7 @@
 			<Run>elements selected.</Run>
 		</TextBlock>
 
-		<Controls:TreeViewEx Name="TheTreeView" Margin="6" VerticalRulers="False"
+		<Controls:TreeViewEx Name="TheTreeView" Margin="6"
 			AutomationProperties.Name="TestApp2Tree"
 			ItemsSource="{Binding Path=Children}">
 

@@ -49,7 +49,7 @@
 			"VerticalRulers",
 			typeof(bool),
 			typeof(TreeViewEx),
-			new FrameworkPropertyMetadata(true, null));
+			new FrameworkPropertyMetadata(false, null));
 
 		public static DependencyProperty IsKeyboardModeProperty = DependencyProperty.Register(
 			"IsKeyboardMode",
@@ -469,8 +469,6 @@
 				default:
 					throw new InvalidOperationException();
 			}
-
-			OnPropertyChanged(new DependencyPropertyChangedEventArgs(SelectedItemsProperty, null, null));
 		}
 
 		private void OnUnLoaded(object sender, RoutedEventArgs e)
