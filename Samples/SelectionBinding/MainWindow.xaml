@@ -36,29 +36,31 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
-            <TextBlock Background="LightGray">Focused</TextBlock>
-            <TextBlock Background="AliceBlue">Selected</TextBlock>
-            <TextBlock Background="LightSalmon">SelectedPreview</TextBlock>
-            <TextBlock Background="LightBlue">Hovered</TextBlock>
-            <TextBlock Background="LightCyan">Inactive</TextBlock>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="6,0,6,6">
+			<Border Background="LightGray" CornerRadius="2" Padding="2,0"><TextBlock>Focused</TextBlock></Border>
+			<Border Background="AliceBlue" CornerRadius="2" Padding="2,0" Margin="6,0,0,0"><TextBlock>Selected</TextBlock></Border>
+			<Border Background="LightSalmon" CornerRadius="2" Padding="2,0" Margin="6,0,0,0"><TextBlock>SelectedPreview</TextBlock></Border>
+			<Border Background="LightBlue" CornerRadius="2" Padding="2,0" Margin="6,0,0,0"><TextBlock>Hovered</TextBlock></Border>
+			<Border Background="LightCyan" CornerRadius="2" Padding="2,0" Margin="6,0,0,0"><TextBlock>Inactive</TextBlock></Border>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
-            <Label Content="SelectedItem: "/>
-            <Label Content="{Binding LastSelectedItem.Name, ElementName=leftTree}"/>
+		<StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="6,0,6,6">
+            <Label Content="LastSelectedItem: " Padding="0"/>
+			<Label Content="{Binding LastSelectedItem.Name, ElementName=leftTree}" Padding="0" Margin="6,0,0,0"/>
         </StackPanel>
-        <Grid>
+        <Grid Margin="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Controls:TreeViewEx 
+            <Controls:TreeViewEx
                 ItemsSource="{Binding Path=Children}"
                 x:Name="leftTree"
                 AutomationProperties.AutomationId="leftTree"/>
-            <GridSplitter Width="5" />
-            <Controls:TreeViewEx 
-                Grid.Column="1"
+			<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17">⋮</TextBlock>
+			<GridSplitter Width="5" Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
+            <Controls:TreeViewEx
+                Grid.Column="2"
                 ItemsSource="{Binding Path=Children}"
                 SelectedItems="{Binding ElementName=leftTree, Path=SelectedItems}"
                 AutomationProperties.AutomationId="rightTree"/>
