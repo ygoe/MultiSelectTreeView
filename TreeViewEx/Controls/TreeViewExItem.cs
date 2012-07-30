@@ -132,6 +132,12 @@
 			typeof(TreeViewExItem),
 			new FrameworkPropertyMetadata(false, null));
 
+		public static DependencyProperty IsKeyboardModeProperty = DependencyProperty.Register(
+			"IsKeyboardMode",
+			typeof(bool),
+			typeof(TreeViewExItem),
+			new FrameworkPropertyMetadata(false, null));
+
 		#endregion
 
 		#region Constructors and Destructors
@@ -390,6 +396,18 @@
 			set
 			{
 				SetValue(HoverHighlightingProperty, value);
+			}
+		}
+
+		public bool IsKeyboardMode
+		{
+			get
+			{
+				return (bool) GetValue(IsKeyboardModeProperty);
+			}
+			set
+			{
+				SetValue(IsKeyboardModeProperty, value);
 			}
 		}
 

@@ -51,6 +51,12 @@
 			typeof(TreeViewEx),
 			new FrameworkPropertyMetadata(true, null));
 
+		public static DependencyProperty IsKeyboardModeProperty = DependencyProperty.Register(
+			"IsKeyboardMode",
+			typeof(bool),
+			typeof(TreeViewEx),
+			new FrameworkPropertyMetadata(false, null));
+
 		public static DependencyPropertyKey LastSelectedItemPropertyKey = DependencyProperty.RegisterReadOnly(
 			"LastSelectedItem",
 			typeof(object),
@@ -129,6 +135,18 @@
 			set
 			{
 				SetValue(VerticalRulersProperty, value);
+			}
+		}
+
+		public bool IsKeyboardMode
+		{
+			get
+			{
+				return (bool) GetValue(IsKeyboardModeProperty);
+			}
+			set
+			{
+				SetValue(IsKeyboardModeProperty, value);
 			}
 		}
 
@@ -503,6 +521,36 @@
 						}
 						break;
 				}
+			}
+		}
+
+		protected override void OnPreviewKeyDown(KeyEventArgs e)
+		{
+			base.OnPreviewKeyDown(e);
+			if (!IsKeyboardMode)
+			{
+				IsKeyboardMode = true;
+				//System.Diagnostics.Debug.WriteLine("Changing to keyboard mode from PreviewKeyDown");
+			}
+		}
+
+		protected override void OnPreviewKeyUp(KeyEventArgs e)
+		{
+			base.OnPreviewKeyDown(e);
+			if (!IsKeyboardMode)
+			{
+				IsKeyboardMode = true;
+				//System.Diagnostics.Debug.WriteLine("Changing to keyboard mode from PreviewKeyUp");
+			}
+		}
+
+		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+		{
+			base.OnPreviewMouseDown(e);
+			if (IsKeyboardMode)
+			{
+				IsKeyboardMode = false;
+				//System.Diagnostics.Debug.WriteLine("Changing to mouse mode");
 			}
 		}
 

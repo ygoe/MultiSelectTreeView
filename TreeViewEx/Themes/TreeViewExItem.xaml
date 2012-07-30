@@ -122,7 +122,9 @@
 		
 		<!-- Pass on the TreeViewEx' HoverHighlighting value to each item because we couldn't access it otherwise in the triggers -->
 		<Setter Property="HoverHighlighting"
-			Value="{Binding (Controls:TreeViewEx.HoverHighlighting), RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}}" />
+			Value="{Binding (Controls:TreeViewEx.HoverHighlighting), RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}, Mode=OneWay}" />
+		<Setter Property="IsKeyboardMode"
+			Value="{Binding (Controls:TreeViewEx.IsKeyboardMode), RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}, Mode=OneWay}" />
 
 		<Setter Property="Control.Template">
 			<Setter.Value>
@@ -285,10 +287,14 @@
 								Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Self}}" />
 						</Trigger>
 						
-						<!-- Set the border colour when the item is focused -->
-						<Trigger Property="Controls:TreeViewExItem.IsFocused" Value="True">
+						<!-- Show the focus rectangle when the item is focused -->
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="Controls:TreeViewExItem.IsKeyboardMode" Value="True"/>
+								<Condition Property="Controls:TreeViewExItem.IsFocused" Value="True"/>
+							</MultiTrigger.Conditions>
 							<Setter TargetName="FocusRectangle" Property="Visibility" Value="Visible"/>
-						</Trigger>
+						</MultiTrigger>
 						
 						<!-- Set the border when the item is Ctrl+arrow navigated to -->
 						<MultiTrigger>
