@@ -91,7 +91,10 @@
 				else
 				{
 					item.IsSelected = true;
-					treeViewEx.SelectedItems.Add(item.DataContext);
+					if (!treeViewEx.SelectedItems.Contains(item.DataContext))
+					{
+						treeViewEx.SelectedItems.Add(item.DataContext);
+					}
 					lastShiftRoot = item.DataContext;
 				}
 				FocusHelper.Focus(item);
@@ -107,7 +110,10 @@
 		{
 			if (CanSelect != null && item != null && !CanSelect(item.DataContext)) return;
 
-			treeViewEx.SelectedItems.Add(item.DataContext);
+			if (!treeViewEx.SelectedItems.Contains(item.DataContext))
+			{
+				treeViewEx.SelectedItems.Add(item.DataContext);
+			}
 			SelectedPreviewItem = null;
 			lastShiftRoot = item.DataContext;
 		}
@@ -167,7 +173,10 @@
 				else
 				{
 					item.IsSelected = true;
-					treeViewEx.SelectedItems.Add(item.DataContext);
+					if (!treeViewEx.SelectedItems.Contains(item.DataContext))
+					{
+						treeViewEx.SelectedItems.Add(item.DataContext);
+					}
 				}
 				FocusHelper.Focus(item);
 			}
