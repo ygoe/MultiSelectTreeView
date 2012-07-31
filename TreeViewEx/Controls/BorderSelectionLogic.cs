@@ -87,40 +87,49 @@
 		{
 			if (mouseDown)
 			{
+				Point currentPoint = Mouse.GetPosition(content);
+				double width = currentPoint.X - startPoint.X + 1;
+				double height = currentPoint.Y - startPoint.Y + 1;
+				double left = startPoint.X;
+				double top = startPoint.Y;
+
 				if (isFirstMove)
 				{
-					// TODO: Regard minimum drag offset (usually 4 px in both directions, see system setting)
+					if (Math.Abs(width) < SystemParameters.MinimumHorizontalDragDistance &&
+						Math.Abs(height) < SystemParameters.MinimumVerticalDragDistance)
+					{
+						return;
+					}
+
 					isFirstMove = false;
 					if (!content.ClearSelectionByRectangle())
 					{
 						EndAction();
 						return;
 					}
+					Mouse.Capture(content);
 				}
-
-				Point currentPoint = Mouse.GetPosition(content);
-				double width = currentPoint.X - startPoint.X;
-				double height = currentPoint.Y - startPoint.Y;
-				double left = startPoint.X;
-				double top = startPoint.Y;
 
 				// Debug.WriteLine(string.Format("Drawing: {0};{1};{2};{3}",startPoint.X,startPoint.Y,width,height));
-				if (width < 0)
+				if (width < 1)
 				{
-					width = Math.Abs(width);
-					left = startPoint.X - width;
+					width = Math.Abs(width - 1) + 1;
+					left = startPoint.X - width + 1;
 				}
 
-				if (height < 0)
+				if (height < 1)
 				{
-					height = Math.Abs(height);
-					top = startPoint.Y - height;
+					height = Math.Abs(height - 1) + 1;
+					top = startPoint.Y - height + 1;
 				}
 
+				double xOffset = content.BorderThickness.Left + content.Padding.Left;
+				double yOffset = content.BorderThickness.Top + content.Padding.Top;
+				
 				border.Width = width;
-				Canvas.SetLeft(border, left);
+				Canvas.SetLeft(border, left - xOffset);
 				border.Height = height;
-				Canvas.SetTop(border, top);
+				Canvas.SetTop(border, top - yOffset);
 
 				border.Visibility = Visibility.Visible;
 
@@ -175,6 +184,7 @@
 
 		private void EndAction()
 		{
+			Mouse.Capture(null);
 			mouseDown = false;
 			border.Visibility = Visibility.Collapsed;
 
