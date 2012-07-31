@@ -95,8 +95,8 @@
 
 				if (isFirstMove)
 				{
-					if (Math.Abs(width) < SystemParameters.MinimumHorizontalDragDistance &&
-						Math.Abs(height) < SystemParameters.MinimumVerticalDragDistance)
+					if (Math.Abs(width) <= SystemParameters.MinimumHorizontalDragDistance &&
+						Math.Abs(height) <= SystemParameters.MinimumVerticalDragDistance)
 					{
 						return;
 					}
