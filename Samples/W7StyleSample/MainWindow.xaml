@@ -35,6 +35,7 @@
 			<Button Margin="6,0,0,0" Padding="2" Name="ToggleSelectButton" Click="ToggleSelectButton_Click" ToolTip="Toggle selections">
 				<Image Source="/W7StyleSample;component/Images/select_toggle_11.png" Width="11" Height="11"/>
 			</Button>
+			<CheckBox Margin="6,0,0,0" Content="Lock" Name="LockSelectionCheck" VerticalAlignment="Center"/>
 		</StackPanel>
 
 		<TextBlock DockPanel.Dock="Bottom" Margin="6,0,6,6">

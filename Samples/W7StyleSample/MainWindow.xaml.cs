@@ -23,7 +23,7 @@
 			var node1 = new Node(rootNode, false) { DisplayName = "element1", IsEditable = true };
 			var node2 = new Node(rootNode, false) { DisplayName = "element2" };
 			var node11 = new Node(node1, false) { DisplayName = "element11" };
-			var node12 = new Node(node1, false) { DisplayName = "element12" };
+			var node12 = new Node(node1, false) { DisplayName = "element12", IsEnabled = false };
 			var node13 = new Node(node1, false) { DisplayName = "element13" };
 			var node14 = new Node(node1, false) { DisplayName = "element14" };
 			var node15 = new Node(node1, true) { DisplayName = "element15 (lazy loading)" };
@@ -46,11 +46,18 @@
 			node1.IsSelected = true;
 			node14.IsSelected = true;
 
-			//TheTreeView.CanSelect = (o) =>
-			//{
-			//    Node node = o as Node;
-			//    return node.DisplayName.Contains("2");
-			//};
+			TheTreeView.PreviewSelectionChanged += (s, e) =>
+			{
+				e.Cancel = LockSelectionCheck.IsChecked == true;
+				if (e.Selecting)
+				{
+					System.Diagnostics.Debug.WriteLine("Preview: Selecting " + e.Item + (e.Cancel ? " - cancelled" : ""));
+				}
+				else
+				{
+					System.Diagnostics.Debug.WriteLine("Preview: Deselecting " + e.Item + (e.Cancel ? " - cancelled" : ""));
+				}
+			};
 		}
 
 		#endregion

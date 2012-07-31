@@ -7,22 +7,35 @@
     {
         void ApplyTemplate();
 
-        void SelectCore(TreeViewExItem owner);
+        bool SelectCore(TreeViewExItem owner);
 
-        void UnSelect(TreeViewExItem item);
+        bool UnSelect(TreeViewExItem item);
 
-        void SelectPreviousFromKey();
+        bool SelectPreviousFromKey();
 
-        void SelectNextFromKey();
+        bool SelectNextFromKey();
 
-        void SelectCurrentBySpace();
+        bool SelectCurrentBySpace();
 
-        void Select(TreeViewExItem treeViewExItem);
+        bool Select(TreeViewExItem treeViewExItem);
 
         TreeViewExItem LastSelectedItem { get; }
 
-		Func<object, bool> CanSelect { get; set; }
+		event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;
 
 		void OnLostFocus();
     }
+
+	public class PreviewSelectionChangedEventArgs : EventArgs
+	{
+		public bool Selecting { get; private set; }
+		public object Item { get; private set; }
+		public bool Cancel { get; set; }
+
+		public PreviewSelectionChangedEventArgs(bool selecting, object item)
+		{
+			Selecting = selecting;
+			Item = item;
+		}
+	}
 }

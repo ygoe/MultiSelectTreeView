@@ -89,8 +89,13 @@
 			{
 				if (isFirstMove)
 				{
+					// TODO: Regard minimum drag offset (usually 4 px in both directions, see system setting)
 					isFirstMove = false;
-					content.ClearSelectionByRectangle();
+					if (!content.ClearSelectionByRectangle())
+					{
+						EndAction();
+						return;
+					}
 				}
 
 				Point currentPoint = Mouse.GetPosition(content);
@@ -125,11 +130,6 @@
 				// Debug.WriteLine(string.Format("left:{1};right:{2};top:{3};bottom:{4}", null, left, right, top, bottom));
 				foreach (var item in items)
 				{
-					if (!item.IsVisible)
-					{
-						continue;
-					}
-
 					FrameworkElement itemContent = (FrameworkElement) item.Template.FindName("headerBorder", item);
 					Point p = itemContent.TransformToAncestor(content).Transform(new Point());
 					double itemLeft = p.X;
@@ -141,13 +141,26 @@
 					if (!(itemLeft > right || itemRight < left || itemTop > bottom || itemBottom < top))
 					{
 						if (!content.SelectedItems.Contains(item.DataContext))
-							((SelectionMultiple) content.Selection).SelectByRectangle(item);
+						{
+							if (!((SelectionMultiple) content.Selection).SelectByRectangle(item))
+							{
+								EndAction();
+								return;
+							}
+						}
 
 						// Debug.WriteLine("Is selected: " + item);
 					}
 					else
 					{
-						content.Selection.UnSelect(item);
+						if (content.SelectedItems.Contains(item.DataContext))
+						{
+							if (!content.Selection.UnSelect(item))
+							{
+								EndAction();
+								return;
+							}
+						}
 					}
 				}
 
@@ -156,6 +169,11 @@
 		}
 
 		private void OnMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			EndAction();
+		}
+
+		private void EndAction()
 		{
 			mouseDown = false;
 			border.Visibility = Visibility.Collapsed;

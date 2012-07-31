@@ -25,6 +25,11 @@
 		// }
 		#region Constants and Fields
 
+		public event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;
+		
+		// TODO: Provide more details. Fire once for every single change and once for all groups of changes, with different flags
+		public event EventHandler SelectionChanged;
+
 		public static readonly DependencyProperty LastSelectedItemProperty;
 
 		public static DependencyProperty BackgroundSelectionRectangleProperty = DependencyProperty.Register(
@@ -84,6 +89,7 @@
 		{
 			SelectedItems = new ObservableCollection<object>();
 			Selection = new SelectionMultiple(this);
+			Selection.PreviewSelectionChanged += (s, e) => { OnPreviewSelectionChanged(e); };
 		}
 
 		#endregion
@@ -210,28 +216,6 @@
 
 		internal ISelectionStrategy Selection { get; private set; }
 
-		/// <summary>
-		/// Gets or sets the callback function to determine whether a certain tree item can be
-		/// selected or not. It is passed the data object and returns true, if the item can be
-		/// selected, and false otherwise.
-		/// </summary>
-		/// <remarks>
-		/// TODO,FIXME: This is unfinished and there are some ways to select an item whether
-		/// accepted or not. These include selecting with the arrow keys (Up, Down). There are
-		/// unresolved issues how the focus shall be handled if an item cannot be selected.
-		/// </remarks>
-		public Func<object, bool> CanSelect
-		{
-			get
-			{
-				return Selection.CanSelect;
-			}
-			set
-			{
-				Selection.CanSelect = value;
-			}
-		}
-
 		#endregion
 
 		#region Public Methods and Operators
@@ -249,9 +233,17 @@
 
 		#region Methods
 
-		internal void ClearSelectionByRectangle()
+		internal bool ClearSelectionByRectangle()
 		{
+			foreach (var item in SelectedItems)
+			{
+				var e = new PreviewSelectionChangedEventArgs(false, item);
+				OnPreviewSelectionChanged(e);
+				if (e.Cancel) return false;
+			}
+			
 			SelectedItems.Clear();
+			return true;
 		}
 
 		internal TreeViewExItem GetNextItem(TreeViewExItem item, List<TreeViewExItem> items)
@@ -320,7 +312,12 @@
 			}
 		}
 
-		internal static IEnumerable<TreeViewExItem> RecursiveTreeViewItemEnumerable(ItemsControl parent, bool onlyVisible)
+		internal static IEnumerable<TreeViewExItem> RecursiveTreeViewItemEnumerable(ItemsControl parent, bool includeInvisible)
+		{
+			return RecursiveTreeViewItemEnumerable(parent, includeInvisible, true);
+		}
+
+		internal static IEnumerable<TreeViewExItem> RecursiveTreeViewItemEnumerable(ItemsControl parent, bool includeInvisible, bool includeDisabled)
 		{
 			foreach (var item in parent.Items)
 			{
@@ -330,15 +327,22 @@
 					// Container was not generated, therefore it is probably not visible, so we can ignore it.
 					continue;
 				}
-				if (!tve.IsVisible && onlyVisible)
+				if (!includeInvisible && !tve.IsVisible)
+				{
+					continue;
+				}
+				if (!includeDisabled && !tve.IsEnabled)
 				{
 					continue;
 				}
 
 				yield return tve;
-				foreach (var childItem in RecursiveTreeViewItemEnumerable(tve, onlyVisible))
+				if (includeInvisible || tve.IsExpanded)
 				{
-					yield return childItem;
+					foreach (var childItem in RecursiveTreeViewItemEnumerable(tve, includeInvisible, includeDisabled))
+					{
+						yield return childItem;
+					}
 				}
 			}
 		}
@@ -351,7 +355,7 @@
 
 		internal IEnumerable<TreeViewExItem> GetNodesToSelectBetween(TreeViewExItem firstNode, TreeViewExItem lastNode)
 		{
-			var allNodes = RecursiveTreeViewItemEnumerable(this, true).ToList();
+			var allNodes = RecursiveTreeViewItemEnumerable(this, false).ToList();
 			var firstIndex = allNodes.IndexOf(firstNode);
 			var lastIndex = allNodes.IndexOf(lastNode);
 
@@ -407,7 +411,7 @@
 
 			foreach (var newItem in objects)
 			{
-				foreach (var treeViewExItem in RecursiveTreeViewItemEnumerable(this, false))
+				foreach (var treeViewExItem in RecursiveTreeViewItemEnumerable(this, true))
 				{
 					if (newItem == treeViewExItem.DataContext)
 					{
@@ -456,7 +460,7 @@
 
 					break;
 				case NotifyCollectionChangedAction.Reset:
-					foreach (var item in RecursiveTreeViewItemEnumerable(this, false))
+					foreach (var item in RecursiveTreeViewItemEnumerable(this, true))
 					{
 						if (item.IsSelected)
 						{
@@ -469,6 +473,8 @@
 				default:
 					throw new InvalidOperationException();
 			}
+
+			OnSelectionChanged();
 		}
 
 		private void OnUnLoaded(object sender, RoutedEventArgs e)
@@ -502,7 +508,7 @@
 				{
 					case Key.Up:
 						// Select last item
-						var lastNode = RecursiveTreeViewItemEnumerable(this, true).LastOrDefault();
+						var lastNode = RecursiveTreeViewItemEnumerable(this, false).LastOrDefault();
 						if (lastNode != null)
 						{
 							Selection.Select(lastNode);
@@ -511,7 +517,7 @@
 						break;
 					case Key.Down:
 						// Select first item
-						var firstNode = RecursiveTreeViewItemEnumerable(this, true).FirstOrDefault();
+						var firstNode = RecursiveTreeViewItemEnumerable(this, false).FirstOrDefault();
 						if (firstNode != null)
 						{
 							Selection.Select(firstNode);
@@ -566,7 +572,7 @@
 			}
 			else
 			{
-				var firstNode = RecursiveTreeViewItemEnumerable(this, true).FirstOrDefault();
+				var firstNode = RecursiveTreeViewItemEnumerable(this, false).FirstOrDefault();
 				if (firstNode != null)
 				{
 					FocusHelper.Focus(firstNode);
@@ -581,6 +587,24 @@
 			// This happens when a mouse button was pressed in an area which is not covered by an
 			// item. Then, it should be focused which in turn passes on the focus to an item.
 			Focus();
+		}
+
+		protected void OnPreviewSelectionChanged(PreviewSelectionChangedEventArgs e)
+		{
+			var handler = PreviewSelectionChanged;
+			if (handler != null)
+			{
+				handler(this, e);
+			}
+		}
+
+		protected void OnSelectionChanged()
+		{
+			var handler = SelectionChanged;
+			if (handler != null)
+			{
+				handler(this, EventArgs.Empty);
+			}
 		}
 
 		#endregion
