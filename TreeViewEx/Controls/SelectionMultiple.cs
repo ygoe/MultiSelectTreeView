@@ -114,6 +114,7 @@
 			{
 				treeViewEx.SelectedItems.Add(item.DataContext);
 			}
+			FocusHelper.Focus(item);
 			SelectedPreviewItem = null;
 			lastShiftRoot = item.DataContext;
 		}
