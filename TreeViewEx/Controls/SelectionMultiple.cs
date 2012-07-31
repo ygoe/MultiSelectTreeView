@@ -264,7 +264,7 @@
 
 		public bool SelectNextFromKey()
 		{
-			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false).ToList();
+			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
 			TreeViewExItem item;
 			if (IsControlKeyDown && SelectedPreviewItem != null)
 			{
@@ -285,7 +285,7 @@
 
 		public bool SelectPreviousFromKey()
 		{
-			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false).ToList();
+			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
 			TreeViewExItem item;
 			if (IsControlKeyDown && SelectedPreviewItem != null)
 			{

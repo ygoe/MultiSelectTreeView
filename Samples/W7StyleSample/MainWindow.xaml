@@ -55,7 +55,6 @@
 					<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
 					<!--EventSetter Event="Expanded" Handler="TreeViewItem_Expanded" /-->
 					<Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}" />
-					<!-- TODO,FIXME: Setting IsEnabled = false still has issues with focus, selection and navigation! Don't use it. -->
 					<Setter Property="IsVisible" Value="{Binding IsVisible, Mode=TwoWay}" />
 					<Setter Property="IsEditable" Value="{Binding IsEditable}" />
 				</Style>
