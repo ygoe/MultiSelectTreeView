@@ -75,6 +75,12 @@
 			new FrameworkPropertyMetadata(
 				null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemsPropertyChanged));
 
+		public static DependencyProperty AllowEditItemsProperty = DependencyProperty.Register(
+			"AllowEditItems",
+			typeof(bool),
+			typeof(TreeViewEx),
+			new FrameworkPropertyMetadata(false, null));
+
 		#endregion
 
 		#region Constructors and Destructors
@@ -153,6 +159,18 @@
 			set
 			{
 				SetValue(IsKeyboardModeProperty, value);
+			}
+		}
+
+		public bool AllowEditItems
+		{
+			get
+			{
+				return (bool) GetValue(AllowEditItemsProperty);
+			}
+			set
+			{
+				SetValue(AllowEditItemsProperty, value);
 			}
 		}
 

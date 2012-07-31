@@ -623,7 +623,7 @@
 						e.Handled = true;
 						break;
 					case Key.F2:
-						if (ContentTemplateEdit != null && IsFocused && IsEditable)
+						if (ParentTreeView.AllowEditItems && ContentTemplateEdit != null && IsFocused && IsEditable)
 						{
 							IsEditing = true;
 						}
