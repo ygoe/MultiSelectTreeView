@@ -545,6 +545,18 @@
 				}
 			}
 
+			// Bring newly expanded child nodes into view if they'd be outside of the current view
+			if (e.Property.Name == "IsExpanded")
+			{
+				if ((bool) e.NewValue == true)
+				{
+					if (VisualChildrenCount > 0)
+					{
+						((FrameworkElement) GetVisualChild(VisualChildrenCount - 1)).BringIntoView();
+					}
+				}
+			}
+
 			base.OnPropertyChanged(e);
 		}
 
