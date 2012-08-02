@@ -47,6 +47,12 @@
 		<Controls:TreeViewEx Name="TheTreeView" Margin="6"
 			AutomationProperties.Name="TestApp2Tree"
 			ItemsSource="{Binding Path=Children}">
+			
+			<Controls:TreeViewEx.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Test item"/>
+				</ContextMenu>
+			</Controls:TreeViewEx.ContextMenu>
 
 			<Controls:TreeViewEx.ItemContainerStyle>
 				<Style TargetType="{x:Type Controls:TreeViewExItem}">

@@ -680,9 +680,21 @@
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
+			//System.Diagnostics.Debug.WriteLine("TreeViewExItem.OnMouseDown(Item = " + this.DisplayName + ", Button = " + e.ChangedButton + ")");
 			base.OnMouseDown(e);
-			ParentTreeView.Selection.Select(this);
-			e.Handled = true;
+			if (e.ChangedButton == MouseButton.Left)
+			{
+				ParentTreeView.Selection.Select(this);
+				e.Handled = true;
+			}
+			if (e.ChangedButton == MouseButton.Right)
+			{
+				if (!IsSelected)
+				{
+					ParentTreeView.Selection.Select(this);
+				}
+				e.Handled = true;
+			}
 		}
 		#endregion
 
