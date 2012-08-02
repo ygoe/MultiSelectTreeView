@@ -666,7 +666,9 @@
 
 		protected override void OnGotFocus(RoutedEventArgs e)
 		{
-			base.OnGotFocus(e);
+			// Do not call the base method because it would bring all of its children into view on
+			// selecting which is not the desired behaviour.
+			//base.OnGotFocus(e);
 			ParentTreeView.LastFocusedItem = this;
 			//System.Diagnostics.Debug.WriteLine("TreeViewExItem.OnGotFocus(), DisplayName = " + DisplayName);
 		}
