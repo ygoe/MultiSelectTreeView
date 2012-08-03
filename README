@@ -4,8 +4,8 @@ A TreeView which supports, unlike the standard tree in WPF, multiple selection a
 
 TreeViewEx is a .NET/WPF control that displays a hierarchical tree of items that can be browsed, selected, collapsed and edited like in a normal tree control. This control overcomes some of the limitations that the TreeView control included in WPF has. Most prominently, it adds multiple selection and is easier to style in several aspects. It features the Windows 7 Aero theme very closely. Work on other themes has begun.
 
-The code is based on the TreeViewEx project on CodePlex <http://treeviewex.codeplex.com/>, written by "slompf" or "Goroll" and released under the MIT licence. I picked up the code and made several enhancements and bug fixes to make it a more robust and complete solution.
+The code is based on the TreeViewEx project on CodePlex <http://treeviewex.codeplex.com/> and released under the MIT licence. I picked up the code and made several enhancements and bug fixes to make it a more robust and complete solution.
 
-The current development status is still pretty unfinished. While the core features basically work quite good, there are some issues in the details like selection behaviour and theming. Also, there are some unfinished extra features that affect filtering and selection validation. The project structure is taken from the original solution and it contains many things that I haven't explored yet and which I may remove in the future.
+The current development status is considered usable but unfinished. While everything basically works quite good, there are some inconsistencies in details like focus management and theming. The project structure is taken from the original solution and it contains many things that I haven't explored yet and which I may remove in the future.
 
-To start the sample application, just select the W7StyleSample as it is my "playground" and has most of my extensions. While the other projects do compile, I don't know whether they actually run.
+To start the sample application, just select the W7StyleSample as it is my "playground" and shows most of my extensions. While the other projects do compile, I don't know whether they actually run well.
