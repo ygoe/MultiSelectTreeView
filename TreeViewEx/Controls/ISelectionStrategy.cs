@@ -15,7 +15,9 @@
 
         bool SelectNextFromKey();
 
-        bool SelectCurrentBySpace();
+		bool SelectParentFromKey();
+
+		bool SelectCurrentBySpace();
 
         bool Select(TreeViewExItem treeViewExItem);
 

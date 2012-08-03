@@ -642,12 +642,23 @@
 						{
 							IsExpanded = false;
 						}
+						else
+						{
+							ParentTreeView.Selection.SelectParentFromKey();
+						}
 						e.Handled = true;
 						break;
 					case Key.Right:
 						if (CanExpand)
 						{
-							IsExpanded = true;
+							if (!IsExpanded)
+							{
+								IsExpanded = true;
+							}
+							else
+							{
+								ParentTreeView.Selection.SelectNextFromKey();
+							}
 						}
 						e.Handled = true;
 						break;

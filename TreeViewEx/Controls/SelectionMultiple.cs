@@ -3,6 +3,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Windows.Input;
+	using System.Windows.Media;
 
 	/// <summary>
 	/// Logic for the multiple selection
@@ -302,6 +303,34 @@
 			}
 
 			return SelectCore(item);
+		}
+
+		public bool SelectParentFromKey()
+		{
+			TreeViewExItem item;
+			if (IsControlKeyDown && SelectedPreviewItem != null)
+			{
+				item = SelectedPreviewItem;
+			}
+			else
+			{
+				List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
+				item = treeViewEx.GetFocusedItem(items);
+			}
+
+			DependencyObject parent = item;
+			while (parent != null)
+			{
+				parent = VisualTreeHelper.GetParent(parent);
+				if (parent is TreeViewExItem) break;
+			}
+
+			if (parent == null)
+			{
+				return false;
+			}
+
+			return SelectCore(parent as TreeViewExItem);
 		}
 
 		public bool UnSelect(TreeViewExItem item)
