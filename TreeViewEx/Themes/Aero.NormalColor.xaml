@@ -4,7 +4,7 @@
 
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="/TreeViewEx;component/Themes/EditTextBox.xaml"/>
-		<ResourceDictionary Source="/TreeViewEx;component/Themes/TreeViewEx.Classic.xaml"/>
-		<ResourceDictionary Source="/TreeViewEx;component/Themes/TreeViewExItem.Classic.xaml"/>
+		<ResourceDictionary Source="/TreeViewEx;component/Themes/TreeViewEx.Aero.xaml"/>
+		<ResourceDictionary Source="/TreeViewEx;component/Themes/TreeViewExItem.Aero.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

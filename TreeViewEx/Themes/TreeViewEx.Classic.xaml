@@ -18,67 +18,51 @@
 		<Style.Resources>
 			<ResourceDictionary />
 		</Style.Resources>
-		<Setter Property="Panel.Background">
-			<Setter.Value>
-				<DynamicResource ResourceKey="{x:Static SystemColors.WindowBrushKey}" />
-			</Setter.Value>
-		</Setter>
+		<Setter Property="Panel.Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
 		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="False" />
-		<Setter Property="Border.BorderBrush" Value="#FF828790" />
-		<Setter Property="Border.BorderThickness" Value="1" />
-		<Setter Property="Control.Padding" Value="1" />
-		<Setter Property="TextElement.Foreground">
-			<Setter.Value>
-				<DynamicResource ResourceKey="{x:Static SystemColors.ControlTextBrushKey}" />
-			</Setter.Value>
-		</Setter>
-		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility">
-			<Setter.Value>
-				<x:Static Member="ScrollBarVisibility.Auto" />
-			</Setter.Value>
-		</Setter>
-		<Setter Property="ScrollViewer.VerticalScrollBarVisibility">
-			<Setter.Value>
-				<x:Static Member="ScrollBarVisibility.Auto" />
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Control.VerticalContentAlignment">
-			<Setter.Value>
-				<x:Static Member="VerticalAlignment.Center" />
-			</Setter.Value>
-		</Setter>
+		<Setter Property="Border.BorderThickness" Value="2" />
+		<Setter Property="Control.Padding" Value="0" />
+		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+		<Setter Property="Control.VerticalContentAlignment" Value="Center"/>
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Controls:TreeViewEx}">
-					<Border BorderThickness="{TemplateBinding Border.BorderThickness}"
-						BorderBrush="{TemplateBinding Border.BorderBrush}" Name="Bd"
+					<Border Name="Bd"
 						SnapsToDevicePixels="True">
-						<ScrollViewer CanContentScroll="True"
+						<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" BorderThickness="0,0,1,1">
+						<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1,1,0,0">
+						<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderThickness="0,0,1,1">
+						<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" BorderThickness="1,1,0,0">
+						<ScrollViewer
+							CanContentScroll="True"
 							HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
 							VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
 							Background="{TemplateBinding Panel.Background}"
 							Padding="{TemplateBinding Control.Padding}"
 							SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
 							Focusable="False">
-							<Grid>
+							<Grid Margin="0,0,0,1"><!-- Compensate bottom margin -1 for last item -->
 								<ItemsPresenter x:Name="content"/>
 								<Canvas>
 									<Border x:Name="selectionBorder"
 										BorderBrush="{Binding BorderBrushSelectionRectangle, RelativeSource={RelativeSource AncestorType=Controls:TreeViewEx}}"
-										Background="{Binding BackgroundSelectionRectangle, RelativeSource={RelativeSource  AncestorType=Controls:TreeViewEx}}"
+										Background="{Binding BackgroundSelectionRectangle, RelativeSource={RelativeSource AncestorType=Controls:TreeViewEx}}"
+										BorderThickness="1"
 										VerticalAlignment="Top" HorizontalAlignment="Left"
-										Visibility="Collapsed" BorderThickness="1"/>
+										Visibility="Collapsed"/>
 								</Canvas>
 							</Grid>
 						</ScrollViewer>
+						</Border>
+						</Border>
+						</Border>
+						</Border>
 					</Border>
 					<ControlTemplate.Triggers>
 						<Trigger Property="UIElement.IsEnabled" Value="False">
-							<Setter Property="Panel.Background" TargetName="Bd">
-								<Setter.Value>
-									<DynamicResource ResourceKey="{x:Static SystemColors.ControlBrushKey}" />
-								</Setter.Value>
-							</Setter>
+							<Setter Property="Panel.Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

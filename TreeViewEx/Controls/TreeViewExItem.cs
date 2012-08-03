@@ -35,7 +35,13 @@
 			"BackgroundSelected",
 			typeof(Brush),
 			typeof(TreeViewExItem),
-			new FrameworkPropertyMetadata(Brushes.LightGray, null));
+			new FrameworkPropertyMetadata(SystemColors.HighlightBrush, null));
+
+		public static DependencyProperty ForegroundSelectedProperty = DependencyProperty.Register(
+			"ForegroundSelected",
+			typeof(Brush),
+			typeof(TreeViewExItem),
+			new FrameworkPropertyMetadata(SystemColors.HighlightTextBrush, null));
 
 		public static DependencyProperty BackgroundHoveredProperty = DependencyProperty.Register(
 			"BackgroundHovered",
@@ -47,7 +53,13 @@
 			"BackgroundInactive",
 			typeof(Brush),
 			typeof(TreeViewExItem),
-			new FrameworkPropertyMetadata(Brushes.LightGray, null));
+			new FrameworkPropertyMetadata(SystemColors.ControlBrush, null));
+
+		public static DependencyProperty ForegroundInactiveProperty = DependencyProperty.Register(
+			"ForegroundInactive",
+			typeof(Brush),
+			typeof(TreeViewExItem),
+			new FrameworkPropertyMetadata(SystemColors.ControlTextBrush, null));
 
 		public static DependencyProperty BorderBrushHoveredProperty = DependencyProperty.Register(
 			"BorderBrushHovered",
@@ -194,6 +206,18 @@
 			}
 		}
 
+		public Brush ForegroundSelected
+		{
+			get
+			{
+				return (Brush) GetValue(ForegroundSelectedProperty);
+			}
+			set
+			{
+				SetValue(ForegroundSelectedProperty, value);
+			}
+		}
+
 		public Brush BackgroundSelectedPreview
 		{
 			get
@@ -239,6 +263,18 @@
 			set
 			{
 				SetValue(BackgroundInactiveProperty, value);
+			}
+		}
+
+		public Brush ForegroundInactive
+		{
+			get
+			{
+				return (Brush) GetValue(ForegroundInactiveProperty);
+			}
+			set
+			{
+				SetValue(ForegroundInactiveProperty, value);
 			}
 		}
 

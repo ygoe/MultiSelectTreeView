@@ -70,7 +70,7 @@
 				<HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type Model:Node}">
 					<StackPanel Orientation="Horizontal">
 						<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16" SnapsToDevicePixels="True"/>
-						<Label Content="{Binding DisplayName}" Padding="4,0,2,0"/>
+						<TextBlock Text="{Binding DisplayName}" Padding="4,0,2,0"/>
 					</StackPanel>
 				</HierarchicalDataTemplate>
 				<Style TargetType="{x:Type Controls:TreeViewExItem}">

@@ -90,7 +90,11 @@
     <Compile Include="Controls\SelectionSingle.cs" />
     <Compile Include="Controls\TreeViewExItem.cs" />
     <Compile Include="Controls\TreeViewEx.cs" />
-    <Page Include="Themes\Classic_.xaml">
+    <Page Include="Themes\Aero.NormalColor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Classic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -102,15 +106,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\TreeViewEx.Classic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\TreeViewExItem.Classic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\TreeViewEx.xaml">
+    <Page Include="Themes\TreeViewEx.Aero.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\TreeViewExItem.xaml">
+    <Page Include="Themes\TreeViewExItem.Aero.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
