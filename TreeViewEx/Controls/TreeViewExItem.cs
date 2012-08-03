@@ -5,6 +5,7 @@
 	using System.Windows.Automation.Peers;
 	using System.Windows.Input;
 	using System.Windows.Media;
+	using System.Collections.Specialized;
 
 	#endregion
 
@@ -415,6 +416,8 @@
 
 		#region Properties
 
+		private TreeViewEx lastParentTreeView;
+
 		internal TreeViewEx ParentTreeView
 		{
 			get
@@ -426,7 +429,7 @@
 					TreeViewEx treeView = itemsControl as TreeViewEx;
 					if (treeView != null)
 					{
-						return treeView;
+						return lastParentTreeView = treeView;
 					}
 				}
 				return null;
@@ -698,6 +701,29 @@
 				e.Handled = true;
 			}
 		}
+
+		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case NotifyCollectionChangedAction.Remove:
+					foreach (var item in e.OldItems)
+					{
+						TreeViewEx parentTV = ParentTreeView;
+						if (parentTV == null)
+							parentTV = lastParentTreeView;
+						if (parentTV != null)
+						{
+							parentTV.SelectedItems.Remove(item);
+							// Don't preview and ask, it is already gone so it must be removed from the SelectedItems list.
+						}
+					}
+					break;
+			}
+
+			base.OnItemsChanged(e);
+		}
+
 		#endregion
 
 		#region Internal Methods

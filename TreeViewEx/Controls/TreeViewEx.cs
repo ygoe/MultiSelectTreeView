@@ -247,6 +247,25 @@
 			Unloaded += OnUnLoaded;
 		}
 
+		public bool ClearSelection()
+		{
+			if (SelectedItems.Count > 0)
+			{
+				foreach (var selItem in SelectedItems)
+				{
+					var e = new PreviewSelectionChangedEventArgs(false, selItem);
+					OnPreviewSelectionChanged(e);
+					if (e.Cancel)
+					{
+						return false;
+					}
+				}
+
+				SelectedItems.Clear();
+			}
+			return true;
+		}
+
 		#endregion
 
 		#region Methods
