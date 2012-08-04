@@ -152,7 +152,9 @@
 				TreeViewExItem shiftRootItem = treeViewEx.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).First();
 
 				var newSelection = treeViewEx.GetNodesToSelectBetween(shiftRootItem, item).Select(n => n.DataContext).ToList();
-				var selectedItems = treeViewEx.SelectedItems.ToList();
+				var selectedItems = new object[treeViewEx.SelectedItems.Count];
+				// Make a copy of the list because we're modifying it while enumerating it
+				treeViewEx.SelectedItems.CopyTo(selectedItems, 0);
 				// Remove all items no longer selected
 				foreach (var selItem in selectedItems.Where(i => !newSelection.Contains(i)))
 				{

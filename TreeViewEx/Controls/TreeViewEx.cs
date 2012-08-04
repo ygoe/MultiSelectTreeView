@@ -220,7 +220,7 @@
 		/// <summary>
 		///    Gets or sets a list of selected items and can be bound to another collection.
 		/// </summary>
-		public ObservableCollection<object> SelectedItems
+		public IList SelectedItems
 		{
 			get
 			{
@@ -392,7 +392,7 @@
 
 		internal IEnumerable<TreeViewExItem> GetNodesToSelectBetween(TreeViewExItem firstNode, TreeViewExItem lastNode)
 		{
-			var allNodes = RecursiveTreeViewItemEnumerable(this, false).ToList();
+			var allNodes = RecursiveTreeViewItemEnumerable(this, false, false).ToList();
 			var firstIndex = allNodes.IndexOf(firstNode);
 			var lastIndex = allNodes.IndexOf(lastNode);
 
