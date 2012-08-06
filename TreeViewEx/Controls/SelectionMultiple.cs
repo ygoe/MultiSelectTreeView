@@ -307,6 +307,32 @@
 			return SelectCore(item);
 		}
 
+		public bool SelectFirstFromKey()
+		{
+			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
+			TreeViewExItem item = treeViewEx.GetFirstItem(items);
+
+			if (item == null)
+			{
+				return false;
+			}
+
+			return SelectCore(item);
+		}
+
+		public bool SelectLastFromKey()
+		{
+			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
+			TreeViewExItem item = treeViewEx.GetLastItem(items);
+
+			if (item == null)
+			{
+				return false;
+			}
+
+			return SelectCore(item);
+		}
+
 		public bool SelectParentFromKey()
 		{
 			TreeViewExItem item;

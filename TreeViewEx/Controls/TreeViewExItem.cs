@@ -615,6 +615,14 @@
 						ParentTreeView.Selection.SelectNextFromKey();
 						e.Handled = true;
 						break;
+					case Key.Home:
+						ParentTreeView.Selection.SelectFirstFromKey();
+						e.Handled = true;
+						break;
+					case Key.End:
+						ParentTreeView.Selection.SelectLastFromKey();
+						e.Handled = true;
+						break;
 					case Key.Add:
 						if (CanExpandOnInput && !IsExpanded)
 						{

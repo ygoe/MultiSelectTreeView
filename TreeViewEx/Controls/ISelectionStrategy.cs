@@ -15,6 +15,10 @@
 
         bool SelectNextFromKey();
 
+		bool SelectFirstFromKey();
+
+		bool SelectLastFromKey();
+
 		bool SelectParentFromKey();
 
 		bool SelectCurrentBySpace();

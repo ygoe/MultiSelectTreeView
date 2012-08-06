@@ -286,7 +286,6 @@
 					return items[i];
 				}
 			}
-
 			return null;
 		}
 
@@ -300,7 +299,30 @@
 					return items[i];
 				}
 			}
+			return null;
+		}
 
+		internal TreeViewExItem GetFirstItem(List<TreeViewExItem> items)
+		{
+			for (int i = 0; i < items.Count; i++)
+			{
+				if (items[i].IsVisible)
+				{
+					return items[i];
+				}
+			}
+			return null;
+		}
+
+		internal TreeViewExItem GetLastItem(List<TreeViewExItem> items)
+		{
+			for (int i = items.Count - 1; i >= 0; i--)
+			{
+				if (items[i].IsVisible)
+				{
+					return items[i];
+				}
+			}
 			return null;
 		}
 
