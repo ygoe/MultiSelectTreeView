@@ -19,12 +19,6 @@
 			typeof(TreeViewExItem),
 			new FrameworkPropertyMetadata(SystemColors.HighlightBrush, null));
 
-		public static DependencyProperty BackgroundSelectedPreviewProperty = DependencyProperty.Register(
-			"BackgroundSelectedPreview",
-			typeof(Brush),
-			typeof(TreeViewExItem),
-			new FrameworkPropertyMetadata(Brushes.DarkGray, null));
-
 		public static DependencyProperty BackgroundSelectedHoveredProperty = DependencyProperty.Register(
 			"BackgroundSelectedHovered",
 			typeof(Brush),
@@ -79,12 +73,6 @@
 			typeof(TreeViewExItem),
 			new FrameworkPropertyMetadata(Brushes.Black, null));
 
-		public static DependencyProperty BorderBrushSelectedPreviewProperty = DependencyProperty.Register(
-			"BorderBrushSelectedPreview",
-			typeof(Brush),
-			typeof(TreeViewExItem),
-			new FrameworkPropertyMetadata(Brushes.Black, null));
-
 		public static DependencyProperty BorderBrushSelectedProperty = DependencyProperty.Register(
 			"BorderBrushSelected",
 			typeof(Brush),
@@ -114,12 +102,6 @@
 			typeof(bool),
 			typeof(TreeViewExItem),
 			new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.None, new PropertyChangedCallback(OnIsSelectedChanged)));
-
-		public static DependencyProperty IsSelectedPreviewProperty = DependencyProperty.Register(
-			"IsSelectedPreview",
-			typeof(bool),
-			typeof(TreeViewExItem),
-			new FrameworkPropertyMetadata(false, null));
 
 		public static DependencyProperty IsEditingProperty = DependencyProperty.Register(
 			"IsEditing",
@@ -215,18 +197,6 @@
 			set
 			{
 				SetValue(ForegroundSelectedProperty, value);
-			}
-		}
-
-		public Brush BackgroundSelectedPreview
-		{
-			get
-			{
-				return (Brush) GetValue(BackgroundSelectedPreviewProperty);
-			}
-			set
-			{
-				SetValue(BackgroundSelectedPreviewProperty, value);
 			}
 		}
 
@@ -326,18 +296,6 @@
 			}
 		}
 
-		public Brush BorderBrushSelectedPreview
-		{
-			get
-			{
-				return (Brush) GetValue(BorderBrushSelectedPreviewProperty);
-			}
-			set
-			{
-				SetValue(BorderBrushSelectedPreviewProperty, value);
-			}
-		}
-
 		public bool IsExpanded
 		{
 			get
@@ -396,19 +354,6 @@
 			{
 				//System.Diagnostics.Debug.WriteLine("IsSelected of " + DataContext + " is " + value + " from " + ParentItemsControl.GetHashCode());
 				SetValue(IsSelectedProperty, value);
-			}
-		}
-
-		public bool IsSelectedPreview
-		{
-			get
-			{
-				return (bool) GetValue(IsSelectedPreviewProperty);
-			}
-			set
-			{
-				//Debug.Log("IsSelectedPreview of " + DataContext + " is " + value + " from " + ParentItemsControl.GetHashCode());
-				SetValue(IsSelectedPreviewProperty, value);
 			}
 		}
 

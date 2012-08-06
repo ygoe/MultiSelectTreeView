@@ -23,12 +23,10 @@
                 </Setter.Value>
             </Setter>
             
-            <Setter Property="BackgroundSelectedPreview" Value="Transparent" />
             <Setter Property="BackgroundHovered" Value="Transparent" />
             <Setter Property="BackgroundFocused" Value="Transparent" />
             <Setter Property="BackgroundSelected" Value="Transparent" />
 
-            <Setter Property="BorderBrushSelectedPreview" Value="Black" />
             <Setter Property="BorderBrushFocused" Value="Black" />
             <Setter Property="BorderBrushSelected" Value="Black" />
             <Setter Property="BorderBrushHovered" Value="Black" />

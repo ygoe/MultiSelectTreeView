@@ -18,7 +18,7 @@
 
 		private object lastShiftRoot;
 
-		private TreeViewExItem selectedPreviewItem;
+		private TreeViewExItem lastFocusedItem;
 
 		public SelectionMultiple(TreeViewEx treeViewEx)
 		{
@@ -43,24 +43,15 @@
 			}
 		}
 
-		private TreeViewExItem SelectedPreviewItem
+		private TreeViewExItem LastFocusedItem
 		{
 			get
 			{
-				return selectedPreviewItem;
+				return lastFocusedItem;
 			}
 			set
 			{
-				if (selectedPreviewItem != null)
-				{
-					selectedPreviewItem.IsSelectedPreview = false;
-				}
-
-				selectedPreviewItem = value;
-				if (selectedPreviewItem != null)
-				{
-					selectedPreviewItem.IsSelectedPreview = true;
-				}
+				lastFocusedItem = value;
 			}
 		}
 
@@ -109,7 +100,7 @@
 					lastShiftRoot = item.DataContext;
 				}
 				FocusHelper.Focus(item);
-				SelectedPreviewItem = null;
+				LastFocusedItem = null;
 				return true;
 			}
 			else
@@ -134,7 +125,7 @@
 				treeViewEx.SelectedItems.Add(item.DataContext);
 			}
 			FocusHelper.Focus(item);
-			SelectedPreviewItem = null;
+			LastFocusedItem = null;
 			lastShiftRoot = item.DataContext;
 			return true;
 		}
@@ -143,7 +134,7 @@
 		{
 			if (IsControlKeyDown)
 			{
-				SelectedPreviewItem = item;
+				LastFocusedItem = item;
 				FocusHelper.Focus(item);
 			}
 			else if (IsShiftKeyDown && treeViewEx.SelectedItems.Count > 0)
@@ -182,7 +173,7 @@
 					treeViewEx.SelectedItems.Add(newItem);
 				}
 				
-				SelectedPreviewItem = null;
+				LastFocusedItem = null;
 				FocusHelper.Focus(item);
 			}
 			else
@@ -214,7 +205,7 @@
 				}
 
 				treeViewEx.SelectedItems.Add(item.DataContext);
-				SelectedPreviewItem = null;
+				LastFocusedItem = null;
 				FocusHelper.Focus(item);
 				lastShiftRoot = item.DataContext;
 			}
@@ -225,10 +216,10 @@
 
 		public bool SelectCurrentBySpace()
 		{
-			if (SelectedPreviewItem != null)
+			if (LastFocusedItem != null)
 			{
-				// There is a selection preview item that was chosen by Ctrl+Arrow key
-				var item = SelectedPreviewItem;
+				// Another item was focused by Ctrl+Arrow key
+				var item = LastFocusedItem;
 				if (treeViewEx.SelectedItems.Contains(item.DataContext))
 				{
 					// With Ctrl key, toggle this item selection.
@@ -269,9 +260,9 @@
 		{
 			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
 			TreeViewExItem item;
-			if (IsControlKeyDown && SelectedPreviewItem != null)
+			if (IsControlKeyDown && LastFocusedItem != null)
 			{
-				item = treeViewEx.GetNextItem(SelectedPreviewItem, items);
+				item = treeViewEx.GetNextItem(LastFocusedItem, items);
 			}
 			else
 			{
@@ -290,9 +281,9 @@
 		{
 			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
 			TreeViewExItem item;
-			if (IsControlKeyDown && SelectedPreviewItem != null)
+			if (IsControlKeyDown && LastFocusedItem != null)
 			{
-				item = treeViewEx.GetPreviousItem(SelectedPreviewItem, items);
+				item = treeViewEx.GetPreviousItem(LastFocusedItem, items);
 			}
 			else
 			{
@@ -310,9 +301,9 @@
 		public bool SelectParentFromKey()
 		{
 			TreeViewExItem item;
-			if (IsControlKeyDown && SelectedPreviewItem != null)
+			if (IsControlKeyDown && LastFocusedItem != null)
 			{
-				item = SelectedPreviewItem;
+				item = LastFocusedItem;
 			}
 			else
 			{
@@ -376,7 +367,7 @@
 
 		public void OnLostFocus()
 		{
-			SelectedPreviewItem = null;
+			LastFocusedItem = null;
 		}
 
 		#endregion

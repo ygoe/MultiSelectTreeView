@@ -30,29 +30,12 @@
 		</Setter>
 
 		<!-- Windows 7 Aero Theme colours and brushes -->
-		<Setter Property="BorderBrushSelectedPreview" Value="#7DA2CE"/>
-		<Setter Property="BackgroundSelectedPreview">
+		<Setter Property="BorderBrushHovered" Value="#b097c3f9"/>
+		<Setter Property="BackgroundHovered">
 			<Setter.Value>
 				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-					<GradientStop Color="#DCEBFC" Offset="0" />
-					<GradientStop Color="#C1DBFC" Offset="1" />
-				</LinearGradientBrush>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="BackgroundSelectedHovered">
-			<Setter.Value>
-				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-					<GradientStop Color="#DCEBFC" Offset="0" />
-					<GradientStop Color="#C1DBFC" Offset="1" />
-				</LinearGradientBrush>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="BorderBrushFocused" Value="#7DA2CE"/>
-		<Setter Property="BackgroundFocused">
-			<Setter.Value>
-				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-					<GradientStop Color="#EBF4FE" Offset="0" />
-					<GradientStop Color="#CFE4FE" Offset="1" />
+					<GradientStop Color="#FAFBFD" Offset="0" />
+					<GradientStop Color="#EBF3FD" Offset="1" />
 				</LinearGradientBrush>
 			</Setter.Value>
 		</Setter>
@@ -65,15 +48,15 @@
 				</LinearGradientBrush>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="BorderBrushHovered" Value="#B8D6FB"/>
-		<Setter Property="BackgroundHovered">
+		<Setter Property="BackgroundSelectedHovered">
 			<Setter.Value>
 				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-					<GradientStop Color="#FAFBFD" Offset="0" />
-					<GradientStop Color="#EBF3FD" Offset="1" />
+					<GradientStop Color="#DCEBFC" Offset="0" />
+					<GradientStop Color="#C1DBFC" Offset="1" />
 				</LinearGradientBrush>
 			</Setter.Value>
 		</Setter>
+		<Setter Property="BorderBrushFocused" Value="#7DA2CE"/>
 		<Setter Property="BorderBrushInactive" Value="#D9D9D9"/>
 		<Setter Property="BackgroundInactive">
 			<Setter.Value>
@@ -222,9 +205,6 @@
 								</Border>
 								<!-- Additional border glare inside the item -->
 								<Border BorderThickness="1" BorderBrush="#80ffffff" Margin="1,1,1,0" SnapsToDevicePixels="True" CornerRadius="2"/>
-								<!-- Focus rectangle inside the item -->
-								<Rectangle StrokeDashArray="0.5 1.5" StrokeThickness="1" Stroke="Black" SnapsToDevicePixels="True" Margin="1,1,1,0"
-									Visibility="Hidden" Name="FocusRectangle"/>
 							</Grid>
 						</Grid>
 						<Grid Name="ItemsHostGrid">
@@ -270,39 +250,22 @@
 								Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Self}}" />
 						</Trigger>
 						
-						<!-- Show the focus rectangle when the item is focused -->
-						<MultiTrigger>
-							<MultiTrigger.Conditions>
-								<Condition Property="Controls:TreeViewExItem.IsKeyboardMode" Value="True"/>
-								<Condition Property="Controls:TreeViewExItem.IsFocused" Value="True"/>
-							</MultiTrigger.Conditions>
-							<Setter TargetName="FocusRectangle" Property="Visibility" Value="Visible"/>
-						</MultiTrigger>
-						
-						<!-- Set the border when the item is Ctrl+arrow navigated to -->
-						<MultiTrigger>
-							<MultiTrigger.Conditions>
-								<Condition Property="Controls:TreeViewExItem.IsSelectedPreview" Value="True" />
-								<Condition Property="Controls:TreeViewExItem.IsSelected" Value="False" />
-							</MultiTrigger.Conditions>
+						<!-- Show the border when the item is focused -->
+						<Trigger Property="Controls:TreeViewExItem.IsFocused" Value="True">
 							<Setter Property="Border.BorderBrush"
-								Value="{Binding BorderBrushSelectedPreview, RelativeSource={RelativeSource Self}}" />
-							<!--Setter Property="Control.Background"
-								Value="{Binding Background, RelativeSource={RelativeSource Self}}" /-->
-						</MultiTrigger>
+								Value="{Binding BorderBrushFocused, RelativeSource={RelativeSource Self}}" />
+						</Trigger>
 						
-						<!-- Set the border and slightly darker background for a selected item when it is Ctrl+arrow navigated to -->
+						<!-- Slightly darker background when the item is selected and focused -->
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
-								<Condition Property="IsSelectedPreview" Value="True" />
-								<Condition Property="IsSelected" Value="True" />
+								<Condition Property="Controls:TreeViewExItem.IsFocused" Value="True"/>
+								<Condition Property="Controls:TreeViewExItem.IsSelected" Value="True"/>
 							</MultiTrigger.Conditions>
 							<Setter Property="Control.Background"
-								Value="{Binding BackgroundSelectedPreview, RelativeSource={RelativeSource Self}}" />
-							<Setter Property="Border.BorderBrush"
-								Value="{Binding BorderBrushSelectedPreview, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BackgroundSelectedHovered, RelativeSource={RelativeSource Self}}" />
 						</MultiTrigger>
-						
+
 						<!-- Make all selected items grey when the entire Window is inactive -->
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>

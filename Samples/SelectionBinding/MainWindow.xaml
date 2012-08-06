@@ -9,19 +9,15 @@
         <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type Model1:Node}">
             <TextBlock>
                 <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0} (IsFocused: {1}, IsSelected: {2}, IsSelectedPreview: {3})">
+                    <MultiBinding StringFormat="{}{0} (IsFocused: {1}, IsSelected: {2})">
                         <Binding Path="Name" />
                         <Binding Path="IsFocused" RelativeSource="{RelativeSource AncestorType={x:Type Controls:TreeViewExItem}}"/>
                         <Binding Path="IsSelected" RelativeSource="{RelativeSource AncestorType={x:Type Controls:TreeViewExItem}}"/>
-                        <Binding Path="IsSelectedPreview" RelativeSource="{RelativeSource AncestorType={x:Type Controls:TreeViewExItem}}"/>
                     </MultiBinding> 
                 </TextBlock.Text>
             </TextBlock>
         </HierarchicalDataTemplate>
         <Style TargetType="Controls:TreeViewExItem">
-            <Setter Property="BackgroundSelectedPreview" Value="LightSalmon"/>
-            <Setter Property="BorderBrushSelectedPreview" Value="Red"/>
-            
             <Setter Property="BackgroundSelected" Value="AliceBlue"/>
             <Setter Property="BorderBrushSelected" Value="Blue"/>
             
@@ -39,7 +35,6 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="6,0,6,6">
 			<Border Background="LightGray" CornerRadius="2" Padding="2,0"><TextBlock>Focused</TextBlock></Border>
 			<Border Background="AliceBlue" CornerRadius="2" Padding="2,0" Margin="6,0,0,0"><TextBlock>Selected</TextBlock></Border>
-			<Border Background="LightSalmon" CornerRadius="2" Padding="2,0" Margin="6,0,0,0"><TextBlock>SelectedPreview</TextBlock></Border>
 			<Border Background="LightBlue" CornerRadius="2" Padding="2,0" Margin="6,0,0,0"><TextBlock>Hovered</TextBlock></Border>
 			<Border Background="LightCyan" CornerRadius="2" Padding="2,0" Margin="6,0,0,0"><TextBlock>Inactive</TextBlock></Border>
         </StackPanel>
