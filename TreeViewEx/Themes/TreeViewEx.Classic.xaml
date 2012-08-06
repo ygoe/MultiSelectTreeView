@@ -43,6 +43,12 @@
 							Padding="{TemplateBinding Control.Padding}"
 							SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
 							Focusable="False">
+							<ScrollViewer.Resources>
+								<Style TargetType="ScrollBar">
+									<!-- Fix that improper scrollbar handle drawing common in WPF -->
+									<Setter Property="UseLayoutRounding" Value="True"/>
+								</Style>
+							</ScrollViewer.Resources>
 							<Grid Margin="0,0,0,1"><!-- Compensate bottom margin -1 for last item -->
 								<ItemsPresenter x:Name="content"/>
 								<Canvas>
