@@ -246,6 +246,9 @@
 									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}, Path=IsKeyboardFocusWithin, FallbackValue=False}"
 									Value="False" />
 								<Condition
+									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}, Path=ContextMenu.IsOpen, FallbackValue=False}"
+									Value="False" />
+								<Condition
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
 									Value="True" />
 							</MultiDataTrigger.Conditions>

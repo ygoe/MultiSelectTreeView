@@ -57,7 +57,7 @@
 			</Setter.Value>
 		</Setter>
 		<Setter Property="BorderBrushFocused" Value="#7DA2CE"/>
-		<Setter Property="BorderBrushInactive" Value="#D9D9D9"/>
+		<Setter Property="BorderBrushInactive" Value="#b5c9c9c9"/>
 		<Setter Property="BackgroundInactive">
 			<Setter.Value>
 				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -287,6 +287,9 @@
 							<MultiDataTrigger.Conditions>
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}, Path=IsKeyboardFocusWithin, FallbackValue=False}"
+									Value="False" />
+								<Condition
+									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewEx}}, Path=ContextMenu.IsOpen, FallbackValue=False}"
 									Value="False" />
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
