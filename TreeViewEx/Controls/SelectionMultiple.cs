@@ -108,7 +108,10 @@
 				if (treeViewEx.SelectedItems.Count == 1 &&
 					treeViewEx.SelectedItems[0] == item.DataContext)
 				{
-					// Requested to select the single already-selected item. Do nothing.
+					// Requested to select the single already-selected item. Don't change the selection.
+					LastFocusedItem = null;
+					FocusHelper.Focus(item);
+					lastShiftRoot = item.DataContext;
 					return true;
 				}
 				else
