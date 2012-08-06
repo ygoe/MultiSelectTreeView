@@ -15,14 +15,6 @@
 
 	public class TreeViewEx : ItemsControl
 	{
-		// protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-		// {
-		// if (e.Property.Name.ToLower().Contains("virt"))
-		// {
-		// System.Diagnostics.Debug.WriteLine("P: " + e.Property + " " + e.NewValue);
-		// }
-		// base.OnPropertyChanged(e);
-		// }
 		#region Constants and Fields
 
 		public event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;
