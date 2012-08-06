@@ -210,13 +210,14 @@
 		}
 
 		/// <summary>
-		///    Gets or sets a list of selected items and can be bound to another collection.
+		/// Gets or sets a list of selected items and can be bound to another list. If the source list
+		/// implements <see cref="INotifyPropertyChanged"/> the changes are automatically taken over.
 		/// </summary>
 		public IList SelectedItems
 		{
 			get
 			{
-				return (ObservableCollection<object>) GetValue(SelectedItemsProperty);
+				return (IList) GetValue(SelectedItemsProperty);
 			}
 			set
 			{
@@ -346,20 +347,20 @@
 			TreeViewEx treeView = (TreeViewEx) d;
 			if (e.OldValue != null)
 			{
-				INotifyCollectionChanged collection = (INotifyCollectionChanged) e.OldValue;
-				collection.CollectionChanged -= treeView.OnSelectedItemsChanged;
+				INotifyCollectionChanged collection = e.OldValue as INotifyCollectionChanged;
+				if (collection != null)
+				{
+					collection.CollectionChanged -= treeView.OnSelectedItemsChanged;
+				}
 			}
 
 			if (e.NewValue != null)
 			{
-				if (!(e.NewValue is INotifyCollectionChanged))
+				INotifyCollectionChanged collection = e.NewValue as INotifyCollectionChanged;
+				if (collection != null)
 				{
-					throw new InvalidOperationException(
-					   "Values bound to SelectedItems have to implement INotifyCollectionChanged.");
+					collection.CollectionChanged += treeView.OnSelectedItemsChanged;
 				}
-
-				INotifyCollectionChanged collection = (INotifyCollectionChanged) e.NewValue;
-				collection.CollectionChanged += treeView.OnSelectedItemsChanged;
 			}
 		}
 
