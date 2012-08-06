@@ -105,7 +105,16 @@
 			}
 			else
 			{
-				return SelectCore(item);
+				if (treeViewEx.SelectedItems.Count == 1 &&
+					treeViewEx.SelectedItems[0] == item.DataContext)
+				{
+					// Requested to select the single already-selected item. Do nothing.
+					return true;
+				}
+				else
+				{
+					return SelectCore(item);
+				}
 			}
 		}
 
