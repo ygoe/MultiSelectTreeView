@@ -30,37 +30,39 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Controls:TreeViewEx}">
-					<Border Name="Bd"
-						BorderThickness="{TemplateBinding Border.BorderThickness}"
-						BorderBrush="{TemplateBinding Border.BorderBrush}"
-						SnapsToDevicePixels="True">
-						<ScrollViewer
-							CanContentScroll="True"
-							HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-							VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-							Background="{TemplateBinding Panel.Background}"
-							Padding="{TemplateBinding Control.Padding}"
-							SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
-							Focusable="False">
-							<ScrollViewer.Resources>
-								<Style TargetType="ScrollBar">
-									<!-- Fix that improper scrollbar handle drawing common in WPF -->
-									<Setter Property="UseLayoutRounding" Value="True"/>
-								</Style>
-							</ScrollViewer.Resources>
-							<Grid Margin="0,0,0,1"><!-- Compensate bottom margin -1 for last item -->
-								<ItemsPresenter x:Name="content"/>
-								<Canvas>
-									<Border x:Name="selectionBorder"
-										BorderBrush="{Binding BorderBrushSelectionRectangle, RelativeSource={RelativeSource AncestorType=Controls:TreeViewEx}}"
-										Background="{Binding BackgroundSelectionRectangle, RelativeSource={RelativeSource AncestorType=Controls:TreeViewEx}}"
-										BorderThickness="1"
-										VerticalAlignment="Top" HorizontalAlignment="Left"
-										Visibility="Collapsed"/>
-								</Canvas>
-							</Grid>
-						</ScrollViewer>
-					</Border>
+					<Grid>
+						<Border Name="Bd"
+							BorderThickness="{TemplateBinding Border.BorderThickness}"
+							BorderBrush="{TemplateBinding Border.BorderBrush}"
+							SnapsToDevicePixels="True">
+							<ScrollViewer
+								CanContentScroll="True"
+								HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+								VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+								Background="{TemplateBinding Panel.Background}"
+								Padding="{TemplateBinding Control.Padding}"
+								SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+								Focusable="False">
+								<ScrollViewer.Resources>
+									<Style TargetType="ScrollBar">
+										<!-- Fix that improper scrollbar handle drawing common in WPF -->
+										<Setter Property="UseLayoutRounding" Value="True"/>
+									</Style>
+								</ScrollViewer.Resources>
+								<Grid Margin="0,0,0,1"><!-- Compensate bottom margin -1 for last item -->
+									<ItemsPresenter x:Name="content"/>
+								</Grid>
+							</ScrollViewer>
+						</Border>
+						<Canvas>
+							<Border x:Name="selectionBorder"
+								BorderBrush="{Binding BorderBrushSelectionRectangle, RelativeSource={RelativeSource AncestorType=Controls:TreeViewEx}}"
+								Background="{Binding BackgroundSelectionRectangle, RelativeSource={RelativeSource AncestorType=Controls:TreeViewEx}}"
+								BorderThickness="1"
+								VerticalAlignment="Top" HorizontalAlignment="Left"
+								Visibility="Collapsed"/>
+						</Canvas>
+					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="UIElement.IsEnabled" Value="False">
 							<Setter Property="Panel.Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>

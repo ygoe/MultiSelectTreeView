@@ -123,18 +123,15 @@
 					top = startPoint.Y - height + 1;
 				}
 
-				double xOffset = content.BorderThickness.Left + content.Padding.Left;
-				double yOffset = content.BorderThickness.Top + content.Padding.Top;
-				
 				border.Width = width;
-				Canvas.SetLeft(border, left - xOffset);
+				Canvas.SetLeft(border, left);
 				border.Height = height;
-				Canvas.SetTop(border, top - yOffset);
+				Canvas.SetTop(border, top);
 
 				border.Visibility = Visibility.Visible;
 
-				double right = left + width;
-				double bottom = top + height;
+				double right = left + width - 1;
+				double bottom = top + height - 1;
 
 				// Debug.WriteLine(string.Format("left:{1};right:{2};top:{3};bottom:{4}", null, left, right, top, bottom));
 				foreach (var item in items)
@@ -142,28 +139,31 @@
 					FrameworkElement itemContent = (FrameworkElement) item.Template.FindName("headerBorder", item);
 					Point p = itemContent.TransformToAncestor(content).Transform(new Point());
 					double itemLeft = p.X;
-					double itemRight = p.X + itemContent.ActualWidth;
+					double itemRight = p.X + itemContent.ActualWidth - 1;
 					double itemTop = p.Y;
-					double itemBottom = p.Y + itemContent.ActualHeight;
+					double itemBottom = p.Y + itemContent.ActualHeight - 1;
 
 					// Debug.WriteLine(string.Format("element:{0};itemleft:{1};itemright:{2};itemtop:{3};itembottom:{4}",item.DataContext,itemLeft,itemRight,itemTop,itemBottom));
 					if (!(itemLeft > right || itemRight < left || itemTop > bottom || itemBottom < top))
 					{
+						// The item and the selection border intersect
 						if (!content.SelectedItems.Contains(item.DataContext))
 						{
+							// The item is not currently selected. Try to select it.
 							if (!((SelectionMultiple) content.Selection).SelectByRectangle(item))
 							{
 								EndAction();
 								return;
 							}
 						}
-
 						// Debug.WriteLine("Is selected: " + item);
 					}
 					else
 					{
+						// The item and the selection border do not intersect
 						if (content.SelectedItems.Contains(item.DataContext))
 						{
+							// The item is currently selected. Try to deselect it.
 							if (!content.Selection.UnSelect(item))
 							{
 								EndAction();
