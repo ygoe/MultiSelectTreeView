@@ -18,8 +18,6 @@
 
 		private object lastShiftRoot;
 
-		private TreeViewExItem lastFocusedItem;
-
 		public SelectionMultiple(TreeViewEx treeViewEx)
 		{
 			this.treeViewEx = treeViewEx;
@@ -43,18 +41,6 @@
 			}
 		}
 
-		private TreeViewExItem LastFocusedItem
-		{
-			get
-			{
-				return lastFocusedItem;
-			}
-			set
-			{
-				lastFocusedItem = value;
-			}
-		}
-
 		#endregion
 
 		public void ApplyTemplate()
@@ -71,16 +57,7 @@
 			{
 				if (treeViewEx.SelectedItems.Contains(item.DataContext))
 				{
-					if (!UnSelect(item))
-					{
-						FocusHelper.Focus(item);
-						return false;
-					}
-
-					if (item.DataContext == lastShiftRoot)
-					{
-						lastShiftRoot = null;
-					}
+					return UnSelect(item);
 				}
 				else
 				{
@@ -92,16 +69,8 @@
 						return false;
 					}
 
-					item.IsSelected = true;
-					if (!treeViewEx.SelectedItems.Contains(item.DataContext))
-					{
-						treeViewEx.SelectedItems.Add(item.DataContext);
-					}
-					lastShiftRoot = item.DataContext;
+					return SelectCore(item);
 				}
-				FocusHelper.Focus(item);
-				LastFocusedItem = null;
-				return true;
 			}
 			else
 			{
@@ -109,7 +78,6 @@
 					treeViewEx.SelectedItems[0] == item.DataContext)
 				{
 					// Requested to select the single already-selected item. Don't change the selection.
-					LastFocusedItem = null;
 					FocusHelper.Focus(item);
 					lastShiftRoot = item.DataContext;
 					return true;
@@ -137,7 +105,6 @@
 				treeViewEx.SelectedItems.Add(item.DataContext);
 			}
 			FocusHelper.Focus(item);
-			LastFocusedItem = null;
 			lastShiftRoot = item.DataContext;
 			return true;
 		}
@@ -146,8 +113,11 @@
 		{
 			if (IsControlKeyDown)
 			{
-				LastFocusedItem = item;
-				FocusHelper.Focus(item);
+				if (!treeViewEx.SelectedItems.Contains(item.DataContext))
+				{
+					treeViewEx.SelectedItems.Add(item.DataContext);
+				}
+				lastShiftRoot = item.DataContext;
 			}
 			else if (IsShiftKeyDown && treeViewEx.SelectedItems.Count > 0)
 			{
@@ -184,9 +154,6 @@
 
 					treeViewEx.SelectedItems.Add(newItem);
 				}
-				
-				LastFocusedItem = null;
-				FocusHelper.Focus(item);
 			}
 			else
 			{
@@ -217,151 +184,112 @@
 				}
 
 				treeViewEx.SelectedItems.Add(item.DataContext);
-				LastFocusedItem = null;
-				FocusHelper.Focus(item);
 				lastShiftRoot = item.DataContext;
 			}
 
-			LastSelectedItem = item;
+			FocusHelper.Focus(item);
 			return true;
 		}
 
 		public bool SelectCurrentBySpace()
 		{
-			if (LastFocusedItem != null)
+			// Another item was focused by Ctrl+Arrow key
+			var item = GetFocusedItem();
+			if (treeViewEx.SelectedItems.Contains(item.DataContext))
 			{
-				// Another item was focused by Ctrl+Arrow key
-				var item = LastFocusedItem;
-				if (treeViewEx.SelectedItems.Contains(item.DataContext))
+				// With Ctrl key, toggle this item selection.
+				// Without Ctrl key, always select it.
+				if (IsControlKeyDown)
 				{
-					// With Ctrl key, toggle this item selection.
-					// Without Ctrl key, always select it.
-					if (IsControlKeyDown)
-					{
-						if (!UnSelect(item)) return false;
-						item.IsSelected = false;
-					}
+					if (!UnSelect(item)) return false;
+					item.IsSelected = false;
 				}
-				else
+			}
+			else
+			{
+				var e = new PreviewSelectionChangedEventArgs(true, item.DataContext);
+				OnPreviewSelectionChanged(e);
+				if (e.Cancel)
 				{
-					var e = new PreviewSelectionChangedEventArgs(true, item.DataContext);
-					OnPreviewSelectionChanged(e);
-					if (e.Cancel)
-					{
-						FocusHelper.Focus(item);
-						return false;
-					}
+					FocusHelper.Focus(item);
+					return false;
+				}
 
-					item.IsSelected = true;
-					if (!treeViewEx.SelectedItems.Contains(item.DataContext))
-					{
-						treeViewEx.SelectedItems.Add(item.DataContext);
-					}
+				item.IsSelected = true;
+				if (!treeViewEx.SelectedItems.Contains(item.DataContext))
+				{
+					treeViewEx.SelectedItems.Add(item.DataContext);
 				}
+			}
+			FocusHelper.Focus(item);
+			return true;
+		}
+
+		private TreeViewExItem GetFocusedItem()
+		{
+			foreach (var item in TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false))
+			{
+				if (item.IsFocused) return item;
+			}
+			return null;
+		}
+
+		private bool SelectFromKey(TreeViewExItem item)
+		{
+			if (item == null)
+			{
+				return false;
+			}
+
+			// If Ctrl is pressed just focus it, so it can be selected by Space. Otherwise select it.
+			if (IsControlKeyDown)
+			{
 				FocusHelper.Focus(item);
 				return true;
 			}
 			else
 			{
-				// An item was chosen without the Ctrl key
-				return Select(treeViewEx.GetFocusedItem(TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false)));
+				return SelectCore(item);
 			}
 		}
 
 		public bool SelectNextFromKey()
 		{
 			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
-			TreeViewExItem item;
-			if (IsControlKeyDown && LastFocusedItem != null)
-			{
-				item = treeViewEx.GetNextItem(LastFocusedItem, items);
-			}
-			else
-			{
-				item = treeViewEx.GetNextItem(treeViewEx.GetFocusedItem(items), items);
-			}
-
-			if (item == null)
-			{
-				return false;
-			}
-
-			return SelectCore(item);
+			TreeViewExItem item = treeViewEx.GetNextItem(GetFocusedItem(), items);
+			return SelectFromKey(item);
 		}
 
 		public bool SelectPreviousFromKey()
 		{
 			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
-			TreeViewExItem item;
-			if (IsControlKeyDown && LastFocusedItem != null)
-			{
-				item = treeViewEx.GetPreviousItem(LastFocusedItem, items);
-			}
-			else
-			{
-				item = treeViewEx.GetPreviousItem(treeViewEx.GetFocusedItem(items), items);
-			}
-
-			if (item == null)
-			{
-				return false;
-			}
-
-			return SelectCore(item);
+			TreeViewExItem item = treeViewEx.GetPreviousItem(GetFocusedItem(), items);
+			return SelectFromKey(item);
 		}
 
 		public bool SelectFirstFromKey()
 		{
 			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
 			TreeViewExItem item = treeViewEx.GetFirstItem(items);
-
-			if (item == null)
-			{
-				return false;
-			}
-
-			return SelectCore(item);
+			return SelectFromKey(item);
 		}
 
 		public bool SelectLastFromKey()
 		{
 			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
 			TreeViewExItem item = treeViewEx.GetLastItem(items);
-
-			if (item == null)
-			{
-				return false;
-			}
-
-			return SelectCore(item);
+			return SelectFromKey(item);
 		}
 
 		public bool SelectParentFromKey()
 		{
-			TreeViewExItem item;
-			if (IsControlKeyDown && LastFocusedItem != null)
-			{
-				item = LastFocusedItem;
-			}
-			else
-			{
-				List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
-				item = treeViewEx.GetFocusedItem(items);
-			}
-
-			DependencyObject parent = item;
+			DependencyObject parent = GetFocusedItem();
 			while (parent != null)
 			{
 				parent = VisualTreeHelper.GetParent(parent);
 				if (parent is TreeViewExItem) break;
 			}
-
-			if (parent == null)
-			{
-				return false;
-			}
-
-			return SelectCore(parent as TreeViewExItem);
+			return SelectFromKey(parent as TreeViewExItem);
 		}
 
 		public bool UnSelect(TreeViewExItem item)
@@ -371,6 +299,11 @@
 			if (e.Cancel) return false;
 
 			treeViewEx.SelectedItems.Remove(item.DataContext);
+			if (item.DataContext == lastShiftRoot)
+			{
+				lastShiftRoot = null;
+			}
+			FocusHelper.Focus(item);
 			return true;
 		}
 
@@ -393,21 +326,5 @@
 				handler(this, e);
 			}
 		}
-
-		#region ISelectionStrategy Members
-
-
-		public TreeViewExItem LastSelectedItem
-		{
-			get;
-			private set;
-		}
-
-		public void OnLostFocus()
-		{
-			LastFocusedItem = null;
-		}
-
-		#endregion
 	}
 }

@@ -25,11 +25,7 @@
 
         bool Select(TreeViewExItem treeViewExItem);
 
-        TreeViewExItem LastSelectedItem { get; }
-
 		event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;
-
-		void OnLostFocus();
     }
 
 	public class PreviewSelectionChangedEventArgs : EventArgs

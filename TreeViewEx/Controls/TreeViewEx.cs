@@ -278,8 +278,7 @@
 
 		internal TreeViewExItem GetNextItem(TreeViewExItem item, List<TreeViewExItem> items)
 		{
-			int indexOfCurrent = items.IndexOf(item);
-
+			int indexOfCurrent = item != null ? items.IndexOf(item) : -1;
 			for (int i = indexOfCurrent + 1; i < items.Count; i++)
 			{
 				if (items[i].IsVisible)
@@ -292,7 +291,7 @@
 
 		internal TreeViewExItem GetPreviousItem(TreeViewExItem item, List<TreeViewExItem> items)
 		{
-			int indexOfCurrent = items.IndexOf(item);
+			int indexOfCurrent = item != null ? items.IndexOf(item) : -1;
 			for (int i = indexOfCurrent - 1; i >= 0; i--)
 			{
 				if (items[i].IsVisible)
@@ -397,12 +396,6 @@
 					}
 				}
 			}
-		}
-
-		internal TreeViewExItem GetFocusedItem(IEnumerable<TreeViewExItem> items)
-		{
-			IEnumerable<TreeViewExItem> focusedItems = items.Where(x => x.IsFocused);
-			return focusedItems.First();
 		}
 
 		internal IEnumerable<TreeViewExItem> GetNodesToSelectBetween(TreeViewExItem firstNode, TreeViewExItem lastNode)
@@ -534,16 +527,6 @@
 			Unloaded -= OnUnLoaded;
 			if (Selection != null)
 				Selection.Dispose();
-		}
-
-		protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
-		{
-			base.OnIsKeyboardFocusWithinChanged(e);
-			if (!((bool) e.NewValue))
-			{
-				// Notify the selection strategy that we have lost the focus. It can do useful things then.
-				Selection.OnLostFocus();
-			}
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)

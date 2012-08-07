@@ -152,7 +152,7 @@
 							// The item is not currently selected. Try to select it.
 							if (!((SelectionMultiple) content.Selection).SelectByRectangle(item))
 							{
-								EndAction();
+								//EndAction();
 								return;
 							}
 						}
@@ -166,7 +166,7 @@
 							// The item is currently selected. Try to deselect it.
 							if (!content.Selection.UnSelect(item))
 							{
-								EndAction();
+								//EndAction();
 								return;
 							}
 						}
