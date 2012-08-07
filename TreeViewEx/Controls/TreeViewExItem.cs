@@ -494,28 +494,6 @@
 			}
 		}
 
-		protected override void OnKeyUp(KeyEventArgs e)
-		{
-			base.OnKeyUp(e);
-			if (!e.Handled)
-			{
-				Key key = e.Key;
-				switch (key)
-				{
-					case Key.Left:
-					case Key.Right:
-					case Key.Up:
-					case Key.Down:
-					case Key.Add:
-					case Key.Subtract:
-					case Key.Space:
-						if (ParentTreeView.Selection.LastSelectedItem != null)
-							ParentTreeView.Selection.LastSelectedItem.BringIntoView(new Rect(1, 1, 1, 1));
-						break;
-				}
-			}
-		}
-
 		protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
 			if (ParentTreeView == null) return;
@@ -572,7 +550,8 @@
 		{
 			base.OnMouseDoubleClick(e);
 
-			if (IsChildItemElement(e.OriginalSource))
+			FrameworkElement itemContent = (FrameworkElement) this.Template.FindName("headerBorder", this);
+			if (!itemContent.IsMouseOver)
 			{
 				// A (probably disabled) child item was really clicked, do nothing here
 				return;
@@ -690,24 +669,13 @@
 			//System.Diagnostics.Debug.WriteLine("TreeViewExItem.OnLostFocus(), DisplayName = " + DisplayName);
 		}
 
-		private bool IsChildItemElement(object element)
-		{
-			var depObj = element as DependencyObject;
-			while (depObj != null)
-			{
-				if (depObj is ItemsPresenter) return true;
-				if (depObj == this) return false;   // Don't search further up, we're here already
-				depObj = VisualTreeHelper.GetParent(depObj);
-			}
-			return false;   // Not a child element at all
-		}
-
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
 			//System.Diagnostics.Debug.WriteLine("TreeViewExItem.OnMouseDown(Item = " + this.DisplayName + ", Button = " + e.ChangedButton + ")");
 			base.OnMouseDown(e);
 
-			if (IsChildItemElement(e.OriginalSource))
+			FrameworkElement itemContent = (FrameworkElement) this.Template.FindName("headerBorder", this);
+			if (!itemContent.IsMouseOver)
 			{
 				// A (probably disabled) child item was really clicked, do nothing here
 				return;

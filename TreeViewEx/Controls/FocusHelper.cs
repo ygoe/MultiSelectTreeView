@@ -20,19 +20,24 @@
         {
             //System.Diagnostics.Debug.WriteLine("Focus textbox with helper:" + element.Text);
             FocusCore(element);
-        }
+			element.BringIntoView();
+		}
 
         public static void Focus(TreeViewExItem element)
         {
             //System.Diagnostics.Debug.WriteLine("Focus with helper item: " + element.DataContext);
             FocusCore(element);
-        }
+
+			FrameworkElement itemContent = (FrameworkElement) element.Template.FindName("headerBorder", element);
+			itemContent.BringIntoView();
+		}
 
         public static void Focus(TreeViewEx element)
         {
             //System.Diagnostics.Debug.WriteLine("Focus Tree with helper");
             FocusCore(element);
-        }
+			element.BringIntoView();
+		}
 
         private static void FocusCore(UIElement element)
         {
