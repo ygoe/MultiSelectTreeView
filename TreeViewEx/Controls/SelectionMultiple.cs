@@ -126,8 +126,8 @@
 				TreeViewExItem shiftRootItem = treeViewEx.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).First();
 
 				var newSelection = treeViewEx.GetNodesToSelectBetween(shiftRootItem, item).Select(n => n.DataContext).ToList();
-				var selectedItems = new object[treeViewEx.SelectedItems.Count];
 				// Make a copy of the list because we're modifying it while enumerating it
+				var selectedItems = new object[treeViewEx.SelectedItems.Count];
 				treeViewEx.SelectedItems.CopyTo(selectedItems, 0);
 				// Remove all items no longer selected
 				foreach (var selItem in selectedItems.Where(i => !newSelection.Contains(i)))
@@ -286,6 +286,65 @@
 			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
 			TreeViewExItem item = treeViewEx.GetLastItem(items);
 			return SelectFromKey(item);
+		}
+
+		private bool SelectPageUpDown(bool down)
+		{
+			List<TreeViewExItem> items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
+			TreeViewExItem item = GetFocusedItem();
+			if (item == null)
+			{
+				return down ? SelectLastFromKey() : SelectFirstFromKey();
+			}
+
+			double targetY = item.TransformToAncestor(treeViewEx).Transform(new Point()).Y;
+			FrameworkElement itemContent = (FrameworkElement) item.Template.FindName("headerBorder", item);
+			double offset = treeViewEx.ActualHeight - 2 * itemContent.ActualHeight;
+			if (!down) offset = -offset;
+			targetY += offset;
+			while (true)
+			{
+				var newItem = down ? treeViewEx.GetNextItem(item, items) : treeViewEx.GetPreviousItem(item, items);
+				if (newItem == null) break;
+				item = newItem;
+				double itemY = item.TransformToAncestor(treeViewEx).Transform(new Point()).Y;
+				if (down && itemY > targetY ||
+					!down && itemY < targetY)
+				{
+					break;
+				}
+			}
+			return SelectFromKey(item);
+		}
+
+		public bool SelectPageUpFromKey()
+		{
+			return SelectPageUpDown(false);
+		}
+
+		public bool SelectPageDownFromKey()
+		{
+			return SelectPageUpDown(true);
+		}
+
+		public bool SelectAllFromKey()
+		{
+			var items = TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false).ToList();
+			// Add new selected items
+			foreach (var item in items.Where(i => !treeViewEx.SelectedItems.Contains(i.DataContext)))
+			{
+				var e = new PreviewSelectionChangedEventArgs(true, item.DataContext);
+				OnPreviewSelectionChanged(e);
+				if (e.CancelAll)
+				{
+					return false;
+				}
+				if (!e.CancelThis)
+				{
+					treeViewEx.SelectedItems.Add(item.DataContext);
+				}
+			}
+			return true;
 		}
 
 		public bool SelectParentFromKey()

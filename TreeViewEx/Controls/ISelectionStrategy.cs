@@ -19,6 +19,12 @@
 
 		bool SelectLastFromKey();
 
+		bool SelectPageUpFromKey();
+
+		bool SelectPageDownFromKey();
+
+		bool SelectAllFromKey();
+
 		bool SelectParentFromKey();
 
 		bool SelectCurrentBySpace();
@@ -39,6 +45,12 @@
 
 		public PreviewSelectionChangedEventArgs(bool selecting, object item)
 		{
+#if DEBUG
+			// Make sure we don't confuse TreeViewExItems and their DataContexts while development
+			if (item is TreeViewExItem)
+				throw new ArgumentException("The selection preview event was passed a TreeViewExItem instance. Only their DataContext instances must be used here!");
+#endif
+
 			Selecting = selecting;
 			Item = item;
 		}

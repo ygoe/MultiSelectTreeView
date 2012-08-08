@@ -473,6 +473,11 @@
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add:
+#if DEBUG
+					// Make sure we don't confuse TreeViewExItems and their DataContexts while development
+					if (e.NewItems.OfType<TreeViewExItem>().Any())
+						throw new ArgumentException("A TreeViewExItem instance was added to the SelectedItems collection. Only their DataContext instances must be added to this list!");
+#endif
 					object last = null;
 					foreach (var item in GetTreeViewItemsFor(e.NewItems))
 					{

@@ -609,6 +609,21 @@
 						ParentTreeView.Selection.SelectLastFromKey();
 						e.Handled = true;
 						break;
+					case Key.PageUp:
+						ParentTreeView.Selection.SelectPageUpFromKey();
+						e.Handled = true;
+						break;
+					case Key.PageDown:
+						ParentTreeView.Selection.SelectPageDownFromKey();
+						e.Handled = true;
+						break;
+					case Key.A:
+						if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+						{
+							ParentTreeView.Selection.SelectAllFromKey();
+							e.Handled = true;
+						}
+						break;
 					case Key.Add:
 						if (CanExpandOnInput && !IsExpanded)
 						{
