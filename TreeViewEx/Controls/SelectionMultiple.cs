@@ -4,6 +4,7 @@
 	using System.Linq;
 	using System.Windows.Input;
 	using System.Windows.Media;
+	using System.Collections;
 
 	/// <summary>
 	/// Logic for the multiple selection
@@ -23,6 +24,8 @@
 
 		#region Properties
 
+		public bool LastCancelAll { get; private set; }
+		
 		private static bool IsControlKeyDown
 		{
 			get
@@ -63,7 +66,7 @@
 				{
 					var e = new PreviewSelectionChangedEventArgs(true, item.DataContext);
 					OnPreviewSelectionChanged(e);
-					if (e.Cancel)
+					if (e.CancelAny)
 					{
 						FocusHelper.Focus(item, true);
 						return false;
@@ -93,7 +96,7 @@
 		{
 			var e = new PreviewSelectionChangedEventArgs(true, item.DataContext);
 			OnPreviewSelectionChanged(e);
-			if (e.Cancel)
+			if (e.CancelAny)
 			{
 				lastShiftRoot = item.DataContext;
 				return false;
@@ -131,50 +134,56 @@
 				{
 					var e = new PreviewSelectionChangedEventArgs(false, selItem);
 					OnPreviewSelectionChanged(e);
-					if (e.Cancel)
+					if (e.CancelAll)
 					{
 						FocusHelper.Focus(item);
 						return false;
 					}
-
-					treeViewEx.SelectedItems.Remove(selItem);
+					if (!e.CancelThis)
+					{
+						treeViewEx.SelectedItems.Remove(selItem);
+					}
 				}
 				// Add new selected items
 				foreach (var newItem in newSelection.Where(i => !selectedItems.Contains(i)))
 				{
 					var e = new PreviewSelectionChangedEventArgs(true, newItem);
 					OnPreviewSelectionChanged(e);
-					if (e.Cancel)
+					if (e.CancelAll)
 					{
 						FocusHelper.Focus(item, true);
 						return false;
 					}
-
-					treeViewEx.SelectedItems.Add(newItem);
+					if (!e.CancelThis)
+					{
+						treeViewEx.SelectedItems.Add(newItem);
+					}
 				}
 			}
 			else
 			{
 				if (treeViewEx.SelectedItems.Count > 0)
 				{
-					foreach (var selItem in treeViewEx.SelectedItems)
+					foreach (var selItem in new ArrayList(treeViewEx.SelectedItems))
 					{
 						var e2 = new PreviewSelectionChangedEventArgs(false, selItem);
 						OnPreviewSelectionChanged(e2);
-						if (e2.Cancel)
+						if (e2.CancelAll)
 						{
 							FocusHelper.Focus(item);
 							lastShiftRoot = item.DataContext;
 							return false;
 						}
+						if (!e2.CancelThis)
+						{
+							treeViewEx.SelectedItems.Remove(selItem);
+						}
 					}
-					
-					treeViewEx.SelectedItems.Clear();
 				}
 				
 				var e = new PreviewSelectionChangedEventArgs(true, item.DataContext);
 				OnPreviewSelectionChanged(e);
-				if (e.Cancel)
+				if (e.CancelAny)
 				{
 					FocusHelper.Focus(item, true);
 					lastShiftRoot = item.DataContext;
@@ -207,7 +216,7 @@
 			{
 				var e = new PreviewSelectionChangedEventArgs(true, item.DataContext);
 				OnPreviewSelectionChanged(e);
-				if (e.Cancel)
+				if (e.CancelAny)
 				{
 					FocusHelper.Focus(item, true);
 					return false;
@@ -294,7 +303,7 @@
 		{
 			var e = new PreviewSelectionChangedEventArgs(false, item.DataContext);
 			OnPreviewSelectionChanged(e);
-			if (e.Cancel) return false;
+			if (e.CancelAny) return false;
 
 			treeViewEx.SelectedItems.Remove(item.DataContext);
 			if (item.DataContext == lastShiftRoot)
@@ -322,6 +331,7 @@
 			if (handler != null)
 			{
 				handler(this, e);
+				LastCancelAll = e.CancelAll;
 			}
 		}
 	}

@@ -248,7 +248,7 @@
 				{
 					var e = new PreviewSelectionChangedEventArgs(false, selItem);
 					OnPreviewSelectionChanged(e);
-					if (e.Cancel)
+					if (e.CancelAny)
 					{
 						return false;
 					}
@@ -269,7 +269,7 @@
 			{
 				var e = new PreviewSelectionChangedEventArgs(false, item);
 				OnPreviewSelectionChanged(e);
-				if (e.Cancel) return false;
+				if (e.CancelAny) return false;
 			}
 			
 			SelectedItems.Clear();

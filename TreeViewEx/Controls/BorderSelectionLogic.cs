@@ -159,6 +159,7 @@
 				double bottom = top + height - 1;
 
 				// Debug.WriteLine(string.Format("left:{1};right:{2};top:{3};bottom:{4}", null, left, right, top, bottom));
+				SelectionMultiple selection = (SelectionMultiple) treeViewEx.Selection;
 				bool foundFocusItem = false;
 				foreach (var item in items)
 				{
@@ -176,10 +177,13 @@
 						if (!treeViewEx.SelectedItems.Contains(item.DataContext))
 						{
 							// The item is not currently selected. Try to select it.
-							if (!((SelectionMultiple) treeViewEx.Selection).SelectByRectangle(item))
+							if (!selection.SelectByRectangle(item))
 							{
-								//EndAction();
-								//return;
+								if (selection.LastCancelAll)
+								{
+									EndAction();
+									return;
+								}
 							}
 						}
 					}
@@ -189,10 +193,13 @@
 						if (treeViewEx.SelectedItems.Contains(item.DataContext))
 						{
 							// The item is currently selected. Try to deselect it.
-							if (!treeViewEx.Selection.Deselect(item))
+							if (!selection.Deselect(item))
 							{
-								//EndAction();
-								//return;
+								if (selection.LastCancelAll)
+								{
+									EndAction();
+									return;
+								}
 							}
 						}
 					}

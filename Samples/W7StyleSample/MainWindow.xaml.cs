@@ -48,7 +48,7 @@
 
 			TheTreeView.PreviewSelectionChanged += (s, e) =>
 			{
-				e.Cancel = LockSelectionCheck.IsChecked == true;
+				e.CancelThis = LockSelectionCheck.IsChecked == true;
 				if (e.Selecting)
 				{
 					//System.Diagnostics.Debug.WriteLine("Preview: Selecting " + e.Item + (e.Cancel ? " - cancelled" : ""));
