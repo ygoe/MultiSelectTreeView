@@ -35,7 +35,7 @@
 							<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1,1,0,0">
 								<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderThickness="0,0,1,1">
 									<Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" BorderThickness="1,1,0,0">
-										<ScrollViewer
+										<ScrollViewer Name="scrollViewer"
 											CanContentScroll="True"
 											HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
 											VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
@@ -51,9 +51,9 @@
 											</ScrollViewer.Resources>
 											<Grid Margin="0,0,0,1">
 												<!-- Compensate bottom margin -1 for last item -->
-												<ItemsPresenter x:Name="content"/>
+												<ItemsPresenter Name="content"/>
 												<Canvas>
-													<Border x:Name="selectionBorder"
+													<Border Name="selectionBorder"
 														BorderBrush="{Binding BorderBrushSelectionRectangle, RelativeSource={RelativeSource AncestorType=Controls:TreeViewEx}}"
 														Background="{Binding BackgroundSelectionRectangle, RelativeSource={RelativeSource AncestorType=Controls:TreeViewEx}}"
 														BorderThickness="1"
