@@ -3,6 +3,7 @@
     #region
 
     using System.Windows.Input;
+	using System.Windows.Data;
 
     #endregion
 
@@ -57,7 +58,9 @@
 
         private void OnTreeViewExEditTextBoxLoaded(object sender, RoutedEventArgs e)
         {
-            FocusHelper.Focus(this);
+			BindingExpression be = GetBindingExpression(TextProperty);
+			if (be != null) be.UpdateTarget();
+			FocusHelper.Focus(this);
         }
 
         #endregion

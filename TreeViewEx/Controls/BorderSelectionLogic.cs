@@ -127,10 +127,13 @@
 					}
 
 					isFirstMove = false;
-					if (!treeViewEx.ClearSelectionByRectangle())
+					if (!SelectionMultiple.IsControlKeyDown)
 					{
-						EndAction();
-						return;
+						if (!treeViewEx.ClearSelectionByRectangle())
+						{
+							EndAction();
+							return;
+						}
 					}
 					Mouse.Capture(treeViewEx);
 				}
@@ -193,12 +196,15 @@
 						if (treeViewEx.SelectedItems.Contains(item.DataContext))
 						{
 							// The item is currently selected. Try to deselect it.
-							if (!selection.Deselect(item))
+							if (!SelectionMultiple.IsControlKeyDown)
 							{
-								if (selection.LastCancelAll)
+								if (!selection.DeselectByRectangle(item))
 								{
-									EndAction();
-									return;
+									if (selection.LastCancelAll)
+									{
+										EndAction();
+										return;
+									}
 								}
 							}
 						}

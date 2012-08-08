@@ -26,7 +26,7 @@
 
 		public bool LastCancelAll { get; private set; }
 		
-		private static bool IsControlKeyDown
+		internal static bool IsControlKeyDown
 		{
 			get
 			{
@@ -107,6 +107,24 @@
 				treeViewEx.SelectedItems.Add(item.DataContext);
 			}
 			lastShiftRoot = item.DataContext;
+			return true;
+		}
+
+		internal bool DeselectByRectangle(TreeViewExItem item)
+		{
+			var e = new PreviewSelectionChangedEventArgs(false, item.DataContext);
+			OnPreviewSelectionChanged(e);
+			if (e.CancelAny)
+			{
+				lastShiftRoot = item.DataContext;
+				return false;
+			}
+
+			treeViewEx.SelectedItems.Remove(item.DataContext);
+			if (item.DataContext == lastShiftRoot)
+			{
+				lastShiftRoot = null;
+			}
 			return true;
 		}
 

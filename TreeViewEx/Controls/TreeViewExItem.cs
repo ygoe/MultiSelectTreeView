@@ -477,6 +477,9 @@
 
 		protected static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
+			// The item has been selected through its IsSelected property. Update the SelectedItems
+			// list accordingly (this is the authoritative collection). No PreviewSelectionChanged
+			// event is fired - the item is already selected.
 			TreeViewExItem item = d as TreeViewExItem;
 			if (item != null)
 			{

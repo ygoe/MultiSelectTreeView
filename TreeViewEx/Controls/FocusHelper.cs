@@ -42,7 +42,7 @@
 			element.BringIntoView();
 		}
 
-        private static void FocusCore(UIElement element)
+        private static void FocusCore(FrameworkElement element)
         {
             if (!element.Focus())
             {
