@@ -5,6 +5,7 @@
 	using System.Collections.Generic;
 	using System.Windows.Input;
 	using System.Windows.Media;
+	using System.Linq;
 
 	#endregion
 
@@ -22,6 +23,7 @@
 		private bool mouseDown;
 		private Point startPoint;
 		private DateTime lastScrollTime;
+		private HashSet<object> initialSelection;
 
 		#endregion
 
@@ -59,6 +61,8 @@
 			treeViewEx.MouseDown += OnMouseDown;
 			treeViewEx.MouseMove += OnMouseMove;
 			treeViewEx.MouseUp += OnMouseUp;
+			treeViewEx.KeyDown += OnKeyDown;
+			treeViewEx.KeyUp += OnKeyUp;
 		}
 
 		#endregion
@@ -72,6 +76,8 @@
 				treeViewEx.MouseDown -= OnMouseDown;
 				treeViewEx.MouseMove -= OnMouseMove;
 				treeViewEx.MouseUp -= OnMouseUp;
+				treeViewEx.KeyDown -= OnKeyDown;
+				treeViewEx.KeyUp -= OnKeyUp;
 				treeViewEx = null;
 			}
 
@@ -89,6 +95,10 @@
 
 			// Debug.WriteLine("Initialize drwawing");
 			isFirstMove = true;
+			// Capture the mouse right now so that the MouseUp event will not be missed
+			Mouse.Capture(treeViewEx);
+
+			initialSelection = new HashSet<object>(treeViewEx.SelectedItems.Cast<object>());
 		}
 
 		private void OnMouseMove(object sender, MouseEventArgs e)
@@ -135,7 +145,6 @@
 							return;
 						}
 					}
-					Mouse.Capture(treeViewEx);
 				}
 
 				// Debug.WriteLine(string.Format("Drawing: {0};{1};{2};{3}",startPoint.X,startPoint.Y,width,height));
@@ -174,9 +183,34 @@
 					double itemBottom = p.Y + itemContent.ActualHeight - 1;
 
 					// Debug.WriteLine(string.Format("element:{0};itemleft:{1};itemright:{2};itemtop:{3};itembottom:{4}",item.DataContext,itemLeft,itemRight,itemTop,itemBottom));
-					if (!(itemLeft > right || itemRight < left || itemTop > bottom || itemBottom < top))
+					
+					// Compute the current input states for determining the new selection state of the item
+					bool intersect = !(itemLeft > right || itemRight < left || itemTop > bottom || itemBottom < top);
+					bool initialSelected = initialSelection.Contains(item.DataContext);
+					bool ctrl = SelectionMultiple.IsControlKeyDown;
+					
+					// Decision matrix:
+					// If the Ctrl key is pressed, each intersected item will be toggled from its initial selection.
+					// Without the Ctrl key, each intersected item is selected, others are deselected.
+					//
+					// newSelected
+					// ─────────┬───────────────────────
+					//          │ intersect
+					//          │  0        │  1
+					//          ├───────────┴───────────
+					//          │ initial
+					//          │  0  │  1  │  0  │  1
+					// ─────────┼─────┼─────┼─────┼─────
+					// ctrl  0  │  0  │  0  │  1  │  1   = intersect
+					// ─────────┼─────┼─────┼─────┼─────
+					//       1  │  0  │  1  │  1  │  0   = intersect XOR initial
+					//
+					bool newSelected = intersect ^ (initialSelected && ctrl);
+
+					// The new selection state for this item has been determined. Apply it.
+					if (newSelected)
 					{
-						// The item and the selection border intersect
+						// The item shall be selected
 						if (!treeViewEx.SelectedItems.Contains(item.DataContext))
 						{
 							// The item is not currently selected. Try to select it.
@@ -192,19 +226,16 @@
 					}
 					else
 					{
-						// The item and the selection border do not intersect
+						// The item shall be deselected
 						if (treeViewEx.SelectedItems.Contains(item.DataContext))
 						{
 							// The item is currently selected. Try to deselect it.
-							if (!SelectionMultiple.IsControlKeyDown)
+							if (!selection.DeselectByRectangle(item))
 							{
-								if (!selection.DeselectByRectangle(item))
+								if (selection.LastCancelAll)
 								{
-									if (selection.LastCancelAll)
-									{
-										EndAction();
-										return;
-									}
+									EndAction();
+									return;
 								}
 							}
 						}
@@ -221,7 +252,10 @@
 					}
 				}
 
-				e.Handled = true;
+				if (e != null)
+				{
+					e.Handled = true;
+				}
 			}
 		}
 
@@ -230,11 +264,26 @@
 			EndAction();
 		}
 
+		private void OnKeyDown(object sender, KeyEventArgs e)
+		{
+			// The mouse move handler reads the Ctrl key so is dependent on it.
+			// If the key state has changed, the selection needs to be updated.
+			OnMouseMove(null, null);
+		}
+
+		private void OnKeyUp(object sender, KeyEventArgs e)
+		{
+			// The mouse move handler reads the Ctrl key so is dependent on it.
+			// If the key state has changed, the selection needs to be updated.
+			OnMouseMove(null, null);
+		}
+
 		private void EndAction()
 		{
 			Mouse.Capture(null);
 			mouseDown = false;
 			border.Visibility = Visibility.Collapsed;
+			initialSelection = null;
 
 			// Debug.WriteLine("End drwawing");
 		}
