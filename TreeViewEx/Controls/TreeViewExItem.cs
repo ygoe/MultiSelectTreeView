@@ -635,7 +635,7 @@
 						e.Handled = true;
 						break;
 					case Key.Return:
-						FocusHelper.Focus(this);
+						FocusHelper.Focus(this, true);
 						IsEditing = false;
 						e.Handled = true;
 						break;
@@ -649,7 +649,7 @@
 
 		private void StopEditing()
 		{
-			FocusHelper.Focus(this);
+			FocusHelper.Focus(this, true);
 			IsEditing = false;
 		}
 

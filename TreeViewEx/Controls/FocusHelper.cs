@@ -23,13 +23,16 @@
 			element.BringIntoView();
 		}
 
-        public static void Focus(TreeViewExItem element)
+        public static void Focus(TreeViewExItem element, bool bringIntoView = false)
         {
-            //System.Diagnostics.Debug.WriteLine("Focus with helper item: " + element.DataContext);
+			System.Diagnostics.Debug.WriteLine("FocusHelper focusing " + (bringIntoView ? "[into view] " : "") + element.DataContext);
             FocusCore(element);
 
-			FrameworkElement itemContent = (FrameworkElement) element.Template.FindName("headerBorder", element);
-			itemContent.BringIntoView();
+			if (bringIntoView)
+			{
+				FrameworkElement itemContent = (FrameworkElement) element.Template.FindName("headerBorder", element);
+				itemContent.BringIntoView();
+			}
 		}
 
         public static void Focus(TreeViewEx element)

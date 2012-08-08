@@ -4,6 +4,7 @@
 
 	using System.Collections.Generic;
 	using System.Windows.Input;
+	using System.Windows.Media;
 
 	#endregion
 
@@ -11,46 +12,53 @@
 	{
 		#region Constants and Fields
 
+		private TreeViewEx treeViewEx;
 		private readonly Border border;
-
+		private readonly ScrollViewer scrollViewer;
+		private readonly ItemsPresenter content;
 		private readonly IEnumerable<TreeViewExItem> items;
-
-		private TreeViewEx content;
-
+		
 		private bool isFirstMove;
-
 		private bool mouseDown;
-
 		private Point startPoint;
+		private DateTime lastScrollTime;
 
 		#endregion
 
 		#region Constructors and Destructors
 
-		public BorderSelectionLogic(TreeViewEx content, Border selectionBorder, IEnumerable<TreeViewExItem> items)
+		public BorderSelectionLogic(TreeViewEx treeViewEx, Border selectionBorder, ScrollViewer scrollViewer, ItemsPresenter content, IEnumerable<TreeViewExItem> items)
 		{
-			if (content == null)
+			if (treeViewEx == null)
 			{
-				throw new ArgumentNullException("treeView");
+				throw new ArgumentNullException("treeViewEx");
 			}
-
 			if (selectionBorder == null)
 			{
 				throw new ArgumentNullException("selectionBorder");
 			}
-
-			if (selectionBorder == null)
+			if (scrollViewer == null)
+			{
+				throw new ArgumentNullException("scrollViewer");
+			}
+			if (content == null)
+			{
+				throw new ArgumentNullException("content");
+			}
+			if (items == null)
 			{
 				throw new ArgumentNullException("items");
 			}
 
+			this.treeViewEx = treeViewEx;
+			this.border = selectionBorder;
+			this.scrollViewer = scrollViewer;
 			this.content = content;
-			border = selectionBorder;
 			this.items = items;
 
-			content.MouseDown += OnMouseDown;
-			content.MouseMove += OnMouseMove;
-			content.MouseUp += OnMouseUp;
+			treeViewEx.MouseDown += OnMouseDown;
+			treeViewEx.MouseMove += OnMouseMove;
+			treeViewEx.MouseUp += OnMouseUp;
 		}
 
 		#endregion
@@ -59,12 +67,12 @@
 
 		public void Dispose()
 		{
-			if (content != null)
+			if (treeViewEx != null)
 			{
-				content.MouseDown -= OnMouseDown;
-				content.MouseMove -= OnMouseMove;
-				content.MouseUp -= OnMouseUp;
-				content = null;
+				treeViewEx.MouseDown -= OnMouseDown;
+				treeViewEx.MouseMove -= OnMouseMove;
+				treeViewEx.MouseUp -= OnMouseUp;
+				treeViewEx = null;
 			}
 
 			GC.SuppressFinalize(this);
@@ -87,6 +95,23 @@
 		{
 			if (mouseDown)
 			{
+				if (DateTime.UtcNow > lastScrollTime.AddMilliseconds(100))
+				{
+					Point currentPointWin = Mouse.GetPosition(scrollViewer);
+					if (currentPointWin.Y < 16)
+					{
+						scrollViewer.LineUp();
+						scrollViewer.UpdateLayout();
+						lastScrollTime = DateTime.UtcNow;
+					}
+					if (currentPointWin.Y > scrollViewer.ActualHeight - 16)
+					{
+						scrollViewer.LineDown();
+						scrollViewer.UpdateLayout();
+						lastScrollTime = DateTime.UtcNow;
+					}
+				}
+
 				Point currentPoint = Mouse.GetPosition(content);
 				double width = currentPoint.X - startPoint.X + 1;
 				double height = currentPoint.Y - startPoint.Y + 1;
@@ -102,12 +127,12 @@
 					}
 
 					isFirstMove = false;
-					if (!content.ClearSelectionByRectangle())
+					if (!treeViewEx.ClearSelectionByRectangle())
 					{
 						EndAction();
 						return;
 					}
-					Mouse.Capture(content);
+					Mouse.Capture(treeViewEx);
 				}
 
 				// Debug.WriteLine(string.Format("Drawing: {0};{1};{2};{3}",startPoint.X,startPoint.Y,width,height));
@@ -134,6 +159,7 @@
 				double bottom = top + height - 1;
 
 				// Debug.WriteLine(string.Format("left:{1};right:{2};top:{3};bottom:{4}", null, left, right, top, bottom));
+				bool foundFocusItem = false;
 				foreach (var item in items)
 				{
 					FrameworkElement itemContent = (FrameworkElement) item.Template.FindName("headerBorder", item);
@@ -147,29 +173,38 @@
 					if (!(itemLeft > right || itemRight < left || itemTop > bottom || itemBottom < top))
 					{
 						// The item and the selection border intersect
-						if (!content.SelectedItems.Contains(item.DataContext))
+						if (!treeViewEx.SelectedItems.Contains(item.DataContext))
 						{
 							// The item is not currently selected. Try to select it.
-							if (!((SelectionMultiple) content.Selection).SelectByRectangle(item))
+							if (!((SelectionMultiple) treeViewEx.Selection).SelectByRectangle(item))
 							{
 								//EndAction();
-								return;
+								//return;
 							}
 						}
-						// Debug.WriteLine("Is selected: " + item);
 					}
 					else
 					{
 						// The item and the selection border do not intersect
-						if (content.SelectedItems.Contains(item.DataContext))
+						if (treeViewEx.SelectedItems.Contains(item.DataContext))
 						{
 							// The item is currently selected. Try to deselect it.
-							if (!content.Selection.UnSelect(item))
+							if (!treeViewEx.Selection.Deselect(item))
 							{
 								//EndAction();
-								return;
+								//return;
 							}
 						}
+					}
+
+					// Always focus and bring into view the item under the mouse cursor
+					if (!foundFocusItem &&
+						currentPoint.X >= itemLeft && currentPoint.X <= itemRight &&
+						currentPoint.Y >= itemTop && currentPoint.Y <= itemBottom)
+					{
+						FocusHelper.Focus(item, true);
+						scrollViewer.UpdateLayout();
+						foundFocusItem = true;
 					}
 				}
 

@@ -13,9 +13,7 @@
 		public event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;
 
 		private readonly TreeViewEx treeViewEx;
-
 		private BorderSelectionLogic borderSelectionLogic;
-
 		private object lastShiftRoot;
 
 		public SelectionMultiple(TreeViewEx treeViewEx)
@@ -48,6 +46,8 @@
 			borderSelectionLogic = new BorderSelectionLogic(
 			   treeViewEx,
 			   treeViewEx.Template.FindName("selectionBorder", treeViewEx) as Border,
+			   treeViewEx.Template.FindName("scrollViewer", treeViewEx) as ScrollViewer,
+			   treeViewEx.Template.FindName("content", treeViewEx) as ItemsPresenter,
 			   TreeViewEx.RecursiveTreeViewItemEnumerable(treeViewEx, false, false));
 		}
 
@@ -57,7 +57,7 @@
 			{
 				if (treeViewEx.SelectedItems.Contains(item.DataContext))
 				{
-					return UnSelect(item);
+					return Deselect(item, true);
 				}
 				else
 				{
@@ -65,7 +65,7 @@
 					OnPreviewSelectionChanged(e);
 					if (e.Cancel)
 					{
-						FocusHelper.Focus(item);
+						FocusHelper.Focus(item, true);
 						return false;
 					}
 
@@ -78,7 +78,7 @@
 					treeViewEx.SelectedItems[0] == item.DataContext)
 				{
 					// Requested to select the single already-selected item. Don't change the selection.
-					FocusHelper.Focus(item);
+					FocusHelper.Focus(item, true);
 					lastShiftRoot = item.DataContext;
 					return true;
 				}
@@ -95,7 +95,6 @@
 			OnPreviewSelectionChanged(e);
 			if (e.Cancel)
 			{
-				FocusHelper.Focus(item);
 				lastShiftRoot = item.DataContext;
 				return false;
 			}
@@ -104,7 +103,6 @@
 			{
 				treeViewEx.SelectedItems.Add(item.DataContext);
 			}
-			FocusHelper.Focus(item);
 			lastShiftRoot = item.DataContext;
 			return true;
 		}
@@ -148,7 +146,7 @@
 					OnPreviewSelectionChanged(e);
 					if (e.Cancel)
 					{
-						FocusHelper.Focus(item);
+						FocusHelper.Focus(item, true);
 						return false;
 					}
 
@@ -178,7 +176,7 @@
 				OnPreviewSelectionChanged(e);
 				if (e.Cancel)
 				{
-					FocusHelper.Focus(item);
+					FocusHelper.Focus(item, true);
 					lastShiftRoot = item.DataContext;
 					return false;
 				}
@@ -187,7 +185,7 @@
 				lastShiftRoot = item.DataContext;
 			}
 
-			FocusHelper.Focus(item);
+			FocusHelper.Focus(item, true);
 			return true;
 		}
 
@@ -197,11 +195,11 @@
 			var item = GetFocusedItem();
 			if (treeViewEx.SelectedItems.Contains(item.DataContext))
 			{
-				// With Ctrl key, toggle this item selection.
-				// Without Ctrl key, always select it.
+				// With Ctrl key, toggle this item selection (deselect now).
+				// Without Ctrl key, always select it (is already selected).
 				if (IsControlKeyDown)
 				{
-					if (!UnSelect(item)) return false;
+					if (!Deselect(item, true)) return false;
 					item.IsSelected = false;
 				}
 			}
@@ -211,7 +209,7 @@
 				OnPreviewSelectionChanged(e);
 				if (e.Cancel)
 				{
-					FocusHelper.Focus(item);
+					FocusHelper.Focus(item, true);
 					return false;
 				}
 
@@ -221,7 +219,7 @@
 					treeViewEx.SelectedItems.Add(item.DataContext);
 				}
 			}
-			FocusHelper.Focus(item);
+			FocusHelper.Focus(item, true);
 			return true;
 		}
 
@@ -244,7 +242,7 @@
 			// If Ctrl is pressed just focus it, so it can be selected by Space. Otherwise select it.
 			if (IsControlKeyDown)
 			{
-				FocusHelper.Focus(item);
+				FocusHelper.Focus(item, true);
 				return true;
 			}
 			else
@@ -292,7 +290,7 @@
 			return SelectFromKey(parent as TreeViewExItem);
 		}
 
-		public bool UnSelect(TreeViewExItem item)
+		public bool Deselect(TreeViewExItem item, bool bringIntoView = false)
 		{
 			var e = new PreviewSelectionChangedEventArgs(false, item.DataContext);
 			OnPreviewSelectionChanged(e);
@@ -303,7 +301,7 @@
 			{
 				lastShiftRoot = null;
 			}
-			FocusHelper.Focus(item);
+			FocusHelper.Focus(item, bringIntoView);
 			return true;
 		}
 

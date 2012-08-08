@@ -9,7 +9,7 @@
 
         bool SelectCore(TreeViewExItem owner);
 
-        bool UnSelect(TreeViewExItem item);
+        bool Deselect(TreeViewExItem item, bool bringIntoView = false);
 
         bool SelectPreviousFromKey();
 
