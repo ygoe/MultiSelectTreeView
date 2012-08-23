@@ -259,6 +259,19 @@
 			return true;
 		}
 
+		public void FocusItem(object item, bool bringIntoView = false)
+		{
+			TreeViewExItem node = GetTreeViewItemsFor(new List<object> { item }).First();
+			FocusHelper.Focus(node, bringIntoView);
+		}
+
+		public void BringItemIntoView(object item)
+		{
+			TreeViewExItem node = GetTreeViewItemsFor(new List<object> { item }).First();
+			FrameworkElement itemContent = (FrameworkElement) node.Template.FindName("headerBorder", node);
+			itemContent.BringIntoView();
+		}
+
 		#endregion
 
 		#region Methods
