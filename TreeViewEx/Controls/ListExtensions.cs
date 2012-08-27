@@ -6,9 +6,9 @@ using System.Collections;
 
 namespace System.Windows.Controls
 {
-    public static class ListExtensions
+    internal static class ListExtensions
     {
-        public static object Last(this IList list)
+		internal static object Last(this IList list)
         {
             if (list.Count < 1)
             {
@@ -18,7 +18,7 @@ namespace System.Windows.Controls
             return list[list.Count - 1];
         }
 
-        public static object First(this IList list)
+		internal static object First(this IList list)
         {
             if (list.Count < 1)
             {

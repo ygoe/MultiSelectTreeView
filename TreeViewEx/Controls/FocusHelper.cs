@@ -25,7 +25,7 @@
 
         public static void Focus(TreeViewExItem element, bool bringIntoView = false)
         {
-			System.Diagnostics.Debug.WriteLine("FocusHelper focusing " + (bringIntoView ? "[into view] " : "") + element.DataContext);
+			//System.Diagnostics.Debug.WriteLine("FocusHelper focusing " + (bringIntoView ? "[into view] " : "") + element.DataContext);
             FocusCore(element);
 
 			if (bringIntoView)
