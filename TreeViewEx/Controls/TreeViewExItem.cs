@@ -543,7 +543,7 @@
 		protected override void OnInitialized(EventArgs e)
 		{
 			base.OnInitialized(e);
-			if (ParentTreeView.SelectedItems.Contains(DataContext))
+			if (ParentTreeView != null && ParentTreeView.SelectedItems.Contains(DataContext))
 			{
 				IsSelected = true;
 			}
