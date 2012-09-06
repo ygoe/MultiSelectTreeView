@@ -80,11 +80,13 @@
 		/// <returns>Returns a list of children.</returns>
 		protected override List<AutomationPeer> GetChildrenCore()
 		{
+			//System.Diagnostics.Trace.WriteLine("TreeViewExItemAutomationPeer.GetChildrenCore()");
 			TreeViewExItem owner = (TreeViewExItem) Owner;
 
 			List<AutomationPeer> children = new List<AutomationPeer>();
 			var button = owner.Template.FindName("Expander", owner) as ToggleButton;
 			AddAutomationPeer(children, button);
+			//System.Diagnostics.Trace.WriteLine("- Adding ToggleButton, " + (button == null ? "IS" : "is NOT") + " null, now " + children.Count + " items");
 
 			var contentPresenter = GetContentPresenter(owner);
 
@@ -95,6 +97,7 @@
 				{
 					var child = VisualTreeHelper.GetChild(contentPresenter, i) as UIElement;
 					AddAutomationPeer(children, child);
+					//System.Diagnostics.Trace.WriteLine("- Adding child UIElement, " + (child == null ? "IS" : "is NOT") + " null, now " + children.Count + " items");
 				}
 			}
 
@@ -103,13 +106,20 @@
 			{
 				TreeViewExItem treeViewItem = owner.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewExItem;
 				AddAutomationPeer(children, treeViewItem);
+				//System.Diagnostics.Trace.WriteLine("- Adding TreeViewExItem, " + (treeViewItem == null ? "IS" : "is NOT") + " null, now " + children.Count + " items");
 			}
 
 			if (children.Count > 0)
 			{
+				//System.Diagnostics.Trace.WriteLine("TreeViewExItemAutomationPeer.GetChildrenCore(): returning " + children.Count + " children");
+				//for (int i = 0; i < children.Count; i++)
+				//{
+				//    System.Diagnostics.Trace.WriteLine("- Item " + i + " " + (children[i] == null ? "IS" : "is NOT") + " null");
+				//}
 				return children;
 			}
 
+			//System.Diagnostics.Trace.WriteLine("TreeViewExItemAutomationPeer.GetChildrenCore(): returning null");
 			return null;
 		}
 
@@ -123,7 +133,15 @@
 					peer = CreatePeerForElement(child);
 				}
 
-				children.Add(peer);
+				if (peer != null)
+				{
+					// In the array that GetChildrenCore returns, which is used by AutomationPeer.EnsureChildren,
+					// no null entries are allowed or a NullReferenceException will be thrown from the guts of WPF.
+					// This has reproducibly been observed null on certain systems so the null check was added.
+					// This may mean that some child controls are missing for automation, but at least the
+					// application doesn't crash in normal usage.
+					children.Add(peer);
+				}
 			}
 		}
 
