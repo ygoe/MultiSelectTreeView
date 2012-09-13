@@ -64,7 +64,9 @@
 
 		private void ClearChildrenButton_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
-			foreach (Node node in TheTreeView.SelectedItems)
+			var selection = new object[TheTreeView.SelectedItems.Count];
+			TheTreeView.SelectedItems.CopyTo(selection, 0);
+			foreach (Node node in selection)
 			{
 				if (node.Children != null)
 				{

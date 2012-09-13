@@ -6,6 +6,8 @@
 	using System.Windows.Input;
 	using System.Windows.Media;
 	using System.Collections.Specialized;
+	using System.Collections.Generic;
+	using System.Linq;
 
 	#endregion
 
@@ -716,18 +718,45 @@
 
 		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
 		{
+			MultiSelectTreeView parentTV;
+
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Remove:
-					foreach (var item in e.OldItems)
+					// Remove all items from the SelectedItems list that have been removed from the
+					// Items list
+					parentTV = ParentTreeView;
+					if (parentTV == null)
+						parentTV = lastParentTreeView;
+					if (parentTV != null)
 					{
-						MultiSelectTreeView parentTV = ParentTreeView;
-						if (parentTV == null)
-							parentTV = lastParentTreeView;
-						if (parentTV != null)
+						foreach (var item in e.OldItems)
 						{
 							parentTV.SelectedItems.Remove(item);
-							// Don't preview and ask, it is already gone so it must be removed from the SelectedItems list.
+							// Don't preview and ask, it is already gone so it must be removed from
+							// the SelectedItems list
+						}
+					}
+					break;
+				case NotifyCollectionChangedAction.Reset:
+					// Remove all items from the SelectedItems list that are no longer in the Items
+					// list
+					parentTV = ParentTreeView;
+					if (parentTV == null)
+						parentTV = lastParentTreeView;
+					if (parentTV != null)
+					{
+						var selection = new object[parentTV.SelectedItems.Count];
+						parentTV.SelectedItems.CopyTo(selection, 0);
+						HashSet<object> dataItems = new HashSet<object>(parentTV.GetAllDataItems().Cast<object>());
+						foreach (var item in selection)
+						{
+							if (!dataItems.Contains(item))
+							{
+								parentTV.SelectedItems.Remove(item);
+								// Don't preview and ask, it is already gone so it must be removed
+								// from the SelectedItems list
+							}
 						}
 					}
 					break;

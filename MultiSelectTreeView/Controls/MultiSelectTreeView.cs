@@ -460,23 +460,40 @@
 			return nodesToSelect;
 		}
 
-		internal IEnumerable<MultiSelectTreeViewItem> GetTreeViewItemsFor(IEnumerable objects)
+		/// <summary>
+		/// Finds the treeview item for each of the specified data items.
+		/// </summary>
+		/// <param name="dataItems">List of data items to search for.</param>
+		/// <returns></returns>
+		internal IEnumerable<MultiSelectTreeViewItem> GetTreeViewItemsFor(IEnumerable dataItems)
 		{
-			if (objects == null)
+			if (dataItems == null)
 			{
 				yield break;
 			}
 
-			foreach (var newItem in objects)
+			foreach (var dataItem in dataItems)
 			{
 				foreach (var treeViewItem in RecursiveTreeViewItemEnumerable(this, true))
 				{
-					if (newItem == treeViewItem.DataContext)
+					if (treeViewItem.DataContext == dataItem)
 					{
 						yield return treeViewItem;
 						break;
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Gets all data items referenced in all treeview items of the entire control.
+		/// </summary>
+		/// <returns></returns>
+		internal IEnumerable GetAllDataItems()
+		{
+			foreach (var treeViewItem in RecursiveTreeViewItemEnumerable(this, true))
+			{
+				yield return treeViewItem.DataContext;
 			}
 		}
 
