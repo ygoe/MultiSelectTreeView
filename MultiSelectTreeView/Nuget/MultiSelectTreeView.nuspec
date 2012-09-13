@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MultiSelectTreeView</id>
+    <title>MultiSelectTreeView</title>
+    <version>1.0.0.0</version>
+    <authors>Yves Goergen, Goroll</authors>
+    <owners>Yves Goergen</owners>
+    <licenseUrl>http://treeviewex.codeplex.com/license_TODO</licenseUrl>
+    <projectUrl>http://treeviewex.codeplex.com/_TODO</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>A tree view supporting multi select.</description>
+    <copyright>Copyright 2012</copyright>
+    <tags>nuget wpf treeview tree control TODO</tags>
+  </metadata>
+</package>

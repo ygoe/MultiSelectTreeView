@@ -27,7 +27,7 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 .local/
-TreeViewEx/Nuget/lib/*
+MultiSelectTreeView/Nuget/lib/*
 
 !tools/*
-!TreeViewEx/tools/*
+!MultiSelectTreeView/tools/*

@@ -1,8 +1,8 @@
 ﻿<Window x:Class="EditSample.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=TreeViewEx"
+        xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=MultiSelectTreeView"
         xmlns:Model="clr-namespace:EditSample.Model" Title="MainWindow" Height="350" Width="261"
-        xmlns:cp="clr-namespace:TreeViewEx.SimpleSample"
+        xmlns:cp="clr-namespace:MultiSelectTreeView.SimpleSample"
         AutomationProperties.Name="TestApp2Window">
     <Window.Resources>
         <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type Model:Node}">
@@ -11,14 +11,14 @@
                 <TextBlock Text="{Binding Name}" />
             </StackPanel>
         </HierarchicalDataTemplate>
-        
-        <Style TargetType="Controls:TreeViewExItem">
+
+		<Style TargetType="Controls:MultiSelectTreeViewItem">
             <Setter Property="IsEditable" Value="{Binding Editable}" />
             <Setter Property="ContentTemplateEdit">
                 <Setter.Value>
                     <DataTemplate>
                         <cp:ColorPicker SelectedColor="{Binding Color, Mode=TwoWay}" Colors="{Binding Colors}"
-                                Editing="{Binding IsEditing, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeViewExItem}}}"/>
+                                Editing="{Binding IsEditing, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeViewItem}}}"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -42,6 +42,6 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <Controls:TreeViewEx AutomationProperties.Name="TestApp2Tree" ItemsSource="{Binding Path=Children}" />
+		<Controls:MultiSelectTreeView AutomationProperties.Name="TestApp2Tree" ItemsSource="{Binding Path=Children}" />
     </DockPanel>
 </Window>

@@ -1,0 +1,87 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiSelectTreeView.Test", "MultiSelectTreeView.Test\MultiSelectTreeView.Test.csproj", "{6DA10662-655A-4319-9069-B5DD11FD4EFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7C333296-263A-440B-9A81-D9C4513812DD}"
+	ProjectSection(SolutionItems) = preProject
+		MultiSelectTreeView.vsmdi = MultiSelectTreeView.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiSelectTreeView", "MultiSelectTreeView\MultiSelectTreeView.csproj", "{2854814F-EA3C-41D4-AA94-460C4694F430}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{0EC90260-98A7-4998-A3C0-0527D2424DD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSample", "Samples\SimpleSample\SimpleSample.csproj", "{8E9DEC98-D4F0-428C-BA90-1B721E2EE9BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindingSample", "Samples\SelectionBinding\BindingSample.csproj", "{2D9898B4-4895-4FC0-932B-D2B69BE2F21C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "W7StyleSample", "Samples\W7StyleSample\W7StyleSample.csproj", "{ACE83653-1943-45A3-9BD0-C422E2B4A255}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditSample", "Samples\EditSample\EditSample.csproj", "{4274F95E-0044-40CE-886E-3B1793F1BA7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualizationSample", "Samples\VirtualizationSample\VirtualizationSample.csproj", "{A6B525DB-C69E-44B6-94D8-7D07B149BBB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditColorsSample", "Samples\EditColorsSample\EditColorsSample.csproj", "{541E9E8B-17F4-48A7-99ED-C5C78C5EBB08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrollTestSample", "Samples\ScrollTestSample\ScrollTestSample.csproj", "{6B6FC267-C32A-4920-A15E-CCDD72931140}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = MultiSelectTreeView.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DA10662-655A-4319-9069-B5DD11FD4EFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA10662-655A-4319-9069-B5DD11FD4EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA10662-655A-4319-9069-B5DD11FD4EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA10662-655A-4319-9069-B5DD11FD4EFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2854814F-EA3C-41D4-AA94-460C4694F430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2854814F-EA3C-41D4-AA94-460C4694F430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2854814F-EA3C-41D4-AA94-460C4694F430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2854814F-EA3C-41D4-AA94-460C4694F430}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E9DEC98-D4F0-428C-BA90-1B721E2EE9BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E9DEC98-D4F0-428C-BA90-1B721E2EE9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E9DEC98-D4F0-428C-BA90-1B721E2EE9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E9DEC98-D4F0-428C-BA90-1B721E2EE9BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9898B4-4895-4FC0-932B-D2B69BE2F21C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9898B4-4895-4FC0-932B-D2B69BE2F21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9898B4-4895-4FC0-932B-D2B69BE2F21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9898B4-4895-4FC0-932B-D2B69BE2F21C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACE83653-1943-45A3-9BD0-C422E2B4A255}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACE83653-1943-45A3-9BD0-C422E2B4A255}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACE83653-1943-45A3-9BD0-C422E2B4A255}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACE83653-1943-45A3-9BD0-C422E2B4A255}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4274F95E-0044-40CE-886E-3B1793F1BA7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4274F95E-0044-40CE-886E-3B1793F1BA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4274F95E-0044-40CE-886E-3B1793F1BA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4274F95E-0044-40CE-886E-3B1793F1BA7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B525DB-C69E-44B6-94D8-7D07B149BBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B525DB-C69E-44B6-94D8-7D07B149BBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B525DB-C69E-44B6-94D8-7D07B149BBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B525DB-C69E-44B6-94D8-7D07B149BBB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{541E9E8B-17F4-48A7-99ED-C5C78C5EBB08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{541E9E8B-17F4-48A7-99ED-C5C78C5EBB08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{541E9E8B-17F4-48A7-99ED-C5C78C5EBB08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{541E9E8B-17F4-48A7-99ED-C5C78C5EBB08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B6FC267-C32A-4920-A15E-CCDD72931140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B6FC267-C32A-4920-A15E-CCDD72931140}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B6FC267-C32A-4920-A15E-CCDD72931140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B6FC267-C32A-4920-A15E-CCDD72931140}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E9DEC98-D4F0-428C-BA90-1B721E2EE9BD} = {0EC90260-98A7-4998-A3C0-0527D2424DD2}
+		{2D9898B4-4895-4FC0-932B-D2B69BE2F21C} = {0EC90260-98A7-4998-A3C0-0527D2424DD2}
+		{ACE83653-1943-45A3-9BD0-C422E2B4A255} = {0EC90260-98A7-4998-A3C0-0527D2424DD2}
+		{4274F95E-0044-40CE-886E-3B1793F1BA7C} = {0EC90260-98A7-4998-A3C0-0527D2424DD2}
+		{A6B525DB-C69E-44B6-94D8-7D07B149BBB8} = {0EC90260-98A7-4998-A3C0-0527D2424DD2}
+		{541E9E8B-17F4-48A7-99ED-C5C78C5EBB08} = {0EC90260-98A7-4998-A3C0-0527D2424DD2}
+		{6B6FC267-C32A-4920-A15E-CCDD72931140} = {0EC90260-98A7-4998-A3C0-0527D2424DD2}
+	EndGlobalSection
+EndGlobal

@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TreeViewEx.SimpleSample
+namespace MultiSelectTreeView.SimpleSample
 {
     /// <summary>
     /// Interaction logic for ColorPicker.xaml
