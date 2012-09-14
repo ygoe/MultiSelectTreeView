@@ -1,68 +1,64 @@
-﻿namespace System.Windows.Controls
+﻿using System.Windows.Data;
+using System.Windows.Input;
+
+namespace System.Windows.Controls
 {
-    #region
+	/// <summary>
+	/// Text box which focuses itself on load and selects all text in it.
+	/// </summary>
+	public class EditTextBox : TextBox
+	{
+		#region Private fields
 
-    using System.Windows.Input;
-	using System.Windows.Data;
+		private string startText;
 
-    #endregion
+		#endregion Private fields
 
-    /// <summary>
-    /// Text box which focuses itself on load and selects all text in it.
-    /// </summary>
-    public class EditTextBox : TextBox
-    {
-        #region Constants and Fields
+		#region Constructor
 
-        private string startText;
+		static EditTextBox()
+		{
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(EditTextBox), new FrameworkPropertyMetadata(typeof(EditTextBox)));
+		}
 
-        #endregion
+		public EditTextBox()
+		{
+			Loaded += OnTreeViewEditTextBoxLoaded;
+		}
 
-        #region Constructors and Destructors
+		#endregion Constructor
 
-        static EditTextBox()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(EditTextBox), new FrameworkPropertyMetadata(typeof(EditTextBox)));
-        }
+		#region Methods
 
-        public EditTextBox()
-        {
-            Loaded += OnTreeViewEditTextBoxLoaded;
-        }
+		protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+		{
+			base.OnGotKeyboardFocus(e);
+			startText = Text;
+			SelectAll();
+		}
 
-        #endregion
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			base.OnKeyDown(e);
+			if (!e.Handled)
+			{
+				Key key = e.Key;
+				switch (key)
+				{
+					case Key.Escape:
+						Text = startText;
+						break;
+				}
+			}
+		}
 
-        #region Methods
-
-        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
-        {
-            base.OnGotKeyboardFocus(e);
-            startText = Text;
-            SelectAll();
-        }
-
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-            if (!e.Handled)
-            {
-                Key key = e.Key;
-                switch (key)
-                {
-                    case Key.Escape:
-                        Text = startText;
-                        break;
-                }
-            }
-        }
-
-        private void OnTreeViewEditTextBoxLoaded(object sender, RoutedEventArgs e)
-        {
+		private void OnTreeViewEditTextBoxLoaded(object sender, RoutedEventArgs e)
+		{
 			BindingExpression be = GetBindingExpression(TextProperty);
 			if (be != null) be.UpdateTarget();
 			FocusHelper.Focus(this);
-        }
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

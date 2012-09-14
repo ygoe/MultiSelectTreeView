@@ -47,6 +47,9 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MultiSelectTreeView.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,7 +65,6 @@
     <Compile Include="Automation\Peers\MultiSelectTreeViewItemAutomationPeer.cs" />
     <Compile Include="Automation\Peers\MultiSelectTreeViewItemDataAutomationPeer.cs" />
     <Compile Include="Controls\BorderSelectionLogic.cs" />
-    <Compile Include="Controls\Constants.cs" />
     <Compile Include="Controls\EditTextBox.cs" />
     <Compile Include="Controls\ISelectionStrategy.cs" />
     <Compile Include="Controls\ListExtensions.cs" />
@@ -121,6 +123,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ThicknessLeftConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -136,11 +139,9 @@
     <AppDesigner Include="Properties\" />
     <None Include="NuGet\MultiSelectTreeView.nuspec" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="NuGet\lib\net40\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="tools\NuGet.exe" />
+    <Resource Include="MultiSelectTreeView.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

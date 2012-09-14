@@ -1,24 +1,20 @@
-﻿namespace System.Windows.Automation.Peers
+﻿using System.Windows.Automation.Provider;
+using System.Windows.Controls;
+
+namespace System.Windows.Automation.Peers
 {
-	#region
-
-	using System.Windows.Automation.Provider;
-	using System.Windows.Controls;
-
-	#endregion
-
 	public class MultiSelectTreeViewAutomationPeer : ItemsControlAutomationPeer, ISelectionProvider
 	{
-		#region Constructors and Destructors
+		#region Constructor
 
 		public MultiSelectTreeViewAutomationPeer(MultiSelectTreeView owner)
 			: base(owner)
 		{
 		}
 
-		#endregion
+		#endregion Constructor
 
-		#region Public Properties
+		#region Public properties
 
 		public bool CanSelectMultiple
 		{
@@ -36,9 +32,9 @@
 			}
 		}
 
-		#endregion
+		#endregion Public properties
 
-		#region Public Methods
+		#region Public methods
 
 		public override object GetPattern(PatternInterface patternInterface)
 		{
@@ -63,9 +59,9 @@
 			return base.GetPattern(patternInterface);
 		}
 
-		#endregion
+		#endregion Public methods
 
-		#region Explicit Interface Methods
+		#region Explicit interface methods
 
 		IRawElementProviderSimple[] ISelectionProvider.GetSelection()
 		{
@@ -93,7 +89,7 @@
 			return array;
 		}
 
-		#endregion
+		#endregion Explicit interface methods
 
 		#region Methods
 
@@ -124,6 +120,6 @@
 			return "MultiSelectTreeView";
 		}
 
-		#endregion
+		#endregion Methods
 	}
 }

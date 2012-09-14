@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
+﻿using System.Collections;
 
 namespace System.Windows.Controls
 {
@@ -14,7 +10,6 @@ namespace System.Windows.Controls
             {
                 return null;
             }
-
             return list[list.Count - 1];
         }
 
@@ -24,7 +19,6 @@ namespace System.Windows.Controls
             {
                 return null;
             }
-
             return list[0];
         }
     }

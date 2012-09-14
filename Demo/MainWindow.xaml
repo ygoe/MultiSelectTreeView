@@ -1,0 +1,123 @@
+﻿<Window
+	x:Class="Demo.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=MultiSelectTreeView" 
+	xmlns:demo="clr-namespace:Demo"
+    xmlns:vm="clr-namespace:Demo.ViewModel"
+	TextOptions.TextFormattingMode="Display"
+	UseLayoutRounding="True"
+	Title="MultiSelectTreeView demonstration app"
+	Icon="/Demo;component/Images/MultiSelectTreeView.ico"
+	Height="444" Width="558"
+	Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+	ResizeMode="CanResizeWithGrip">
+
+	<Grid Margin="8">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+
+		<DockPanel>
+			<TextBlock DockPanel.Dock="Top" Style="{StaticResource FirstCaption}">The TreeView control</TextBlock>
+			<Controls:MultiSelectTreeView
+				Name="TheTreeView"
+				ItemsSource="{Binding Children}">
+
+				<Controls:MultiSelectTreeView.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Expand" Click="ExpandMenuItem_Click"/>
+						<Separator/>
+						<MenuItem Header="Rename" Click="RenameMenuItem_Click"/>
+						<MenuItem Header="Delete" Click="DeleteMenuItem_Click"/>
+					</ContextMenu>
+				</Controls:MultiSelectTreeView.ContextMenu>
+
+				<Controls:MultiSelectTreeView.ItemContainerStyle>
+					<Style TargetType="{x:Type Controls:MultiSelectTreeViewItem}">
+						<!-- Here the TreeViewItem's properties are connected with the ViewModel class -->
+						<Setter Property="DisplayName" Value="{Binding DisplayName, Mode=TwoWay}"/>
+						<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+						<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+						<Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}"/>
+						<Setter Property="IsVisible" Value="{Binding IsVisible, Mode=TwoWay}"/>
+						<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=TwoWay}"/>
+						<Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}"/>
+						<Setter Property="ContentTemplateEdit">
+							<Setter.Value>
+								<!-- Here the editor template is defined -->
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16"/>
+										<Controls:EditTextBox Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="2,0,0,0"/>
+									</StackPanel>
+								</DataTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</Controls:MultiSelectTreeView.ItemContainerStyle>
+
+				<Controls:MultiSelectTreeView.Resources>
+					<!-- Here the general item appearance is defined, for the ViewModel.Node type -->
+					<HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type vm:Node}">
+						<StackPanel Orientation="Horizontal">
+							<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16" SnapsToDevicePixels="True"/>
+							<TextBlock Text="{Binding DisplayName}" Padding="4,0,2,0"/>
+						</StackPanel>
+					</HierarchicalDataTemplate>
+				</Controls:MultiSelectTreeView.Resources>
+			</Controls:MultiSelectTreeView>
+		</DockPanel>
+
+		<StackPanel Grid.Column="1" Margin="12,0,0,0">
+			<TextBlock Style="{StaticResource FirstCaption}">TreeView properties</TextBlock>
+			<CheckBox HorizontalAlignment="Left" IsChecked="{Binding AllowEditItems, ElementName=TheTreeView}">Allow editing items</CheckBox>
+			<CheckBox HorizontalAlignment="Left" IsChecked="{Binding HoverHighlighting, ElementName=TheTreeView}">Hover items</CheckBox>
+			<CheckBox HorizontalAlignment="Left" IsChecked="{Binding VerticalRulers, ElementName=TheTreeView}">Show ruler lines</CheckBox>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock VerticalAlignment="Center">Item indent</TextBlock>
+				<Slider
+					Margin="4,0,0,0"
+					Width="100"
+					Value="{Binding ItemIndent, ElementName=TheTreeView}"
+					Minimum="0" Maximum="32" Interval="1" SmallChange="1" LargeChange="8"
+					TickPlacement="BottomRight" TickFrequency="8"
+					AutoToolTipPlacement="TopLeft"/>
+			</StackPanel>
+
+			<TextBlock Style="{StaticResource Caption}">Selection</TextBlock>
+			<StackPanel Orientation="Horizontal">
+				<Button Margin="0,0,0,0" Padding="2" Name="SelectNoneButton" Click="SelectNoneButton_Click" ToolTip="Select none">
+					<Image Source="/Demo;component/Images/select_none_11.png" Width="11" Height="11"/>
+				</Button>
+				<Button Margin="6,0,0,0" Padding="2" Name="SelectSomeButton" Click="SelectSomeButton_Click" ToolTip="Select some">
+					<Image Source="/Demo;component/Images/select_some_11.png" Width="11" Height="11"/>
+				</Button>
+				<Button Margin="6,0,0,0" Padding="2" Name="SelectAllButton" Click="SelectAllButton_Click" ToolTip="Select all">
+					<Image Source="/Demo;component/Images/select_all_11.png" Width="11" Height="11"/>
+				</Button>
+				<Button Margin="6,0,0,0" Padding="2" Name="ToggleSelectButton" Click="ToggleSelectButton_Click" ToolTip="Toggle selections">
+					<Image Source="/Demo;component/Images/select_toggle_11.png" Width="11" Height="11"/>
+				</Button>
+				<CheckBox Margin="12,0,0,0" Content="Lock" Name="LockSelectionCheck" VerticalAlignment="Center"/>
+			</StackPanel>
+			<TextBlock Margin="0,4,0,0">
+				<Run Text="{Binding SelectedItems.Count, ElementName=TheTreeView, Mode=OneWay}"/>
+				<Run>elements selected</Run>
+			</TextBlock>
+
+			<TextBlock Style="{StaticResource Caption}">Item operations</TextBlock>
+			<Button HorizontalAlignment="Left" Padding="4,1" Click="AddChildButton_Click"
+				Content="Add child item" ToolTip="Adds a child node to each selected node."/>
+			<Button HorizontalAlignment="Left" Padding="4,1" Margin="0,4,0,0" Click="ClearChildrenButton_Click"
+				Content="Clear child items" ToolTip="Removes all child nodes from the selected nodes."/>
+			<Button HorizontalAlignment="Left" Padding="4,1" Margin="0,4,0,0" Click="ExpandNodesButton_Click"
+				Content="Expand items" ToolTip="Expands the selected items."/>
+			<Button HorizontalAlignment="Left" Padding="4,1" Margin="0,4,0,0" Click="HideNodesButton_Click"
+				Content="Hide selected items" ToolTip="Hides the selected nodes."/>
+			<Button HorizontalAlignment="Left" Padding="4,1" Margin="0,4,0,0" Click="ShowNodesButton_Click"
+				Content="Show all items" ToolTip="Shows all nodes."/>
+		</StackPanel>
+	</Grid>
+</Window>

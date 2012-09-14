@@ -1,17 +1,12 @@
-﻿namespace System.Windows.Controls
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;
+
+namespace System.Windows.Controls
 {
-	#region
-
-	using System.Collections.Generic;
-	using System.Windows.Input;
-	using System.Windows.Media;
-	using System.Linq;
-
-	#endregion
-
 	internal class BorderSelectionLogic : IDisposable
 	{
-		#region Constants and Fields
+		#region Private fields
 
 		private MultiSelectTreeView treeView;
 		private readonly Border border;
@@ -25,9 +20,9 @@
 		private DateTime lastScrollTime;
 		private HashSet<object> initialSelection;
 
-		#endregion
+		#endregion Private fields
 
-		#region Constructors and Destructors
+		#region Constructor
 
 		public BorderSelectionLogic(MultiSelectTreeView treeView, Border selectionBorder, ScrollViewer scrollViewer, ItemsPresenter content, IEnumerable<MultiSelectTreeViewItem> items)
 		{
@@ -65,9 +60,9 @@
 			treeView.KeyUp += OnKeyUp;
 		}
 
-		#endregion
+		#endregion Constructor
 
-		#region Public Methods and Operators
+		#region Public methods
 
 		public void Dispose()
 		{
@@ -80,11 +75,10 @@
 				treeView.KeyUp -= OnKeyUp;
 				treeView = null;
 			}
-
 			GC.SuppressFinalize(this);
 		}
 
-		#endregion
+		#endregion Public methods
 
 		#region Methods
 
@@ -288,6 +282,6 @@
 			// Debug.WriteLine("End drwawing");
 		}
 
-		#endregion
+		#endregion Methods
 	}
 }

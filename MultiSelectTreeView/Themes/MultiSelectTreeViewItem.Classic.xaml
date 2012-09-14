@@ -3,6 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Controls="clr-namespace:System.Windows.Controls">
 
+	<Controls:ThicknessLeftConverter x:Key="ThicknessLeftConverter"/>
+
 	<Style TargetType="{x:Type Controls:MultiSelectTreeViewItem}">
 		<Style.Triggers>
 			<DataTrigger
@@ -11,7 +13,7 @@
 				<Setter Property="ItemsControl.ItemsPanel">
 					<Setter.Value>
 						<ItemsPanelTemplate>
-							<VirtualizingStackPanel IsItemsHost="True" />
+							<VirtualizingStackPanel IsItemsHost="True"/>
 						</ItemsPanelTemplate>
 					</Setter.Value>
 				</Setter>
@@ -24,7 +26,7 @@
 		<Setter Property="ContentTemplateEdit">
 			<Setter.Value>
 				<DataTemplate>
-					<Controls:EditTextBox Text="{Binding DisplayName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+					<Controls:EditTextBox Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Padding="1"/>
 				</DataTemplate>
 			</Setter.Value>
 		</Setter>
@@ -40,25 +42,27 @@
 		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
 		<Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
 		<Setter Property="VirtualizingStackPanel.VirtualizationMode"
-			Value="{Binding (VirtualizingStackPanel.VirtualizationMode), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, FallbackValue=Standard}" />
-		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="False" />
-		<Setter Property="Panel.Background" Value="#00FFFFFF" />
+			Value="{Binding (VirtualizingStackPanel.VirtualizationMode), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, FallbackValue=Standard}"/>
+		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="False"/>
+		<Setter Property="Panel.Background" Value="#00FFFFFF"/>
 		<Setter Property="Control.HorizontalContentAlignment"
-			Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl, AncestorLevel=1}, FallbackValue=Left}" />
+			Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl, AncestorLevel=1}, FallbackValue=Left}"/>
 		<Setter Property="Control.VerticalContentAlignment"
-			Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl, AncestorLevel=1}, FallbackValue=Center}" />
-		<Setter Property="Control.Padding" Value="1" />
-		<Setter Property="BorderBrush" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="Margin" Value="0" />
+			Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl, AncestorLevel=1}, FallbackValue=Center}"/>
+		<Setter Property="Control.Padding" Value="1"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Margin" Value="0"/>
 		<!-- Clear the default focus rectangle which would span the entire item in full width and with all visible children -->
 		<Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
 
 		<!-- Pass on the MultiSelectTreeView' HoverHighlighting value to each item because we couldn't access it otherwise in the triggers -->
 		<Setter Property="HoverHighlighting"
-			Value="{Binding (Controls:MultiSelectTreeView.HoverHighlighting), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay}" />
+			Value="{Binding (Controls:MultiSelectTreeView.HoverHighlighting), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay}"/>
+		<Setter Property="ItemIndent"
+			Value="{Binding (Controls:MultiSelectTreeView.ItemIndent), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay}"/>
 		<Setter Property="IsKeyboardMode"
-			Value="{Binding (Controls:MultiSelectTreeView.IsKeyboardMode), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay}" />
+			Value="{Binding (Controls:MultiSelectTreeView.IsKeyboardMode), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay}"/>
 
 		<Setter Property="Control.Template">
 			<Setter.Value>
@@ -72,16 +76,16 @@
 							</Grid.ColumnDefinitions>
 
 							<ToggleButton
-								IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeViewItem}},Path=IsExpanded,FallbackValue=False}"
+								IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeViewItem}}, Path=IsExpanded, FallbackValue=False}"
 								ClickMode="Press" Name="Expander">
 								<ToggleButton.Style>
 									<Style TargetType="{x:Type ToggleButton}">
 										<Style.Resources>
 											<ResourceDictionary />
 										</Style.Resources>
-										<Setter Property="UIElement.Focusable" Value="False" />
-										<Setter Property="FrameworkElement.Width" Value="12" />
-										<Setter Property="FrameworkElement.Height" Value="16" />
+										<Setter Property="UIElement.Focusable" Value="False"/>
+										<Setter Property="FrameworkElement.Width" Value="12"/>
+										<Setter Property="FrameworkElement.Height" Value="16"/>
 										<Setter Property="Control.Template">
 											<Setter.Value>
 												<ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -89,10 +93,10 @@
 													<Border Padding="3,5" Background="#00FFFFFF" Width="12" Height="16">
 														<Path Fill="#00FFFFFF" Stroke="#FF989898" Name="ExpandPath">
 															<Path.Data>
-																<PathGeometry Figures="M0,0 L0,6 L6,0 z" />
+																<PathGeometry Figures="M0,0 L0,6 L6,0 z"/>
 															</Path.Data>
 															<Path.RenderTransform>
-																<RotateTransform Angle="135" CenterX="3" CenterY="3" />
+																<RotateTransform Angle="135" CenterX="3" CenterY="3"/>
 															</Path.RenderTransform>
 														</Path>
 													</Border>
@@ -114,7 +118,7 @@
 														<Trigger Property="ToggleButton.IsChecked" Value="True">
 															<Setter Property="UIElement.RenderTransform" TargetName="ExpandPath">
 																<Setter.Value>
-																	<RotateTransform Angle="180" CenterX="3" CenterY="3" />
+																	<RotateTransform Angle="180" CenterX="3" CenterY="3"/>
 																</Setter.Value>
 															</Setter>
 															<Setter Property="Shape.Fill" TargetName="ExpandPath">
@@ -179,10 +183,7 @@
 									Visibility="Hidden" Name="FocusRectangle"/>
 							</Grid>
 						</Grid>
-						<Grid Name="ItemsHostGrid">
-							<Grid.Margin>
-								<Thickness Left="{x:Static Controls:Constants.ItemIndent}" />
-							</Grid.Margin>
+						<Grid Name="ItemsHostGrid" Margin="{TemplateBinding ItemIndent, Converter={StaticResource ThicknessLeftConverter}}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto"/>
 								<ColumnDefinition Width="*"/>
@@ -190,7 +191,7 @@
 
 							<Path Data="M0,0 L0,1" Stretch="Uniform" Name="RulerPath"
 								Stroke="#60000000" StrokeDashArray="0.5 2.5"
-								SnapsToDevicePixels="True" Margin="0,0,1,0" />
+								SnapsToDevicePixels="True" Margin="0,0,1,0"/>
 
 							<ItemsPresenter Grid.Column="1" Name="ItemsHost"/>
 						</Grid>
@@ -205,11 +206,11 @@
 						<!-- Set the foreground, border and background when the item is selected -->
 						<Trigger Property="Controls:MultiSelectTreeViewItem.IsSelected" Value="True">
 							<Setter Property="Control.Background"
-								Value="{Binding BackgroundSelected, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BackgroundSelected, RelativeSource={RelativeSource Self}}"/>
 							<Setter Property="Border.BorderBrush"
-								Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Self}}"/>
 							<Setter Property="TextElement.Foreground"
-								Value="{Binding ForegroundSelected, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding ForegroundSelected, RelativeSource={RelativeSource Self}}"/>
 						</Trigger>
 
 						<!-- Show the focus rectangle when the item is focused -->
@@ -226,17 +227,17 @@
 							<MultiDataTrigger.Conditions>
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=IsActive, FallbackValue=False}"
-									Value="False" />
+									Value="False"/>
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
-									Value="True" />
+									Value="True"/>
 							</MultiDataTrigger.Conditions>
 							<Setter Property="Border.BorderBrush"
-								Value="{Binding BorderBrushInactive, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BorderBrushInactive, RelativeSource={RelativeSource Self}}"/>
 							<Setter Property="Control.Background"
-								Value="{Binding BackgroundInactive, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BackgroundInactive, RelativeSource={RelativeSource Self}}"/>
 							<Setter Property="TextElement.Foreground"
-								Value="{Binding ForegroundInactive, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding ForegroundInactive, RelativeSource={RelativeSource Self}}"/>
 						</MultiDataTrigger>
 
 						<!-- Make all selected items grey when none of this TreeView's items is focused (i.e. the TreeView is not focused) -->
@@ -244,30 +245,30 @@
 							<MultiDataTrigger.Conditions>
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Path=IsKeyboardFocusWithin, FallbackValue=False}"
-									Value="False" />
+									Value="False"/>
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Path=ContextMenu.IsOpen, FallbackValue=False}"
-									Value="False" />
+									Value="False"/>
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
-									Value="True" />
+									Value="True"/>
 							</MultiDataTrigger.Conditions>
 							<Setter Property="Border.BorderBrush"
-								Value="{Binding BorderBrushInactive, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BorderBrushInactive, RelativeSource={RelativeSource Self}}"/>
 							<Setter Property="Control.Background"
-								Value="{Binding BackgroundInactive, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BackgroundInactive, RelativeSource={RelativeSource Self}}"/>
 							<Setter Property="TextElement.Foreground"
-								Value="{Binding ForegroundInactive, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding ForegroundInactive, RelativeSource={RelativeSource Self}}"/>
 						</MultiDataTrigger>
 
 						<!-- Collapse the child items host if the node is not expanded -->
 						<Trigger Property="Controls:MultiSelectTreeViewItem.IsExpanded" Value="False">
-							<Setter Property="UIElement.Visibility" TargetName="ItemsHostGrid" Value="Collapsed" />
+							<Setter Property="UIElement.Visibility" TargetName="ItemsHostGrid" Value="Collapsed"/>
 						</Trigger>
 
 						<!-- Hide the expander button if there are no child nodes -->
 						<Trigger Property="ItemsControl.HasItems" Value="False">
-							<Setter Property="UIElement.Visibility" TargetName="Expander" Value="Hidden" />
+							<Setter Property="UIElement.Visibility" TargetName="Expander" Value="Hidden"/>
 						</Trigger>
 
 						<!-- Use grey text colour when the item is not enabled -->
@@ -279,17 +280,18 @@
 						<DataTrigger
 							Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Path=VerticalRulers}"
 							Value="False">
-							<Setter TargetName="RulerPath" Property="Visibility" Value="Collapsed" />
+							<Setter TargetName="RulerPath" Property="Visibility" Value="Collapsed"/>
 						</DataTrigger>
 
 						<!-- Use a different template and colours in edit mode -->
 						<Trigger Property="Controls:MultiSelectTreeViewItem.IsEditing" Value="True">
 							<Setter Property="HeaderTemplate"
-								Value="{Binding ContentTemplateEdit, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding ContentTemplateEdit, RelativeSource={RelativeSource Self}}"/>
 							<Setter Property="Control.Background"
-								Value="{Binding BackgroundSelected, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BackgroundSelected, RelativeSource={RelativeSource Self}}"/>
 							<Setter Property="Border.BorderBrush"
-								Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Self}}" />
+								Value="{Binding BorderBrushSelected, RelativeSource={RelativeSource Self}}"/>
+							<Setter TargetName="FocusRectangle" Property="Visibility" Value="Collapsed"/>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

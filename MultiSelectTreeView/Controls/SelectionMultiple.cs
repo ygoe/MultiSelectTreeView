@@ -1,13 +1,13 @@
-﻿namespace System.Windows.Controls
-{
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Windows.Input;
-	using System.Windows.Media;
-	using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;
+using System.Windows.Media;
 
+namespace System.Windows.Controls
+{
 	/// <summary>
-	/// Logic for the multiple selection
+	/// Implements the logic for the multiple selection strategy.
 	/// </summary>
 	public class SelectionMultiple : ISelectionStrategy
 	{

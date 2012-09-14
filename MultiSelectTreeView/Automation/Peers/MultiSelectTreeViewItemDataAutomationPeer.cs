@@ -1,30 +1,25 @@
-﻿namespace System.Windows.Automation.Peers
+﻿using System.Windows.Automation.Provider;
+using System.Windows.Controls;
+
+namespace System.Windows.Automation.Peers
 {
-	#region
-
-	using System.Windows.Automation.Provider;
-	using System.Windows.Controls;
-	using System.Windows.Input;
-	using System.Windows.Media;
-
-	#endregion
-
-	public class MultiSelectTreeViewItemDataAutomationPeer : ItemAutomationPeer,
-													ISelectionItemProvider,
-													IScrollItemProvider,
-													IExpandCollapseProvider,
-													IValueProvider
+	public class MultiSelectTreeViewItemDataAutomationPeer :
+		ItemAutomationPeer,
+		ISelectionItemProvider,
+		IScrollItemProvider,
+		IExpandCollapseProvider,
+		IValueProvider
 	{
-		#region Constructors and Destructors
+		#region Constructor
 
 		public MultiSelectTreeViewItemDataAutomationPeer(object item, ItemsControlAutomationPeer itemsControlAutomationPeer)
 			: base(item, itemsControlAutomationPeer)
 		{
 		}
 
-		#endregion
+		#endregion Constructor
 
-		#region Explicit Interface Properties
+		#region Explicit interface properties
 
 		ExpandCollapseState IExpandCollapseProvider.ExpandCollapseState
 		{
@@ -58,7 +53,7 @@
 			}
 		}
 
-		#endregion
+		#endregion Explicit interface properties
 
 		#region Properties
 
@@ -95,9 +90,9 @@
 			}
 		}
 
-		#endregion
+		#endregion Properties
 
-		#region Public Methods
+		#region Public methods
 
 		public override object GetPattern(PatternInterface patternInterface)
 		{
@@ -130,9 +125,9 @@
 			return base.GetPattern(patternInterface);
 		}
 
-		#endregion
+		#endregion Public methods
 
-		#region Explicit Interface Methods
+		#region Explicit interface methods
 
 		void IExpandCollapseProvider.Collapse()
 		{
@@ -164,7 +159,7 @@
 			((ISelectionItemProvider) ItemPeer).Select();
 		}
 
-		#endregion
+		#endregion Explicit interface methods
 
 		#region Methods
 
@@ -194,9 +189,9 @@
 			return result;
 		}
 
-		#endregion
+		#endregion Methods
 
-		#region IValueProvider Members
+		#region IValueProvider members
 
 		bool IValueProvider.IsReadOnly
 		{
@@ -213,6 +208,6 @@
 			get { return ((IValueProvider) ItemPeer).Value; }
 		}
 
-		#endregion
+		#endregion IValueProvider members
 	}
 }

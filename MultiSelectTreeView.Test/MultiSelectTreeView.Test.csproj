@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -74,14 +74,6 @@
     <Compile Include="Model\SimpleSampleTree.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Samples\SelectionBinding\BindingSample.csproj">
-      <Project>{2D9898B4-4895-4FC0-932B-D2B69BE2F21C}</Project>
-      <Name>BindingSample</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samples\SimpleSample\SimpleSample.csproj">
-      <Project>{8E9DEC98-D4F0-428C-BA90-1B721E2EE9BD}</Project>
-      <Name>SimpleSample</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MultiSelectTreeView\MultiSelectTreeView.csproj">
       <Project>{2854814F-EA3C-41D4-AA94-460C4694F430}</Project>
       <Name>MultiSelectTreeView</Name>

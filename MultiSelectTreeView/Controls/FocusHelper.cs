@@ -1,20 +1,14 @@
-﻿namespace System.Windows.Controls
+﻿using System.Threading;
+using System.Windows.Threading;
+
+namespace System.Windows.Controls
 {
-    #region
-
-    using System.Threading;
-    using System.Windows;
-    using System.Windows.Threading;
-    using System.Diagnostics;
-
-    #endregion
-
     /// <summary>
     /// Helper methods to focus.
     /// </summary>
     public static class FocusHelper
     {
-        #region Public Methods
+        #region Public methods
 
         public static void Focus(EditTextBox element)
         {
@@ -62,8 +56,8 @@
             {
             }
 #endif
-        }
+		}
 
-        #endregion
-    }
+		#endregion Public methods
+	}
 }

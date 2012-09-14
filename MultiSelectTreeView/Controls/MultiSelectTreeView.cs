@@ -1,18 +1,15 @@
-﻿namespace System.Windows.Controls
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Automation.Peers;
+using System.Windows.Input;
+using System.Windows.Media;
+
+namespace System.Windows.Controls
 {
-	#region
-
-	using System.Collections;
-	using System.Collections.Generic;
-	using System.Collections.ObjectModel;
-	using System.Collections.Specialized;
-	using System.Linq;
-	using System.Windows.Automation.Peers;
-	using System.Windows.Input;
-	using System.Windows.Media;
-
-	#endregion
-
 	public class MultiSelectTreeView : ItemsControl
 	{
 		#region Constants and Fields
@@ -47,6 +44,12 @@
 			typeof(bool),
 			typeof(MultiSelectTreeView),
 			new FrameworkPropertyMetadata(false, null));
+
+		public static DependencyProperty ItemIndentProperty = DependencyProperty.Register(
+			"ItemIndent",
+			typeof(int),
+			typeof(MultiSelectTreeView),
+			new FrameworkPropertyMetadata(12, null));
 
 		public static DependencyProperty IsKeyboardModeProperty = DependencyProperty.Register(
 			"IsKeyboardMode",
@@ -142,6 +145,19 @@
 			}
 		}
 
+		public int ItemIndent
+		{
+			get
+			{
+				return (int) GetValue(ItemIndentProperty);
+			}
+			set
+			{
+				SetValue(ItemIndentProperty, value);
+			}
+		}
+
+		[Browsable(false)]
 		public bool IsKeyboardMode
 		{
 			get

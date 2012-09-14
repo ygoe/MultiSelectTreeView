@@ -1,41 +1,41 @@
-﻿namespace System.Windows.Automation.Peers
+﻿using System.Collections.Generic;
+using System.Reflection;
+using System.Windows.Automation.Provider;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+
+namespace System.Windows.Automation.Peers
 {
-	#region
-
-	using System.Collections.Generic;
-	using System.Reflection;
-	using System.Windows.Automation.Provider;
-	using System.Windows.Controls;
-	using System.Windows.Controls.Primitives;
-	using System.Windows.Media;
-
-	#endregion
-
 	/// <summary>
-	/// Macht <see cref="T:System.Windows.Controls.MultiSelectTreeViewItem"/>-Typen für UI-Automatisierung verfügbar.
+	/// Macht <see cref="T:System.Windows.Controls.MultiSelectTreeViewItem"/>-Typen für
+	/// UI-Automatisierung verfügbar.
 	/// </summary>
-	public class MultiSelectTreeViewItemAutomationPeer : ItemsControlAutomationPeer,
-												IExpandCollapseProvider,
-												ISelectionItemProvider,
-												IScrollItemProvider,
-												IValueProvider,
-												IInvokeProvider
+	public class MultiSelectTreeViewItemAutomationPeer :
+		ItemsControlAutomationPeer,
+		IExpandCollapseProvider,
+		ISelectionItemProvider,
+		IScrollItemProvider,
+		IValueProvider,
+		IInvokeProvider
 	{
-		#region Constructors and Destructors
+		#region Constructor
 
 		/// <summary>
-		///    Initializes a new instance of the <see cref = "MultiSelectTreeViewItemAutomationPeer" /> class. 
-		///    Initialisiert eine neue Instanz der <see cref = "T:System.Windows.Automation.Peers.MultiSelectTreeViewItemAutomationPeer" />-Klasse.
+		/// Initializes a new instance of the <see cref="MultiSelectTreeViewItemAutomationPeer"/>
+		/// class. 
 		/// </summary>
-		/// <param name = "owner">
-		///    Das <see cref = "T:System.Windows.Controls.MultiSelectTreeViewItem" />, das diesem <see cref = "T:System.Windows.Automation.Peers.MultiSelectTreeViewItemAutomationPeer" /> zugeordnet ist.
+		/// <param name="owner">
+		/// Das <see cref="T:System.Windows.Controls.MultiSelectTreeViewItem"/>, das diesem
+		/// <see cref="T:System.Windows.Automation.Peers.MultiSelectTreeViewItemAutomationPeer"/>
+		/// zugeordnet ist.
 		/// </param>
 		public MultiSelectTreeViewItemAutomationPeer(MultiSelectTreeViewItem owner)
 			: base(owner)
 		{
 		}
 
-		#endregion
+		#endregion Constructor
 
 		protected override Rect GetBoundingRectangleCore()
 		{
@@ -145,7 +145,7 @@
 			}
 		}
 
-		#region Public Properties
+		#region Public properties
 
 		public ExpandCollapseState ExpandCollapseState
 		{
@@ -166,9 +166,9 @@
 			}
 		}
 
-		#endregion
+		#endregion Public properties
 
-		#region Explicit Interface Properties
+		#region Explicit interface properties
 
 		bool ISelectionItemProvider.IsSelected
 		{
@@ -196,9 +196,9 @@
 			}
 		}
 
-		#endregion
+		#endregion Explicit interface properties
 
-		#region Public Methods
+		#region Public methods
 
 		public void Collapse()
 		{
@@ -257,9 +257,9 @@
 			return base.GetPattern(patternInterface);
 		}
 
-		#endregion
+		#endregion Public methods
 
-		#region Explicit Interface Methods
+		#region Explicit interface methods
 
 		void IScrollItemProvider.ScrollIntoView()
 		{
@@ -281,7 +281,7 @@
 			((MultiSelectTreeViewItem) Owner).ParentTreeView.Selection.SelectCore((MultiSelectTreeViewItem) Owner);
 		}
 
-		#endregion
+		#endregion Explicit interface methods
 
 		#region Methods
 
@@ -300,9 +300,9 @@
 			return "MultiSelectTreeViewItem";
 		}
 
-		#endregion
+		#endregion Methods
 
-		#region IValueProvider Members
+		#region IValueProvider members
 
 		public bool IsReadOnly
 		{
@@ -361,9 +361,9 @@
 			}
 		}
 
-		#endregion
+		#endregion IValueProvider members
 
-		#region IInvokeProvider Members
+		#region IInvokeProvider members
 
 		public void Invoke()
 		{
@@ -371,6 +371,6 @@
 			treeViewItem.InvokeMouseDown();
 		}
 
-		#endregion
+		#endregion IInvokeProvider members
 	}
 }

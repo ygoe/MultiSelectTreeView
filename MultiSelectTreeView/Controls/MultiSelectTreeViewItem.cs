@@ -1,16 +1,12 @@
-﻿namespace System.Windows.Controls
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Windows.Automation.Peers;
+using System.Windows.Input;
+using System.Windows.Media;
+
+namespace System.Windows.Controls
 {
-	#region
-
-	using System.Windows.Automation.Peers;
-	using System.Windows.Input;
-	using System.Windows.Media;
-	using System.Collections.Specialized;
-	using System.Collections.Generic;
-	using System.Linq;
-
-	#endregion
-
 	public class MultiSelectTreeViewItem : HeaderedItemsControl
 	{
 		#region Constants and Fields
@@ -128,6 +124,12 @@
 			typeof(bool),
 			typeof(MultiSelectTreeViewItem),
 			new FrameworkPropertyMetadata(false, null));
+
+		public static DependencyProperty ItemIndentProperty = DependencyProperty.Register(
+			"ItemIndent",
+			typeof(int),
+			typeof(MultiSelectTreeViewItem),
+			new FrameworkPropertyMetadata(12, null));
 
 		public static DependencyProperty IsKeyboardModeProperty = DependencyProperty.Register(
 			"IsKeyboardMode",
@@ -380,6 +382,18 @@
 			set
 			{
 				SetValue(HoverHighlightingProperty, value);
+			}
+		}
+
+		public int ItemIndent
+		{
+			get
+			{
+				return (int) GetValue(ItemIndentProperty);
+			}
+			set
+			{
+				SetValue(ItemIndentProperty, value);
 			}
 		}
 
