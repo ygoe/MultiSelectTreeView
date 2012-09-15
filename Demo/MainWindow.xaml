@@ -10,9 +10,10 @@
 	UseLayoutRounding="True"
 	Title="MultiSelectTreeView demonstration app"
 	Icon="/Demo;component/Images/MultiSelectTreeView.ico"
-	Height="444" Width="558"
+	Height="500" Width="500"
 	Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-	ResizeMode="CanResizeWithGrip">
+	ResizeMode="CanResizeWithGrip"
+	SizeToContent="Height">
 	
 	<Window.Resources>
 		<!--
@@ -72,15 +73,18 @@
 					Type="{x:Type vm:TreeItemViewModel}" Template="{StaticResource EditTemplate}"/>
 			</demo:TypeTemplateSelector.TemplateDefinitions>
 		</demo:TypeTemplateSelector>
+		
+		<BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 	</Window.Resources>
 	
 	<Grid Margin="8">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*" x:Name="FirstColumn"/>
 			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="0" x:Name="LastColumn"/>
 		</Grid.ColumnDefinitions>
 
-		<DockPanel>
+		<DockPanel Margin="0,0,12,0">
 			<TextBlock DockPanel.Dock="Top" Style="{StaticResource FirstCaption}">The TreeView control</TextBlock>
 			<Controls:MultiSelectTreeView
 				Name="TheTreeView"
@@ -170,7 +174,7 @@
 		The remaining code defines the right column of the window that contains controls to
 		demonstrate some of the MultiSelectTreeView properties and operations.
 		-->
-		<StackPanel Grid.Column="1" Margin="12,0,0,0">
+		<StackPanel Grid.Column="1">
 			<TextBlock Style="{StaticResource FirstCaption}">TreeView properties</TextBlock>
 			<CheckBox
 				Content="&#160;Allow editing items (F2 key)"
@@ -194,6 +198,15 @@
 					TickPlacement="BottomRight" TickFrequency="8"
 					AutoToolTipPlacement="TopLeft"/>
 			</StackPanel>
+			<TextBlock Margin="0,4,0,0" FontStyle="Italic" Opacity="0.5">
+				These settings only apply to<LineBreak/>
+				the left TreeView control.
+			</TextBlock>
+			<CheckBox
+				Name="ShowSecondCheck"
+				Margin="0,8,0,0"
+				Content="&#160;Show second TreeView"
+				HorizontalAlignment="Left" Checked="ShowSecondCheck_Checked" Unchecked="ShowSecondCheck_Checked"/>
 
 			<TextBlock Style="{StaticResource Caption}">Selection</TextBlock>
 			<StackPanel Orientation="Horizontal">
@@ -233,5 +246,57 @@
 			<Button HorizontalAlignment="Left" Padding="4,1" Margin="0,4,0,0" Click="ShowNodesButton_Click"
 				Content="Show all items" ToolTip="Shows all nodes."/>
 		</StackPanel>
+
+		<DockPanel Grid.Column="2" Margin="12,0,0,0" Visibility="{Binding IsChecked, ElementName=ShowSecondCheck, Converter={StaticResource BoolToVisibility}}">
+			<TextBlock DockPanel.Dock="Top" Style="{StaticResource FirstCaption}">Second TreeView control</TextBlock>
+			<TextBlock DockPanel.Dock="Bottom" Margin="0,4,0,0" TextWrapping="Wrap" FontStyle="Italic" Opacity="0.5">
+				This TreeView is bound to the same ViewModel as the left TreeView so it has the same content and state.
+			</TextBlock>
+			<Controls:MultiSelectTreeView
+				Name="TheTreeView2"
+				ItemsSource="{Binding Children}">
+
+				<Controls:MultiSelectTreeView.ItemContainerStyle>
+					<Style TargetType="{x:Type Controls:MultiSelectTreeViewItem}">
+						<!--
+						Here the TreeViewItem's properties are connected with the ViewModel class.
+						Basically you would make all MultiSelectTreeViewItem properties accessible
+						in the view model class that you possibly want to get or set in order to
+						determine or manipulate the view from the view model class.
+						-->
+						<Setter Property="DisplayName" Value="{Binding DisplayName, Mode=TwoWay}"/>
+						<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+						<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+						<Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}"/>
+						<Setter Property="IsVisible" Value="{Binding IsVisible, Mode=TwoWay}"/>
+						<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=TwoWay}"/>
+						<!-- Don't bind IsEditing because this would lead to two TreeViews editing the item... -->
+					</Style>
+				</Controls:MultiSelectTreeView.ItemContainerStyle>
+
+				<Controls:MultiSelectTreeView.Resources>
+					<!--
+					Here the general item appearance is defined, for the ViewModel.TreeItemViewModel type
+					-->
+					<HierarchicalDataTemplate DataType="{x:Type vm:TreeItemViewModel}" ItemsSource="{Binding Children}">
+						<StackPanel Orientation="Horizontal">
+							<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16" SnapsToDevicePixels="True"/>
+							<TextBlock Text="{Binding DisplayName}" Padding="4,0,2,0"/>
+						</StackPanel>
+					</HierarchicalDataTemplate>
+
+					<!--
+					This is another item appearance for the ViewModel.ColorItemViewModel type
+					-->
+					<HierarchicalDataTemplate DataType="{x:Type vm:ColorItemViewModel}" ItemsSource="{Binding Children}">
+						<TextBlock
+							Text="{Binding DisplayName}"
+							Background="{Binding BackgroundBrush}"
+							Foreground="{Binding ForegroundBrush}"
+							Padding="4,0,2,0"/>
+					</HierarchicalDataTemplate>
+				</Controls:MultiSelectTreeView.Resources>
+			</Controls:MultiSelectTreeView>
+		</DockPanel>
 	</Grid>
 </Window>

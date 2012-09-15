@@ -6,6 +6,4 @@ MultiSelectTreeView is a .NET/WPF control that displays a hierarchical tree of i
 
 The code is based on the TreeViewEx project on CodePlex <http://treeviewex.codeplex.com/> and released under the MIT licence. I picked up the code and made several enhancements and bug fixes to make it a more robust and complete solution.
 
-The current development status is considered usable. The project structure is taken from the original solution and it contains many things that I haven't explored yet and which I may remove in the future.
-
-To start the sample application, just select the W7StyleSample as it is my "playground" and shows most of my extensions. While the other projects do compile, I don't know whether they actually run well. Especially the test cases are partially broken now.
+The current development status is considered usable, there are no known major bugs or missing parts that need to be fixed. The included test cases are outdated and likely won't work anymore. To play with the control and its features, you can run the Demo application from the solution.

@@ -48,7 +48,7 @@ namespace Demo
 			node14.Children.Add(colorNode3);
 			node1.Children.Add(node15);
 
-			TheTreeView.DataContext = rootNode;
+			DataContext = rootNode;
 
 			node1.IsSelected = true;
 			node13.IsSelected = true;
@@ -66,6 +66,8 @@ namespace Demo
 					//System.Diagnostics.Debug.WriteLine("Preview: Deselecting " + e.Item + (e.Cancel ? " - cancelled" : ""));
 				}
 			};
+
+			ShowSecondCheck_Checked(null, null);
 		}
 
 		private void ClearChildrenButton_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -196,6 +198,22 @@ namespace Demo
 			foreach (TreeItemViewModel node in TheTreeView.SelectedItems.Cast<TreeItemViewModel>().ToArray())
 			{
 				node.Parent.Children.Remove(node);
+			}
+		}
+
+		private void ShowSecondCheck_Checked(object sender, RoutedEventArgs e)
+		{
+			if (ShowSecondCheck.IsChecked == true)
+			{
+				if (LastColumn.ActualWidth == 0)
+					Width += FirstColumn.ActualWidth;
+				LastColumn.Width = new GridLength(1, GridUnitType.Star);
+			}
+			else
+			{
+				if (LastColumn.ActualWidth > 0)
+					Width -= LastColumn.ActualWidth;
+				LastColumn.Width = new GridLength(0, GridUnitType.Pixel);
 			}
 		}
 	}
