@@ -4,16 +4,17 @@ using System.ComponentModel;
 namespace Demo.ViewModel
 {
 	/// <summary>
-	/// View model for testing
+	/// Sample base class for tree items view models. All specialised tree item view model classes
+	/// should inherit from this class.
 	/// </summary>
-	public class Node : INotifyPropertyChanged
+	public class TreeItemViewModel : INotifyPropertyChanged
 	{
 		#region Data
 
-		private static readonly Node DummyChild = new Node();
+		private static readonly TreeItemViewModel DummyChild = new TreeItemViewModel();
 
-		private readonly ObservableCollection<Node> children;
-		private readonly Node parent;
+		private readonly ObservableCollection<TreeItemViewModel> children;
+		private readonly TreeItemViewModel parent;
 
 		private bool isExpanded;
 		private bool isSelected;
@@ -26,18 +27,18 @@ namespace Demo.ViewModel
 
 		#region Constructor
 
-		public Node(Node parent, bool lazyLoadChildren)
+		public TreeItemViewModel(TreeItemViewModel parent, bool lazyLoadChildren)
 		{
 			this.parent = parent;
 
-			children = new ObservableCollection<Node>();
+			children = new ObservableCollection<TreeItemViewModel>();
 
 			if (lazyLoadChildren)
 				children.Add(DummyChild);
 		}
 
 		// This is used to create the DummyChild instance.
-		private Node()
+		private TreeItemViewModel()
 		{
 		}
 
@@ -48,7 +49,7 @@ namespace Demo.ViewModel
 		/// <summary>
 		/// Returns the logical child items of this object.
 		/// </summary>
-		public ObservableCollection<Node> Children
+		public ObservableCollection<TreeItemViewModel> Children
 		{
 			get { return children; }
 		}
@@ -97,7 +98,7 @@ namespace Demo.ViewModel
 		{
 			for (int i = 0; i < 100; i++)
 			{
-				Children.Add(new Node(this, true) { DisplayName = "subnode " + i });
+				Children.Add(new TreeItemViewModel(this, true) { DisplayName = "subnode " + i });
 			}
 		}
 
@@ -170,7 +171,7 @@ namespace Demo.ViewModel
 			}
 		}
 
-		public Node Parent
+		public TreeItemViewModel Parent
 		{
 			get { return parent; }
 		}

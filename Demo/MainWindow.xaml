@@ -5,6 +5,7 @@
 	xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=MultiSelectTreeView" 
 	xmlns:demo="clr-namespace:Demo"
     xmlns:vm="clr-namespace:Demo.ViewModel"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	Title="MultiSelectTreeView demonstration app"
@@ -12,7 +13,67 @@
 	Height="444" Width="558"
 	Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
 	ResizeMode="CanResizeWithGrip">
+	
+	<Window.Resources>
+		<!--
+		Here the normal editor template is defined
+		-->
+		<DataTemplate x:Key="EditTemplate" DataType="{x:Type vm:TreeItemViewModel}">
+			<StackPanel Orientation="Horizontal">
+				<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16"/>
+				<Controls:EditTextBox
+					Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					Padding="2,0,0,0"/>
+			</StackPanel>
+		</DataTemplate>
 
+		<!--
+		This is a specialised editor template for ColorItemViewModel items
+		-->
+		<ObjectDataProvider x:Key="colorsTypeOdp" ObjectType="{x:Type sys:Type}" MethodName="GetType">
+			<ObjectDataProvider.MethodParameters>
+				<sys:String>System.Windows.Media.Colors, PresentationCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</sys:String>
+			</ObjectDataProvider.MethodParameters>
+		</ObjectDataProvider>
+		<ObjectDataProvider x:Key="colorPropertiesOdp" ObjectInstance="{StaticResource colorsTypeOdp}" MethodName="GetProperties"/>
+		<DataTemplate x:Key="ColorEditTemplate" DataType="{x:Type vm:ColorItemViewModel}">
+			<ComboBox
+				Width="200"
+				ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}"
+				SelectedValue="{Binding Color}"
+				SelectedValuePath="Name">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Rectangle Margin="0,1,4,1" Width="15" Fill="{Binding Name}"/>
+							<TextBlock Text="{Binding Name}"/>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</DataTemplate>
+
+		<!--
+		The following selector selects a DataTemplate based on the type of an item. It is only
+		required when using multiple different editor templates. If you do not use editing
+		functionality of items at all or only need a single editor template, you can omit these
+		template definitions and the selector and just define the template further down where it
+		is noted.
+		-->
+		<demo:TypeTemplateSelector x:Key="EditorTemplateSelector">
+			<demo:TypeTemplateSelector.TemplateDefinitions>
+				<!--
+				Following are all view model types that use a special editor template. Be sure to
+				specify the most specialised type first, as base types will also be considered.
+				-->
+				<demo:TypeTemplateDefinition
+					Type="{x:Type vm:ColorItemViewModel}" Template="{StaticResource ColorEditTemplate}"/>
+				<demo:TypeTemplateDefinition
+					Type="{x:Type vm:TreeItemViewModel}" Template="{StaticResource EditTemplate}"/>
+			</demo:TypeTemplateSelector.TemplateDefinitions>
+		</demo:TypeTemplateSelector>
+	</Window.Resources>
+	
 	<Grid Margin="8">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*"/>
@@ -36,7 +97,12 @@
 
 				<Controls:MultiSelectTreeView.ItemContainerStyle>
 					<Style TargetType="{x:Type Controls:MultiSelectTreeViewItem}">
-						<!-- Here the TreeViewItem's properties are connected with the ViewModel class -->
+						<!--
+						Here the TreeViewItem's properties are connected with the ViewModel class.
+						Basically you would make all MultiSelectTreeViewItem properties accessible
+						in the view model class that you possibly want to get or set in order to
+						determine or manipulate the view from the view model class.
+						-->
 						<Setter Property="DisplayName" Value="{Binding DisplayName, Mode=TwoWay}"/>
 						<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
 						<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
@@ -44,14 +110,31 @@
 						<Setter Property="IsVisible" Value="{Binding IsVisible, Mode=TwoWay}"/>
 						<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=TwoWay}"/>
 						<Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}"/>
+						<!--
+						The ContentTemplateEdit property defines a DataTemplate that is applied
+						instead of the normal viewing DataTemplate (definition below) when the item
+						is in edit mode. If you do not need editing functionality or the default
+						template is good for you, then you can omit this Setter.
+						-->
 						<Setter Property="ContentTemplateEdit">
 							<Setter.Value>
-								<!-- Here the editor template is defined -->
 								<DataTemplate>
+									<!--
+									NOTE:
+									Instead of using a ContentControl which selects an editor template,
+									you could directly define an editor template here which then applies
+									to all item data types.
+									EXAMPLE:
 									<StackPanel Orientation="Horizontal">
 										<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16"/>
-										<Controls:EditTextBox Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="2,0,0,0"/>
+										<Controls:EditTextBox
+											Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+											Padding="2,0,0,0"/>
 									</StackPanel>
+									-->
+									<ContentControl
+										Content="{Binding}"
+										ContentTemplateSelector="{StaticResource EditorTemplateSelector}"/>
 								</DataTemplate>
 							</Setter.Value>
 						</Setter>
@@ -59,26 +142,52 @@
 				</Controls:MultiSelectTreeView.ItemContainerStyle>
 
 				<Controls:MultiSelectTreeView.Resources>
-					<!-- Here the general item appearance is defined, for the ViewModel.Node type -->
-					<HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type vm:Node}">
+					<!--
+					Here the general item appearance is defined, for the ViewModel.TreeItemViewModel type
+					-->
+					<HierarchicalDataTemplate DataType="{x:Type vm:TreeItemViewModel}" ItemsSource="{Binding Children}">
 						<StackPanel Orientation="Horizontal">
 							<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16" SnapsToDevicePixels="True"/>
 							<TextBlock Text="{Binding DisplayName}" Padding="4,0,2,0"/>
 						</StackPanel>
 					</HierarchicalDataTemplate>
+
+					<!--
+					This is another item appearance for the ViewModel.ColorItemViewModel type
+					-->
+					<HierarchicalDataTemplate DataType="{x:Type vm:ColorItemViewModel}" ItemsSource="{Binding Children}">
+						<TextBlock
+							Text="{Binding DisplayName}"
+							Background="{Binding BackgroundBrush}"
+							Foreground="{Binding ForegroundBrush}"
+							Padding="4,0,2,0"/>
+					</HierarchicalDataTemplate>
 				</Controls:MultiSelectTreeView.Resources>
 			</Controls:MultiSelectTreeView>
 		</DockPanel>
 
+		<!--
+		The remaining code defines the right column of the window that contains controls to
+		demonstrate some of the MultiSelectTreeView properties and operations.
+		-->
 		<StackPanel Grid.Column="1" Margin="12,0,0,0">
 			<TextBlock Style="{StaticResource FirstCaption}">TreeView properties</TextBlock>
-			<CheckBox HorizontalAlignment="Left" IsChecked="{Binding AllowEditItems, ElementName=TheTreeView}">Allow editing items</CheckBox>
-			<CheckBox HorizontalAlignment="Left" IsChecked="{Binding HoverHighlighting, ElementName=TheTreeView}">Hover items</CheckBox>
-			<CheckBox HorizontalAlignment="Left" IsChecked="{Binding VerticalRulers, ElementName=TheTreeView}">Show ruler lines</CheckBox>
+			<CheckBox
+				Content="&#160;Allow editing items (F2 key)"
+				HorizontalAlignment="Left"
+				IsChecked="{Binding AllowEditItems, ElementName=TheTreeView}"/>
+			<CheckBox
+				Content="&#160;Hover items effect"
+				HorizontalAlignment="Left"
+				IsChecked="{Binding HoverHighlighting, ElementName=TheTreeView}"/>
+			<CheckBox
+				Content="&#160;Show ruler lines"
+				HorizontalAlignment="Left"
+				IsChecked="{Binding VerticalRulers, ElementName=TheTreeView}"/>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock VerticalAlignment="Center">Item indent</TextBlock>
 				<Slider
-					Margin="4,0,0,0"
+					Margin="8,0,0,0"
 					Width="100"
 					Value="{Binding ItemIndent, ElementName=TheTreeView}"
 					Minimum="0" Maximum="32" Interval="1" SmallChange="1" LargeChange="8"
@@ -100,7 +209,12 @@
 				<Button Margin="6,0,0,0" Padding="2" Name="ToggleSelectButton" Click="ToggleSelectButton_Click" ToolTip="Toggle selections">
 					<Image Source="/Demo;component/Images/select_toggle_11.png" Width="11" Height="11"/>
 				</Button>
-				<CheckBox Margin="12,0,0,0" Content="Lock" Name="LockSelectionCheck" VerticalAlignment="Center"/>
+				<CheckBox
+					Name="LockSelectionCheck"
+					Content="Lock"
+					Margin="12,0,0,0"
+					VerticalAlignment="Center"
+					ToolTip="Prevent any change to the selection by the user"/>
 			</StackPanel>
 			<TextBlock Margin="0,4,0,0">
 				<Run Text="{Binding SelectedItems.Count, ElementName=TheTreeView, Mode=OneWay}"/>
