@@ -5,6 +5,6 @@
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="/MultiSelectTreeView;component/Themes/EditTextBox.xaml"/>
 		<ResourceDictionary Source="/MultiSelectTreeView;component/Themes/MultiSelectTreeView.Aero.xaml"/>
-		<ResourceDictionary Source="/MultiSelectTreeView;component/Themes/MultiSelectTreeViewItem.Classic.xaml"/>
+		<ResourceDictionary Source="/MultiSelectTreeView;component/Themes/MultiSelectTreeViewItem.Luna.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

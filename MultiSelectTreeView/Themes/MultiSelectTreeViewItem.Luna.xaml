@@ -92,9 +92,17 @@
 													<!-- Default expander 'plus' graphic -->
 													<Border Padding="1,2,0,0" Background="#00FFFFFF" Width="12" Height="16">
 														<Border
-															BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Background="White"
+															BorderThickness="1" CornerRadius="1" BorderBrush="#FF7898B5"
 															Width="9" Height="9"
 															SnapsToDevicePixels="True">
+															<Border.Background>
+																<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+																	<LinearGradientBrush.GradientStops>
+																		<GradientStop Color="#FFFFFFFF" Offset="0.2" />
+																		<GradientStop Color="#FFC0B7A6" Offset="1" />
+																	</LinearGradientBrush.GradientStops>
+																</LinearGradientBrush>
+															</Border.Background>
 															<Path
 																Name="ExpandPath"
 																Data="M0,2L0,3 2,3 2,5 3,5 3,3 5,3 5,2 3,2 3,0 2,0 2,2z"

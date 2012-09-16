@@ -129,7 +129,7 @@ namespace System.Windows.Controls
 			"ItemIndent",
 			typeof(int),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(12, null));
+			new FrameworkPropertyMetadata(13, null));
 
 		public static DependencyProperty IsKeyboardModeProperty = DependencyProperty.Register(
 			"IsKeyboardMode",
