@@ -694,6 +694,7 @@ namespace System.Windows.Controls
 			//base.OnGotFocus(e);
 			ParentTreeView.LastFocusedItem = this;
 			//System.Diagnostics.Debug.WriteLine("MultiSelectTreeViewItem.OnGotFocus(), DisplayName = " + DisplayName);
+			//System.Diagnostics.Debug.WriteLine(Environment.StackTrace);
 		}
 
 		protected override void OnLostFocus(RoutedEventArgs e)
@@ -701,6 +702,7 @@ namespace System.Windows.Controls
 			base.OnLostFocus(e);
 			IsEditing = false;
 			//System.Diagnostics.Debug.WriteLine("MultiSelectTreeViewItem.OnLostFocus(), DisplayName = " + DisplayName);
+			//System.Diagnostics.Debug.WriteLine(Environment.StackTrace);
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)

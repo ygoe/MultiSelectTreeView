@@ -38,20 +38,23 @@
 		</ObjectDataProvider>
 		<ObjectDataProvider x:Key="colorPropertiesOdp" ObjectInstance="{StaticResource colorsTypeOdp}" MethodName="GetProperties"/>
 		<DataTemplate x:Key="ColorEditTemplate" DataType="{x:Type vm:ColorItemViewModel}">
-			<ComboBox
-				Width="200"
-				ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}"
-				SelectedValue="{Binding Color}"
-				SelectedValuePath="Name">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<Rectangle Margin="0,1,4,1" Width="15" Fill="{Binding Name}"/>
-							<TextBlock Text="{Binding Name}"/>
-						</StackPanel>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Colour:" VerticalAlignment="Center"/>
+				<ComboBox
+					Width="170" Margin="6,0,0,0"
+					ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}"
+					SelectedValue="{Binding Color}"
+					SelectedValuePath="Name">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Rectangle Margin="0,1,4,1" Width="15" Fill="{Binding Name}"/>
+								<TextBlock Text="{Binding Name}"/>
+							</StackPanel>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
 		</DataTemplate>
 
 		<!--
@@ -88,7 +91,8 @@
 			<TextBlock DockPanel.Dock="Top" Style="{StaticResource FirstCaption}">The TreeView control</TextBlock>
 			<Controls:MultiSelectTreeView
 				Name="TheTreeView"
-				ItemsSource="{Binding Children}">
+				ItemsSource="{Binding Children}"
+				PreviewSelectionChanged="TheTreeView_PreviewSelectionChanged">
 
 				<Controls:MultiSelectTreeView.ContextMenu>
 					<ContextMenu>
@@ -160,11 +164,15 @@
 					This is another item appearance for the ViewModel.ColorItemViewModel type
 					-->
 					<HierarchicalDataTemplate DataType="{x:Type vm:ColorItemViewModel}" ItemsSource="{Binding Children}">
-						<TextBlock
-							Text="{Binding DisplayName}"
-							Background="{Binding BackgroundBrush}"
-							Foreground="{Binding ForegroundBrush}"
-							Padding="4,0,2,0"/>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Colour:"/>
+							<TextBlock
+								Text="{Binding DisplayName}"
+								Background="{Binding BackgroundBrush}"
+								Foreground="{Binding ForegroundBrush}"
+								Padding="3,0"
+								Margin="6,0,0,0"/>
+						</StackPanel>
 					</HierarchicalDataTemplate>
 				</Controls:MultiSelectTreeView.Resources>
 			</Controls:MultiSelectTreeView>
@@ -247,10 +255,15 @@
 				Content="Show all items" ToolTip="Shows all nodes."/>
 		</StackPanel>
 
-		<DockPanel Grid.Column="2" Margin="12,0,0,0" Visibility="{Binding IsChecked, ElementName=ShowSecondCheck, Converter={StaticResource BoolToVisibility}}">
+		<DockPanel
+			Name="SecondTreePanel"
+			Grid.Column="2"
+			Margin="12,0,0,0"
+			Visibility="{Binding IsChecked, ElementName=ShowSecondCheck, Converter={StaticResource BoolToVisibility}}">
 			<TextBlock DockPanel.Dock="Top" Style="{StaticResource FirstCaption}">Second TreeView control</TextBlock>
 			<TextBlock DockPanel.Dock="Bottom" Margin="0,4,0,0" TextWrapping="Wrap" FontStyle="Italic" Opacity="0.5">
 				This TreeView is bound to the same ViewModel as the left TreeView so it has the same content and state.
+				It uses different item templates though.
 			</TextBlock>
 			<Controls:MultiSelectTreeView
 				Name="TheTreeView2"
@@ -280,7 +293,7 @@
 					-->
 					<HierarchicalDataTemplate DataType="{x:Type vm:TreeItemViewModel}" ItemsSource="{Binding Children}">
 						<StackPanel Orientation="Horizontal">
-							<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16" SnapsToDevicePixels="True"/>
+							<Border Background="Orange" CornerRadius="3" Width="16" Height="16" SnapsToDevicePixels="True"/>
 							<TextBlock Text="{Binding DisplayName}" Padding="4,0,2,0"/>
 						</StackPanel>
 					</HierarchicalDataTemplate>

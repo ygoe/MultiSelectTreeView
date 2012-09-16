@@ -20,7 +20,9 @@ namespace Demo
 		public MainWindow()
 		{
 			InitializeComponent();
+			ShowSecondCheck_Checked(null, null);
 
+			// Create some example nodes to play with
 			var rootNode = new TreeItemViewModel(null, false) { DisplayName = "rootNode" };
 			var node1 = new TreeItemViewModel(rootNode, false) { DisplayName = "element1 (editable)", IsEditable = true };
 			var node2 = new TreeItemViewModel(rootNode, false) { DisplayName = "element2" };
@@ -35,6 +37,7 @@ namespace Demo
 			var colorNode3 = new ColorItemViewModel(node14, false) { Color = Colors.LightSalmon };
 			var node15 = new TreeItemViewModel(node1, true) { DisplayName = "element15 (lazy loading)" };
 
+			// Add them all to each other
 			rootNode.Children.Add(node1);
 			rootNode.Children.Add(node2);
 			node1.Children.Add(node11);
@@ -48,26 +51,44 @@ namespace Demo
 			node14.Children.Add(colorNode3);
 			node1.Children.Add(node15);
 
+			// Use the root node as the window's DataContext to allow data binding. The TreeView
+			// will use the Children property of the DataContext as list of root tree items. This
+			// property happens to be the same as each item DataTemplate uses to find its subitems.
 			DataContext = rootNode;
 
+			// Preset some node states
 			node1.IsSelected = true;
 			node13.IsSelected = true;
 			node14.IsExpanded = true;
+		}
 
-			TheTreeView.PreviewSelectionChanged += (s, e) =>
+		private void TheTreeView_PreviewSelectionChanged(object sender, PreviewSelectionChangedEventArgs e)
+		{
+			if (LockSelectionCheck.IsChecked == true)
 			{
-				e.CancelThis = LockSelectionCheck.IsChecked == true;
-				if (e.Selecting)
+				// The current selection is locked by user request (Lock CheckBox is checked).
+				// Don't allow any changes to the selection at all.
+				e.CancelThis = true;
+			}
+			else
+			{
+				// Selection is not locked, apply other conditions.
+				// Require all selected items to be of the same type. If an item of another data
+				// type is already selected, don't include this new item in the selection.
+				if (e.Selecting && TheTreeView.SelectedItems.Count > 0)
 				{
-					//System.Diagnostics.Debug.WriteLine("Preview: Selecting " + e.Item + (e.Cancel ? " - cancelled" : ""));
+					e.CancelThis = e.Item.GetType() != TheTreeView.SelectedItems[0].GetType();
 				}
-				else
-				{
-					//System.Diagnostics.Debug.WriteLine("Preview: Deselecting " + e.Item + (e.Cancel ? " - cancelled" : ""));
-				}
-			};
+			}
 
-			ShowSecondCheck_Checked(null, null);
+			//if (e.Selecting)
+			//{
+			//    System.Diagnostics.Debug.WriteLine("Preview: Selecting " + e.Item + (e.Cancel ? " - cancelled" : ""));
+			//}
+			//else
+			//{
+			//    System.Diagnostics.Debug.WriteLine("Preview: Deselecting " + e.Item + (e.Cancel ? " - cancelled" : ""));
+			//}
 		}
 
 		private void ClearChildrenButton_Click(object sender, System.Windows.RoutedEventArgs e)

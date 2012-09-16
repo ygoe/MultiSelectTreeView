@@ -646,22 +646,30 @@ namespace System.Windows.Controls
 
 		protected override void OnGotFocus(RoutedEventArgs e)
 		{
+			//System.Diagnostics.Debug.WriteLine("MultiSelectTreeView.OnGotFocus()");
+			//System.Diagnostics.Debug.WriteLine(Environment.StackTrace);
+
 			base.OnGotFocus(e);
 
-			// If the MultiSelectTreeView control has gotten the focus, it needs to pass it to an item
-			// instead. If there was an item focused before, return to that. Otherwise just focus
-			// this first item in the list if any. If there are no items at all, the MultiSelectTreeView
-			// control just keeps the focus.
-			if (LastFocusedItem != null)
+			// If the MultiSelectTreeView control has gotten the focus, it needs to pass it to an
+			// item instead. If there was an item focused before, return to that. Otherwise just
+			// focus this first item in the list if any. If there are no items at all, the
+			// MultiSelectTreeView control just keeps the focus.
+			// In any case, the focussing must occur when the current event processing is finished,
+			// i.e. be queued in the dispatcher. Otherwise the TreeView could keep its focus
+			// because other focus things are still going on and interfering this final request.
+
+			var lastFocusedItem = LastFocusedItem;
+			if (lastFocusedItem != null)
 			{
-				FocusHelper.Focus(LastFocusedItem);
+				Dispatcher.BeginInvoke((Action) (() => FocusHelper.Focus(lastFocusedItem)));
 			}
 			else
 			{
 				var firstNode = RecursiveTreeViewItemEnumerable(this, false).FirstOrDefault();
 				if (firstNode != null)
 				{
-					FocusHelper.Focus(firstNode);
+					Dispatcher.BeginInvoke((Action) (() => FocusHelper.Focus(firstNode)));
 				}
 			}
 		}
