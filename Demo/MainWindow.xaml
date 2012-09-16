@@ -156,7 +156,7 @@
 					<HierarchicalDataTemplate DataType="{x:Type vm:TreeItemViewModel}" ItemsSource="{Binding Children}">
 						<StackPanel Orientation="Horizontal">
 							<Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16" SnapsToDevicePixels="True"/>
-							<TextBlock Text="{Binding DisplayName}" Padding="4,0,2,0"/>
+							<TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Padding="4,0,2,0"/>
 						</StackPanel>
 					</HierarchicalDataTemplate>
 
