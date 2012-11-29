@@ -180,7 +180,7 @@ namespace System.Windows.Controls
 					
 					// Compute the current input states for determining the new selection state of the item
 					bool intersect = !(itemLeft > right || itemRight < left || itemTop > bottom || itemBottom < top);
-					bool initialSelected = initialSelection.Contains(item.DataContext);
+					bool initialSelected = initialSelection != null && initialSelection.Contains(item.DataContext);
 					bool ctrl = SelectionMultiple.IsControlKeyDown;
 					
 					// Decision matrix:

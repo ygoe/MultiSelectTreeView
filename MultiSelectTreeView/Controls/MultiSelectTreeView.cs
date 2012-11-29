@@ -294,7 +294,7 @@ namespace System.Windows.Controls
 
 		internal bool ClearSelectionByRectangle()
 		{
-			foreach (var item in SelectedItems)
+			foreach (var item in new ArrayList(SelectedItems))
 			{
 				var e = new PreviewSelectionChangedEventArgs(false, item);
 				OnPreviewSelectionChanged(e);
