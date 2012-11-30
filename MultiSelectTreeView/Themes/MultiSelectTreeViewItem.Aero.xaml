@@ -208,7 +208,7 @@
 										SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
 								</Border>
 								<!-- Additional border glare inside the item -->
-								<Border BorderThickness="1" BorderBrush="#80ffffff" Margin="1,1,1,0" SnapsToDevicePixels="True" CornerRadius="2"/>
+								<Border BorderThickness="1" BorderBrush="#80ffffff" Margin="1,1,1,0" SnapsToDevicePixels="True" CornerRadius="2" IsHitTestVisible="False"/>
 							</Grid>
 						</Grid>
 						<Grid Name="ItemsHostGrid" Margin="{TemplateBinding ItemIndent, Converter={StaticResource ThicknessLeftConverter}}">

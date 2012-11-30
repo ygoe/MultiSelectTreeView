@@ -148,7 +148,7 @@
 								</Border>
 								<!-- Focus rectangle inside the item -->
 								<Rectangle StrokeDashArray="0.5 1.5" StrokeThickness="1" Stroke="Black" SnapsToDevicePixels="True" Margin="1,1,1,0"
-									Visibility="Hidden" Name="FocusRectangle"/>
+									Visibility="Hidden" Name="FocusRectangle" IsHitTestVisible="False"/>
 							</Grid>
 						</Grid>
 						<Grid Name="ItemsHostGrid" Margin="{TemplateBinding ItemIndent, Converter={StaticResource ThicknessLeftConverter}}">
