@@ -392,6 +392,32 @@ namespace System.Windows.Controls
 			}
 		}
 
+		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+		{
+			switch (e.Action)
+			{
+				case NotifyCollectionChangedAction.Remove:
+				case NotifyCollectionChangedAction.Replace:
+					if (e.OldItems != null)
+					{
+						foreach (var item in e.OldItems)
+						{
+							SelectedItems.Remove(item);
+							// Don't preview and ask, it is already gone so it must be removed from
+							// the SelectedItems list
+						}
+					}
+					break;
+				case NotifyCollectionChangedAction.Reset:
+					// If the items list has considerably changed, the selection is probably
+					// useless anyway, clear it entirely.
+					SelectedItems.Clear();
+					break;
+			}
+			
+			base.OnItemsChanged(e);
+		}
+
 		internal static IEnumerable<MultiSelectTreeViewItem> RecursiveTreeViewItemEnumerable(ItemsControl parent, bool includeInvisible)
 		{
 			return RecursiveTreeViewItemEnumerable(parent, includeInvisible, true);
