@@ -9,7 +9,9 @@ namespace System.Windows.Controls
 {
 	public class MultiSelectTreeViewItem : HeaderedItemsControl
 	{
-		#region Constants and Fields
+		#region Dependency properties
+
+		#region Brushes
 
 		public static DependencyProperty BackgroundFocusedProperty = DependencyProperty.Register(
 			"BackgroundFocused",
@@ -77,6 +79,10 @@ namespace System.Windows.Controls
 			typeof(MultiSelectTreeViewItem),
 			new FrameworkPropertyMetadata(Brushes.Transparent, null));
 
+		#endregion Brushes
+
+		#region Others
+
 		public static DependencyProperty IsExpandedProperty = DependencyProperty.Register(
 			"IsExpanded",
 			typeof(bool),
@@ -137,7 +143,9 @@ namespace System.Windows.Controls
 			typeof(MultiSelectTreeViewItem),
 			new FrameworkPropertyMetadata(false, null));
 
-		#endregion
+		#endregion Others
+
+		#endregion Dependency properties
 
 		#region Constructors and Destructors
 
@@ -156,262 +164,143 @@ namespace System.Windows.Controls
 
 		#region Public Properties
 
-		public DataTemplate ContentTemplateEdit
-		{
-			get
-			{
-				return (DataTemplate) GetValue(ContentTemplateEditProperty);
-			}
-			set
-			{
-				SetValue(ContentTemplateEditProperty, value);
-			}
-		}
+		#region Brushes
 
 		public Brush BackgroundFocused
 		{
-			get
-			{
-				return (Brush) GetValue(BackgroundFocusedProperty);
-			}
-			set
-			{
-				SetValue(BackgroundFocusedProperty, value);
-			}
+			get { return (Brush) GetValue(BackgroundFocusedProperty); }
+			set { SetValue(BackgroundFocusedProperty, value); }
 		}
 
 		public Brush BackgroundSelected
 		{
-			get
-			{
-				return (Brush) GetValue(BackgroundSelectedProperty);
-			}
-			set
-			{
-				SetValue(BackgroundSelectedProperty, value);
-			}
+			get { return (Brush) GetValue(BackgroundSelectedProperty); }
+			set { SetValue(BackgroundSelectedProperty, value); }
 		}
 
 		public Brush ForegroundSelected
 		{
-			get
-			{
-				return (Brush) GetValue(ForegroundSelectedProperty);
-			}
-			set
-			{
-				SetValue(ForegroundSelectedProperty, value);
-			}
+			get { return (Brush) GetValue(ForegroundSelectedProperty); }
+			set { SetValue(ForegroundSelectedProperty, value); }
 		}
 
 		public Brush BackgroundSelectedHovered
 		{
-			get
-			{
-				return (Brush) GetValue(BackgroundSelectedHoveredProperty);
-			}
-			set
-			{
-				SetValue(BackgroundSelectedHoveredProperty, value);
-			}
+			get { return (Brush) GetValue(BackgroundSelectedHoveredProperty); }
+			set { SetValue(BackgroundSelectedHoveredProperty, value); }
 		}
 
 		public Brush BackgroundHovered
 		{
-			get
-			{
-				return (Brush) GetValue(BackgroundHoveredProperty);
-			}
-			set
-			{
-				SetValue(BackgroundHoveredProperty, value);
-			}
+			get { return (Brush) GetValue(BackgroundHoveredProperty); }
+			set { SetValue(BackgroundHoveredProperty, value); }
 		}
 
 		public Brush BackgroundInactive
 		{
-			get
-			{
-				return (Brush) GetValue(BackgroundInactiveProperty);
-			}
-			set
-			{
-				SetValue(BackgroundInactiveProperty, value);
-			}
+			get { return (Brush) GetValue(BackgroundInactiveProperty); }
+			set { SetValue(BackgroundInactiveProperty, value); }
 		}
 
 		public Brush ForegroundInactive
 		{
-			get
-			{
-				return (Brush) GetValue(ForegroundInactiveProperty);
-			}
-			set
-			{
-				SetValue(ForegroundInactiveProperty, value);
-			}
+			get { return (Brush) GetValue(ForegroundInactiveProperty); }
+			set { SetValue(ForegroundInactiveProperty, value); }
 		}
 
 		public Brush BorderBrushInactive
 		{
-			get
-			{
-				return (Brush) GetValue(BorderBrushInactiveProperty);
-			}
-			set
-			{
-				SetValue(BorderBrushInactiveProperty, value);
-			}
+			get { return (Brush) GetValue(BorderBrushInactiveProperty); }
+			set { SetValue(BorderBrushInactiveProperty, value); }
 		}
 
 		public Brush BorderBrushHovered
 		{
-			get
-			{
-				return (Brush) GetValue(BorderBrushHoveredProperty);
-			}
-			set
-			{
-				SetValue(BorderBrushHoveredProperty, value);
-			}
+			get { return (Brush) GetValue(BorderBrushHoveredProperty); }
+			set { SetValue(BorderBrushHoveredProperty, value); }
 		}
 
 		public Brush BorderBrushFocused
 		{
-			get
-			{
-				return (Brush) GetValue(BorderBrushFocusedProperty);
-			}
-			set
-			{
-				SetValue(BorderBrushFocusedProperty, value);
-			}
+			get { return (Brush) GetValue(BorderBrushFocusedProperty); }
+			set { SetValue(BorderBrushFocusedProperty, value); }
 		}
 
 		public Brush BorderBrushSelected
 		{
-			get
-			{
-				return (Brush) GetValue(BorderBrushSelectedProperty);
-			}
-			set
-			{
-				SetValue(BorderBrushSelectedProperty, value);
-			}
+			get { return (Brush) GetValue(BorderBrushSelectedProperty); }
+			set { SetValue(BorderBrushSelectedProperty, value); }
+		}
+
+		#endregion Brushes
+
+		#region Others
+
+		public DataTemplate ContentTemplateEdit
+		{
+			get { return (DataTemplate) GetValue(ContentTemplateEditProperty); }
+			set { SetValue(ContentTemplateEditProperty, value); }
 		}
 
 		public bool IsExpanded
 		{
-			get
-			{
-				return (bool) GetValue(IsExpandedProperty);
-			}
-			set
-			{
-				SetValue(IsExpandedProperty, value);
-			}
+			get { return (bool) GetValue(IsExpandedProperty); }
+			set { SetValue(IsExpandedProperty, value); }
 		}
 
 		public bool IsEditable
 		{
-			get
-			{
-				return (bool) GetValue(IsEditableProperty);
-			}
-			set
-			{
-				SetValue(IsEditableProperty, value);
-			}
+			get { return (bool) GetValue(IsEditableProperty); }
+			set { SetValue(IsEditableProperty, value); }
 		}
 
 		public new bool IsVisible
 		{
-			get
-			{
-				return (bool) GetValue(IsVisibleProperty);
-			}
-			set
-			{
-				SetValue(IsVisibleProperty, value);
-			}
+			get { return (bool) GetValue(IsVisibleProperty); }
+			set { SetValue(IsVisibleProperty, value); }
 		}
 
 		public bool IsEditing
 		{
-			get
-			{
-				return (bool) GetValue(IsEditingProperty);
-			}
-			set
-			{
-				SetValue(IsEditingProperty, value);
-			}
+			get { return (bool) GetValue(IsEditingProperty); }
+			set { SetValue(IsEditingProperty, value); }
 		}
 
 		public bool IsSelected
 		{
-			get
-			{
-				return (bool) GetValue(IsSelectedProperty);
-			}
-			set
-			{
-				//System.Diagnostics.Debug.WriteLine("IsSelected of " + DataContext + " is " + value + " from " + ParentItemsControl.GetHashCode());
-				SetValue(IsSelectedProperty, value);
-			}
+			get { return (bool) GetValue(IsSelectedProperty); }
+			set { SetValue(IsSelectedProperty, value); }
 		}
 
 		public string DisplayName
 		{
-			get
-			{
-				return (string) GetValue(DisplayNameProperty);
-			}
-			set
-			{
-				SetValue(DisplayNameProperty, value);
-			}
+			get { return (string) GetValue(DisplayNameProperty); }
+			set { SetValue(DisplayNameProperty, value); }
 		}
 
 		public bool HoverHighlighting
 		{
-			get
-			{
-				return (bool) GetValue(HoverHighlightingProperty);
-			}
-			set
-			{
-				SetValue(HoverHighlightingProperty, value);
-			}
+			get { return (bool) GetValue(HoverHighlightingProperty); }
+			set { SetValue(HoverHighlightingProperty, value); }
 		}
 
 		public int ItemIndent
 		{
-			get
-			{
-				return (int) GetValue(ItemIndentProperty);
-			}
-			set
-			{
-				SetValue(ItemIndentProperty, value);
-			}
+			get { return (int) GetValue(ItemIndentProperty); }
+			set { SetValue(ItemIndentProperty, value); }
 		}
 
 		public bool IsKeyboardMode
 		{
-			get
-			{
-				return (bool) GetValue(IsKeyboardModeProperty);
-			}
-			set
-			{
-				SetValue(IsKeyboardModeProperty, value);
-			}
+			get { return (bool) GetValue(IsKeyboardModeProperty); }
+			set { SetValue(IsKeyboardModeProperty, value); }
 		}
+
+		#endregion Others
 
 		#endregion
 
-		#region Properties
+		#region Non-public properties
 
 		private MultiSelectTreeView lastParentTreeView;
 
@@ -473,9 +362,9 @@ namespace System.Windows.Controls
 			}
 		}
 
-		#endregion
+		#endregion Non-public properties
 
-		#region Public Methods
+		#region Public methods
 
 		public override string ToString()
 		{
@@ -487,9 +376,9 @@ namespace System.Windows.Controls
 			return base.ToString();
 		}
 
-		#endregion
+		#endregion Public methods
 
-		#region Protected Methods
+		#region Protected methods
 
 		protected static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
@@ -781,15 +670,17 @@ namespace System.Windows.Controls
 			base.OnItemsChanged(e);
 		}
 
-		#endregion
+		#endregion Protected methods
 
-		#region Internal Methods
+		#region Internal methods
+
 		internal void InvokeMouseDown()
 		{
 			var e = new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Right);
 			e.RoutedEvent = Mouse.MouseDownEvent;
 			this.OnMouseDown(e);
 		}
-		#endregion
+
+		#endregion Internal methods
 	}
 }

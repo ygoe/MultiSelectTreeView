@@ -20,34 +20,6 @@
 			</DataTrigger>
 		</Style.Triggers>
 
-		<Style.Resources>
-			<!-- Windows 7 Aero Theme colours and brushes -->
-			<SolidColorBrush x:Key="HoveredBorderBrush" Color="#b097c3f9"/>
-			<LinearGradientBrush x:Key="HoveredBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
-				<GradientStop Color="#fafbfd" Offset="0"/>
-				<GradientStop Color="#ebf3fd" Offset="1"/>
-			</LinearGradientBrush>
-
-			<SolidColorBrush x:Key="SelectedBorderBrush" Color="#7da2ce"/>
-			<LinearGradientBrush x:Key="SelectedBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
-				<GradientStop Color="#ebf4fe" Offset="0"/>
-				<GradientStop Color="#cfe4fe" Offset="1"/>
-			</LinearGradientBrush>
-
-			<LinearGradientBrush x:Key="SelectedHoveredBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
-				<GradientStop Color="#dcebfc" Offset="0"/>
-				<GradientStop Color="#c1dbfc" Offset="1"/>
-			</LinearGradientBrush>
-
-			<SolidColorBrush x:Key="FocusedBorderBrush" Color="#7da2ce"/>
-
-			<SolidColorBrush x:Key="InactiveBorderBrush" Color="#b5c9c9c9"/>
-			<LinearGradientBrush x:Key="InactiveBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
-				<GradientStop Color="#f8f8f8" Offset="0"/>
-				<GradientStop Color="#e5e5e5" Offset="1"/>
-			</LinearGradientBrush>
-		</Style.Resources>
-
 		<Setter Property="ContentTemplateEdit">
 			<Setter.Value>
 				<DataTemplate>
@@ -186,7 +158,7 @@
 									Margin="0,0,0,-1"
 									BorderBrush="{TemplateBinding Border.BorderBrush}"
 									Background="{TemplateBinding Panel.Background}"
-									SnapsToDevicePixels="True" CornerRadius="2"
+									SnapsToDevicePixels="True"
 									VerticalAlignment="Center">
 									<ContentPresenter Name="PART_Header"
 										FocusManager.IsFocusScope="True"
@@ -198,8 +170,6 @@
 										VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
 										SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
 								</Border>
-								<!-- Additional border glare inside the item -->
-								<Border BorderThickness="1" BorderBrush="#80ffffff" Margin="1,1,1,0" SnapsToDevicePixels="True" CornerRadius="2" IsHitTestVisible="False"/>
 							</Grid>
 							<!-- endregion Element grid -->
 						</Grid>
@@ -224,26 +194,19 @@
 						<Trigger Property="IsVisible" Value="False">
 							<Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
 						</Trigger>
-						
-						<!-- Set the border and background when the mouse is located over the item and HoverHighlighting is active -->
+
+						<!-- Set the border and background when the control is active and the item is selected -->
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
-								<Condition Property="Controls:MultiSelectTreeViewItem.HoverHighlighting" Value="True"/>
-								<Condition Property="Controls:MultiSelectTreeViewItem.IsMouseOver" Value="True" SourceName="ElementGrid"/>
+								<Condition Property="Controls:MultiSelectTreeViewItem.IsSelected" Value="True"/>
 							</MultiTrigger.Conditions>
-							<Setter Property="Control.Background" Value="{StaticResource HoveredBackgroundBrush}"/>
-							<Setter Property="Border.BorderBrush" Value="{StaticResource HoveredBorderBrush}"/>
+							<Setter Property="Control.Background" Value="#cbe8f6"/>
+							<Setter Property="Border.BorderBrush" Value="#26a0da"/>
 						</MultiTrigger>
-						
-						<!-- Set the border and background when the item is selected -->
-						<Trigger Property="Controls:MultiSelectTreeViewItem.IsSelected" Value="True">
-							<Setter Property="Control.Background" Value="{StaticResource SelectedBackgroundBrush}"/>
-							<Setter Property="Border.BorderBrush" Value="{StaticResource SelectedBorderBrush}"/>
-						</Trigger>
-						
+
 						<!-- Show the border when the item is focused -->
 						<Trigger Property="Controls:MultiSelectTreeViewItem.IsFocused" Value="True">
-							<Setter Property="Border.BorderBrush" Value="{StaticResource FocusedBorderBrush}"/>
+							<Setter Property="Border.BorderBrush" Value="#3399ff"/>
 						</Trigger>
 						
 						<!-- Slightly darker background when the item is selected and focused -->
@@ -252,7 +215,8 @@
 								<Condition Property="Controls:MultiSelectTreeViewItem.IsFocused" Value="True"/>
 								<Condition Property="Controls:MultiSelectTreeViewItem.IsSelected" Value="True"/>
 							</MultiTrigger.Conditions>
-							<Setter Property="Control.Background" Value="{StaticResource SelectedHoveredBackgroundBrush}"/>
+							<Setter Property="Control.Background" Value="#d1e8ff"/>
+							<Setter Property="Border.BorderBrush" Value="#66a7e8"/>
 						</MultiTrigger>
 
 						<!-- Make all selected items grey when the entire Window is inactive -->
@@ -265,8 +229,8 @@
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
 									Value="True"/>
 							</MultiDataTrigger.Conditions>
-							<Setter Property="Border.BorderBrush" Value="{StaticResource InactiveBorderBrush}"/>
-							<Setter Property="Control.Background" Value="{StaticResource InactiveBackgroundBrush}"/>
+							<Setter Property="Control.Background" Value="#f7f7f7"/>
+							<Setter Property="Border.BorderBrush" Value="#dedede"/>
 						</MultiDataTrigger>
 						
 						<!-- Make all selected items grey when none of this TreeView's items is focused (i.e. the TreeView is not focused) -->
@@ -282,22 +246,20 @@
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
 									Value="True"/>
 							</MultiDataTrigger.Conditions>
-							<Setter Property="Border.BorderBrush" Value="{StaticResource InactiveBorderBrush}"/>
-							<Setter Property="Control.Background" Value="{StaticResource InactiveBackgroundBrush}"/>
+							<Setter Property="Control.Background" Value="#f7f7f7"/>
+							<Setter Property="Border.BorderBrush" Value="#dedede"/>
 						</MultiDataTrigger>
 
-						<!-- Set a slightly darker background when the mouse is located over a selected item and HoverHighlighting is active
-							(after inactive grey to override it) -->
+						<!-- Set the border and background when the mouse is located over the item and HoverHighlighting is active -->
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
 								<Condition Property="Controls:MultiSelectTreeViewItem.HoverHighlighting" Value="True"/>
 								<Condition Property="Controls:MultiSelectTreeViewItem.IsMouseOver" Value="True" SourceName="ElementGrid"/>
-								<Condition Property="IsSelected" Value="True"/>
 							</MultiTrigger.Conditions>
-							<Setter Property="Control.Background" Value="{StaticResource SelectedHoveredBackgroundBrush}"/>
-							<Setter Property="Border.BorderBrush" Value="{StaticResource SelectedBorderBrush}"/>
+							<Setter Property="Control.Background" Value="#d1e8ff"/>
+							<Setter Property="Border.BorderBrush" Value="#66a7e8"/>
 						</MultiTrigger>
-						
+
 						<!-- Collapse the child items host if the node is not expanded -->
 						<Trigger Property="Controls:MultiSelectTreeViewItem.IsExpanded" Value="False">
 							<Setter Property="UIElement.Visibility" TargetName="ItemsHostGrid" Value="Collapsed"/>
@@ -324,8 +286,8 @@
 						<Trigger Property="Controls:MultiSelectTreeViewItem.IsEditing" Value="True">
 							<Setter Property="HeaderTemplate"
 								Value="{Binding ContentTemplateEdit, RelativeSource={RelativeSource Self}}"/>
-							<Setter Property="Control.Background" Value="{StaticResource SelectedBackgroundBrush}"/>
-							<Setter Property="Border.BorderBrush" Value="{StaticResource SelectedBorderBrush}"/>
+							<Setter Property="Control.Background" Value="#cbe8f6"/>
+							<Setter Property="Border.BorderBrush" Value="#26a0da"/>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

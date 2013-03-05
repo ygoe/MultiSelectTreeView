@@ -10,10 +10,9 @@
 	UseLayoutRounding="True"
 	Title="MultiSelectTreeView demonstration app"
 	Icon="/Demo;component/Images/MultiSelectTreeView.ico"
-	Height="500" Width="500"
+	Height="488" Width="500"
 	Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-	ResizeMode="CanResizeWithGrip"
-	SizeToContent="Height">
+	ResizeMode="CanResizeWithGrip">
 	
 	<Window.Resources>
 		<!--
@@ -80,7 +79,7 @@
 		<BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 	</Window.Resources>
 	
-	<Grid Margin="8">
+	<Grid Margin="12,8,12,12">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" x:Name="FirstColumn"/>
 			<ColumnDefinition Width="Auto"/>
@@ -165,7 +164,7 @@
 					-->
 					<HierarchicalDataTemplate DataType="{x:Type vm:ColorItemViewModel}" ItemsSource="{Binding Children}">
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Colour:"/>
+							<TextBlock Text="Colour:" Margin="1,0,0,0"/>
 							<TextBlock
 								Text="{Binding DisplayName}"
 								Background="{Binding BackgroundBrush}"
