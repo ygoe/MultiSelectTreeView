@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=MultiSelectTreeView" 
 	xmlns:demo="clr-namespace:Demo"
-    xmlns:vm="clr-namespace:Demo.ViewModel"
+	xmlns:vm="clr-namespace:Demo.ViewModel"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
@@ -117,6 +117,7 @@
 						<Setter Property="IsVisible" Value="{Binding IsVisible, Mode=TwoWay}"/>
 						<Setter Property="IsEditable" Value="{Binding IsEditable, Mode=TwoWay}"/>
 						<Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}"/>
+						<Setter Property="Remarks" Value="{Binding Remarks, Mode=TwoWay}"/>
 						<!--
 						The ContentTemplateEdit property defines a DataTemplate that is applied
 						instead of the normal viewing DataTemplate (definition below) when the item
@@ -142,6 +143,32 @@
 									<ContentControl
 										Content="{Binding}"
 										ContentTemplateSelector="{StaticResource EditorTemplateSelector}"/>
+								</DataTemplate>
+							</Setter.Value>
+						</Setter>
+						<!--
+						The RemarksTemplate property defines a DataTemplate that is applied instead
+						of the normal viewing DataTemplate. If you do not need remarks
+						functionality or the default template is good for you, then you can omit
+						this Setter.
+						-->
+						<Setter Property="RemarksTemplate">
+							<Setter.Value>
+								<DataTemplate>
+									<TextBlock VerticalAlignment="Center" Margin="3,0,0,0" Foreground="#a0ff0000" FontStyle="Italic" Text="{Binding}">
+										<TextBlock.Style>
+											<Style TargetType="TextBlock">
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding}" Value="{x:Null}">
+														<Setter Property="Visibility" Value="Collapsed"/>
+													</DataTrigger>
+													<DataTrigger Binding="{Binding}" Value="">
+														<Setter Property="Visibility" Value="Collapsed"/>
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
 								</DataTemplate>
 							</Setter.Value>
 						</Setter>

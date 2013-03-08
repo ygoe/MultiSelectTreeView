@@ -87,61 +87,69 @@ namespace System.Windows.Controls
 			"IsExpanded",
 			typeof(bool),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(false, null));
+			new FrameworkPropertyMetadata(false));
 
 		public static DependencyProperty IsEditableProperty = DependencyProperty.Register(
 			"IsEditable",
 			typeof(bool),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(true, null));
+			new FrameworkPropertyMetadata(true));
 
 		public static new DependencyProperty IsVisibleProperty = DependencyProperty.Register(
 			"IsVisible",
 			typeof(bool),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(true, null));
+			new FrameworkPropertyMetadata(true));
 
 		public static DependencyProperty IsSelectedProperty = DependencyProperty.Register(
 			"IsSelected",
 			typeof(bool),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.None, new PropertyChangedCallback(OnIsSelectedChanged)));
+			new FrameworkPropertyMetadata(new PropertyChangedCallback(OnIsSelectedChanged)));
 
 		public static DependencyProperty IsEditingProperty = DependencyProperty.Register(
 			"IsEditing",
 			typeof(bool),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(false, null));
+			new FrameworkPropertyMetadata(false));
 
 		public static DependencyProperty ContentTemplateEditProperty = DependencyProperty.Register(
 			"ContentTemplateEdit",
 			typeof(DataTemplate),
-			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(null, null));
+			typeof(MultiSelectTreeViewItem));
 
 		public static DependencyProperty DisplayNameProperty = DependencyProperty.Register(
 			"DisplayName",
 			typeof(string),
-			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(null));
+			typeof(MultiSelectTreeViewItem));
 
 		public static DependencyProperty HoverHighlightingProperty = DependencyProperty.Register(
 			"HoverHighlighting",
 			typeof(bool),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(false, null));
+			new FrameworkPropertyMetadata(false));
 
 		public static DependencyProperty ItemIndentProperty = DependencyProperty.Register(
 			"ItemIndent",
 			typeof(int),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(13, null));
+			new FrameworkPropertyMetadata(13));
 
 		public static DependencyProperty IsKeyboardModeProperty = DependencyProperty.Register(
 			"IsKeyboardMode",
 			typeof(bool),
 			typeof(MultiSelectTreeViewItem),
-			new FrameworkPropertyMetadata(false, null));
+			new FrameworkPropertyMetadata(false));
+
+		public static DependencyProperty RemarksProperty = DependencyProperty.Register(
+			"Remarks",
+			typeof(string),
+			typeof(MultiSelectTreeViewItem));
+
+		public static DependencyProperty RemarksTemplateProperty = DependencyProperty.Register(
+			"RemarksTemplate",
+			typeof(DataTemplate),
+			typeof(MultiSelectTreeViewItem));
 
 		#endregion Others
 
@@ -294,6 +302,18 @@ namespace System.Windows.Controls
 		{
 			get { return (bool) GetValue(IsKeyboardModeProperty); }
 			set { SetValue(IsKeyboardModeProperty, value); }
+		}
+
+		public string Remarks
+		{
+			get { return (string) GetValue(RemarksProperty); }
+			set { SetValue(RemarksProperty, value); }
+		}
+
+		public DataTemplate RemarksTemplate
+		{
+			get { return (DataTemplate) GetValue(RemarksTemplateProperty); }
+			set { SetValue(RemarksTemplateProperty, value); }
 		}
 
 		#endregion Others

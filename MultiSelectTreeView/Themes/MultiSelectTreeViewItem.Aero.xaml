@@ -48,6 +48,26 @@
 			</LinearGradientBrush>
 		</Style.Resources>
 
+		<Setter Property="RemarksTemplate">
+			<Setter.Value>
+				<DataTemplate>
+					<TextBlock VerticalAlignment="Center" Margin="3,0,0,0" Text="{Binding}">
+						<TextBlock.Style>
+							<Style TargetType="TextBlock">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding}" Value="{x:Null}">
+										<Setter Property="Visibility" Value="Collapsed"/>
+									</DataTrigger>
+									<DataTrigger Binding="{Binding}" Value="">
+										<Setter Property="Visibility" Value="Collapsed"/>
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</DataTemplate>
+			</Setter.Value>
+		</Setter>
 		<Setter Property="ContentTemplateEdit">
 			<Setter.Value>
 				<DataTemplate>
@@ -179,28 +199,35 @@
 							<!-- endregion Expander button -->
 
 							<!-- region Element grid -->
-							<Grid Grid.Column="1" x:Name="ElementGrid">
-								<Border x:Name="headerBorder"
-									BorderThickness="{TemplateBinding Border.BorderThickness}"
-									Padding="{TemplateBinding Control.Padding}"
-									Margin="0,0,0,-1"
-									BorderBrush="{TemplateBinding Border.BorderBrush}"
-									Background="{TemplateBinding Panel.Background}"
-									SnapsToDevicePixels="True" CornerRadius="2"
-									VerticalAlignment="Center">
-									<ContentPresenter Name="PART_Header"
-										FocusManager.IsFocusScope="True"
-										Content="{TemplateBinding HeaderedContentControl.Header}"
-										ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
-										ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}"
-										ContentSource="Header"
-										HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-										VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-										SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-								</Border>
-								<!-- Additional border glare inside the item -->
-								<Border BorderThickness="1" BorderBrush="#80ffffff" Margin="1,1,1,0" SnapsToDevicePixels="True" CornerRadius="2" IsHitTestVisible="False"/>
-							</Grid>
+							<StackPanel Grid.Column="1" Orientation="Horizontal">
+								<Grid Name="ElementGrid">
+									<Border Name="headerBorder"
+										BorderThickness="{TemplateBinding Border.BorderThickness}"
+										Padding="{TemplateBinding Control.Padding}"
+										Margin="0,0,0,-1"
+										BorderBrush="{TemplateBinding Border.BorderBrush}"
+										Background="{TemplateBinding Panel.Background}"
+										SnapsToDevicePixels="True" CornerRadius="2"
+										VerticalAlignment="Center">
+										<ContentPresenter Name="PART_Header"
+											FocusManager.IsFocusScope="True"
+											Content="{TemplateBinding HeaderedContentControl.Header}"
+											ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
+											ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}"
+											ContentSource="Header"
+											HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+											VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+											SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+									</Border>
+									<!-- Additional border glare inside the item -->
+									<Border BorderThickness="1" BorderBrush="#80ffffff" Margin="1,1,1,0" SnapsToDevicePixels="True" CornerRadius="2" IsHitTestVisible="False"/>
+								</Grid>
+
+								<ContentPresenter
+									Content="{TemplateBinding Remarks}"
+									ContentTemplate="{TemplateBinding RemarksTemplate}"
+									SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+							</StackPanel>
 							<!-- endregion Element grid -->
 						</Grid>
 						<Grid Name="ItemsHostGrid" Margin="{TemplateBinding ItemIndent, Converter={StaticResource ThicknessLeftConverter}}">

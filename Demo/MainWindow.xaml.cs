@@ -26,7 +26,7 @@ namespace Demo
 			var rootNode = new TreeItemViewModel(null, false) { DisplayName = "rootNode" };
 			var node1 = new TreeItemViewModel(rootNode, false) { DisplayName = "element1 (editable)", IsEditable = true };
 			var node2 = new TreeItemViewModel(rootNode, false) { DisplayName = "element2" };
-			var node11 = new TreeItemViewModel(node1, false) { DisplayName = "element11" };
+			var node11 = new TreeItemViewModel(node1, false) { DisplayName = "element11", Remarks = "Look at me!" };
 			var node12 = new TreeItemViewModel(node1, false) { DisplayName = "element12 (disabled)", IsEnabled = false };
 			var node13 = new TreeItemViewModel(node1, false) { DisplayName = "element13" };
 			var node131 = new TreeItemViewModel(node13, false) { DisplayName = "element131" };

@@ -22,6 +22,7 @@ namespace Demo.ViewModel
 		private bool isEditing;
 		private bool isEnabled = true;
 		private bool isVisible = true;
+		private string remarks;
 
 		#endregion Data
 
@@ -167,6 +168,19 @@ namespace Demo.ViewModel
 				{
 					isVisible = value;
 					OnPropertyChanged("IsVisible");
+				}
+			}
+		}
+
+		public string Remarks
+		{
+			get { return remarks; }
+			set
+			{
+				if (value != remarks)
+				{
+					remarks = value;
+					OnPropertyChanged("Remarks");
 				}
 			}
 		}
