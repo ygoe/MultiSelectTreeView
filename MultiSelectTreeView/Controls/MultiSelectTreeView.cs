@@ -277,8 +277,11 @@ namespace System.Windows.Controls
 
 		public void FocusItem(object item, bool bringIntoView = false)
 		{
-			MultiSelectTreeViewItem node = GetTreeViewItemsFor(new List<object> { item }).First();
-			FocusHelper.Focus(node, bringIntoView);
+			MultiSelectTreeViewItem node = GetTreeViewItemsFor(new List<object> { item }).FirstOrDefault();
+			if (node != null)
+			{
+				FocusHelper.Focus(node, bringIntoView);
+			}
 		}
 
 		public void BringItemIntoView(object item)
