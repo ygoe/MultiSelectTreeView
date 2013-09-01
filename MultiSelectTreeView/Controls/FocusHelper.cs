@@ -25,7 +25,10 @@ namespace System.Windows.Controls
 			if (bringIntoView)
 			{
 				FrameworkElement itemContent = (FrameworkElement) element.Template.FindName("headerBorder", element);
-				itemContent.BringIntoView();
+				if (itemContent != null)   // May not be rendered yet...
+				{
+					itemContent.BringIntoView();
+				}
 			}
 		}
 
