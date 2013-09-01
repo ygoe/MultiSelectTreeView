@@ -288,6 +288,36 @@ namespace System.Windows.Controls
 			itemContent.BringIntoView();
 		}
 
+		public bool SelectNextItem()
+		{
+			return Selection.SelectNextFromKey();
+		}
+
+		public bool SelectPreviousItem()
+		{
+			return Selection.SelectPreviousFromKey();
+		}
+
+		public bool SelectFirstItem()
+		{
+			return Selection.SelectFirstFromKey();
+		}
+
+		public bool SelectLastItem()
+		{
+			return Selection.SelectLastFromKey();
+		}
+
+		public bool SelectAllItems()
+		{
+			return Selection.SelectAllFromKey();
+		}
+
+		public bool SelectParentItem()
+		{
+			return Selection.SelectParentFromKey();
+		}
+
 		#endregion
 
 		#region Methods
