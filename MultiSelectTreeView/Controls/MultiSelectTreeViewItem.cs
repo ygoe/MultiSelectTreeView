@@ -435,14 +435,36 @@ namespace System.Windows.Controls
 				}
 			}
 
-			// Bring newly expanded child nodes into view if they'd be outside of the current view
 			if (e.Property.Name == "IsExpanded")
 			{
+				// Bring newly expanded child nodes into view if they'd be outside of the current view
 				if ((bool) e.NewValue == true)
 				{
 					if (VisualChildrenCount > 0)
 					{
 						((FrameworkElement) GetVisualChild(VisualChildrenCount - 1)).BringIntoView();
+					}
+				}
+				// Deselect children of collapsed item
+				// (If one resists, don't collapse)
+				if ((bool) e.NewValue == false)
+				{
+					if (!ParentTreeView.DeselectRecursive(this, false))
+					{
+						IsExpanded = true;
+					}
+				}
+			}
+
+			if (e.Property.Name == "IsVisible")
+			{
+				// Deselect invisible item and its children
+				// (If one resists, don't hide)
+				if ((bool) e.NewValue == false)
+				{
+					if (!ParentTreeView.DeselectRecursive(this, true))
+					{
+						IsVisible = true;
 					}
 				}
 			}

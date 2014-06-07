@@ -325,6 +325,59 @@ namespace System.Windows.Controls
 
 		#region Methods
 
+		internal bool DeselectRecursive(MultiSelectTreeViewItem item, bool includeSelf)
+		{
+			List<MultiSelectTreeViewItem> selectedChildren = new List<MultiSelectTreeViewItem>();
+			if (includeSelf)
+			{
+				if (item.IsSelected)
+				{
+					var e = new PreviewSelectionChangedEventArgs(false, item.DataContext);
+					OnPreviewSelectionChanged(e);
+					if (e.CancelAny)
+					{
+						return false;
+					}
+					selectedChildren.Add(item);
+				}
+			}
+			if (!CollectDeselectRecursive(item, selectedChildren))
+			{
+				return false;
+			}
+			foreach (var child in selectedChildren)
+			{
+				child.IsSelected = false;
+			}
+			return true;
+		}
+
+		private bool CollectDeselectRecursive(MultiSelectTreeViewItem item, List<MultiSelectTreeViewItem> selectedChildren)
+		{
+			foreach (var child in item.Items)
+			{
+				MultiSelectTreeViewItem tvi = item.ItemContainerGenerator.ContainerFromItem(child) as MultiSelectTreeViewItem;
+				if (tvi != null)
+				{
+					if (tvi.IsSelected)
+					{
+						var e = new PreviewSelectionChangedEventArgs(false, child);
+						OnPreviewSelectionChanged(e);
+						if (e.CancelAny)
+						{
+							return false;
+						}
+						selectedChildren.Add(tvi);
+					}
+					if (!CollectDeselectRecursive(tvi, selectedChildren))
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
 		internal bool ClearSelectionByRectangle()
 		{
 			foreach (var item in new ArrayList(SelectedItems))

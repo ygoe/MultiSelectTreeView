@@ -126,7 +126,7 @@ namespace Demo
 
 		private void HideNodesButton_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
-			foreach (TreeItemViewModel node in TheTreeView.SelectedItems)
+			foreach (TreeItemViewModel node in TheTreeView.SelectedItems.OfType<TreeItemViewModel>().ToArray())
 			{
 				node.IsVisible = false;
 			}

@@ -8,10 +8,9 @@ using System.Windows;
 [assembly: AssemblyTitle("WPF control library with a TreeView supporting multiple selection.")]
 
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("© 2012 Yves Goergen, Goroll")]
+[assembly: AssemblyCopyright("© 2012-2014 Yves Goergen, Goroll")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(
@@ -22,3 +21,10 @@ using System.Windows;
 	// (used if a resource is not found in the page, app, or any theme specific resource dictionaries)
 	ResourceDictionaryLocation.SourceAssembly
 )]
+
+// Change history:
+//
+// 1.0.1 - 2014-06-07
+// * Deselect hidden items and all children of hidden and collapsed items
+//
+// 1.0 - past (see commit history)
