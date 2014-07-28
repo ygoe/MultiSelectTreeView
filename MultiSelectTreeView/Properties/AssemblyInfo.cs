@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("© 2012-2014 Yves Goergen, Goroll")]
 
-[assembly: AssemblyVersion("1.0.2.0")]
+[assembly: AssemblyVersion("1.0.3.0")]
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(
@@ -23,6 +23,9 @@ using System.Windows;
 )]
 
 // Change history:
+//
+// 1.0.3 - 2014-07-28
+// * Added FallbackValues to several XAML bindings to avoid "Cannot find source for binding" errors and warnings
 //
 // 1.0.2 - 2014-06-26
 // * Only expand/collapse item on double-click with the left mouse button, not others
