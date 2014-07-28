@@ -507,7 +507,7 @@ namespace System.Windows.Controls
 				return;
 			}
 
-			if (IsKeyboardFocused) IsExpanded = !IsExpanded;
+			if (IsKeyboardFocused && e.ChangedButton == MouseButton.Left) IsExpanded = !IsExpanded;
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
