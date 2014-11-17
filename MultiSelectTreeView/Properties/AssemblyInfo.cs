@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("© 2012-2014 Yves Goergen, Goroll")]
 
-[assembly: AssemblyVersion("1.0.3.0")]
+[assembly: AssemblyVersion("1.0.4.0")]
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(
@@ -23,6 +23,9 @@ using System.Windows;
 )]
 
 // Change history:
+//
+// 1.0.4 - 2014-11-17
+// * Changed Windows 8 Aero2 theme to match native style more closely (hover colours different from selected)
 //
 // 1.0.3 - 2014-07-28
 // * Added FallbackValues to several XAML bindings to avoid "Cannot find source for binding" errors and warnings

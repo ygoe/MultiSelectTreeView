@@ -283,6 +283,18 @@
 								<Condition Property="Controls:MultiSelectTreeViewItem.HoverHighlighting" Value="True"/>
 								<Condition Property="Controls:MultiSelectTreeViewItem.IsMouseOver" Value="True" SourceName="ElementGrid"/>
 							</MultiTrigger.Conditions>
+							<Setter Property="Control.Background" Value="#E5F3FB"/>
+							<Setter Property="Border.BorderBrush" Value="#70C0E7"/>
+						</MultiTrigger>
+
+						<!-- Set Selected style when the mouse is located over a selected item and HoverHighlighting is active
+							(after inactive grey to override it) -->
+						<MultiTrigger>
+							<MultiTrigger.Conditions>
+								<Condition Property="Controls:MultiSelectTreeViewItem.HoverHighlighting" Value="True"/>
+								<Condition Property="Controls:MultiSelectTreeViewItem.IsMouseOver" Value="True" SourceName="ElementGrid"/>
+								<Condition Property="IsSelected" Value="True"/>
+							</MultiTrigger.Conditions>
 							<Setter Property="Control.Background" Value="#d1e8ff"/>
 							<Setter Property="Border.BorderBrush" Value="#66a7e8"/>
 						</MultiTrigger>
