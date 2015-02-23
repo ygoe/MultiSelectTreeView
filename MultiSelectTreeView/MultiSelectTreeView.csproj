@@ -163,7 +163,7 @@
   <PropertyGroup>
     <PostBuildEvent>del /s /f /q $(ProjectDir)\NuGet\lib
 xcopy /y $(TargetPath) $(ProjectDir)NuGet\lib\net40\
-$(ProjectDir)Tools\NuGet.exe pack $(ProjectDir)NuGet\MultiSelectTreeView.nuspec -basepath $(ProjectDir)NuGet -outputdir $(TargetDir)</PostBuildEvent>
+$(ProjectDir)tools\NuGet.exe pack $(ProjectDir)NuGet\MultiSelectTreeView.nuspec -basepath $(ProjectDir)NuGet -outputdir $(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
