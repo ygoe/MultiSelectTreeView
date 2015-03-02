@@ -186,6 +186,7 @@
 											Content="{TemplateBinding HeaderedContentControl.Header}"
 											ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
 											ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}"
+											ContentTemplateSelector="{TemplateBinding HeaderedItemsControl.HeaderTemplateSelector}"
 											ContentSource="Header"
 											HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
 											VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
