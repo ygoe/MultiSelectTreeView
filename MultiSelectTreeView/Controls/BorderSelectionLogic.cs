@@ -279,7 +279,18 @@ namespace System.Windows.Controls
 			border.Visibility = Visibility.Collapsed;
 			initialSelection = null;
 
-			// Debug.WriteLine("End drwawing");
+            // Clear selection if this was a non-ctrl click
+            Point currentPoint = Mouse.GetPosition(content);
+            double width = currentPoint.X - startPoint.X + 1;
+            double height = currentPoint.Y - startPoint.Y + 1;
+            if (Math.Abs(width) <= SystemParameters.MinimumHorizontalDragDistance &&
+                Math.Abs(height) <= SystemParameters.MinimumVerticalDragDistance && 
+                !SelectionMultiple.IsControlKeyDown)
+            {
+                treeView.ClearSelection();
+            }
+
+		    // Debug.WriteLine("End drwawing");
 		}
 
 		#endregion Methods
