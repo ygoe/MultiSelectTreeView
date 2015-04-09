@@ -250,6 +250,8 @@ namespace System.Windows.Controls
 		public override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+
+			Selection.ApplyTemplate();
 		}
 
 		public bool ClearSelection()
