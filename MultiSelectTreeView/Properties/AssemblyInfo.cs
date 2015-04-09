@@ -8,9 +8,9 @@ using System.Windows;
 [assembly: AssemblyTitle("WPF control library with a TreeView supporting multiple selection.")]
 
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("© 2012-2015 Yves Goergen, Goroll")]
+[assembly: AssemblyCopyright("© 2012–2015 Yves Goergen, Goroll")]
 
-[assembly: AssemblyVersion("1.0.5.0")]
+[assembly: AssemblyVersion("1.0.6.0")]
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(
@@ -23,6 +23,10 @@ using System.Windows;
 )]
 
 // Change history:
+//
+// 1.0.6 - 2015-04-09
+// * Fix: Treeview disposed on tabhide
+// * Non-Ctrl click in the background clears selection
 //
 // 1.0.5 - 2015-03-02
 // * Fix: MultiSelectTreeView does not use template from ItemTemplateSelector
