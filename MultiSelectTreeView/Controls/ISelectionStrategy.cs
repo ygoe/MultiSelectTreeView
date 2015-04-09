@@ -1,6 +1,6 @@
 ﻿namespace System.Windows.Controls
 {
-    internal interface ISelectionStrategy : IDisposable
+    internal interface ISelectionStrategy
     {
 		event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;
 		
