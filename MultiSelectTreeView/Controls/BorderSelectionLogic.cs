@@ -13,7 +13,7 @@ namespace System.Windows.Controls
 		private readonly ScrollViewer scrollViewer;
 		private readonly ItemsPresenter content;
 		private readonly IEnumerable<MultiSelectTreeViewItem> items;
-		
+
 		private bool isFirstMove;
 		private bool mouseDown;
 		private Point startPoint;
@@ -177,12 +177,12 @@ namespace System.Windows.Controls
 					double itemBottom = p.Y + itemContent.ActualHeight - 1;
 
 					// Debug.WriteLine(string.Format("element:{0};itemleft:{1};itemright:{2};itemtop:{3};itembottom:{4}",item.DataContext,itemLeft,itemRight,itemTop,itemBottom));
-					
+
 					// Compute the current input states for determining the new selection state of the item
 					bool intersect = !(itemLeft > right || itemRight < left || itemTop > bottom || itemBottom < top);
 					bool initialSelected = initialSelection != null && initialSelection.Contains(item.DataContext);
 					bool ctrl = SelectionMultiple.IsControlKeyDown;
-					
+
 					// Decision matrix:
 					// If the Ctrl key is pressed, each intersected item will be toggled from its initial selection.
 					// Without the Ctrl key, each intersected item is selected, others are deselected.
@@ -256,6 +256,17 @@ namespace System.Windows.Controls
 		private void OnMouseUp(object sender, MouseButtonEventArgs e)
 		{
 			EndAction();
+
+			// Clear selection if this was a non-ctrl click outside of any item (i.e. in the background)
+			Point currentPoint = e.GetPosition(content);
+			double width = currentPoint.X - startPoint.X + 1;
+			double height = currentPoint.Y - startPoint.Y + 1;
+			if (Math.Abs(width) <= SystemParameters.MinimumHorizontalDragDistance &&
+				Math.Abs(height) <= SystemParameters.MinimumVerticalDragDistance &&
+				!SelectionMultiple.IsControlKeyDown)
+			{
+				treeView.ClearSelection();
+			}
 		}
 
 		private void OnKeyDown(object sender, KeyEventArgs e)
@@ -279,7 +290,7 @@ namespace System.Windows.Controls
 			border.Visibility = Visibility.Collapsed;
 			initialSelection = null;
 
-			// Debug.WriteLine("End drwawing");
+			// Debug.WriteLine("End drawing");
 		}
 
 		#endregion Methods
