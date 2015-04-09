@@ -391,6 +391,17 @@ namespace System.Windows.Controls
 			return true;
 		}
 
+		public void Dispose()
+		{
+			if (borderSelectionLogic != null)
+			{
+				borderSelectionLogic.Dispose();
+				borderSelectionLogic = null;
+			}
+
+			GC.SuppressFinalize(this);
+		}
+
 		protected void OnPreviewSelectionChanged(PreviewSelectionChangedEventArgs e)
 		{
 			var handler = PreviewSelectionChanged;
