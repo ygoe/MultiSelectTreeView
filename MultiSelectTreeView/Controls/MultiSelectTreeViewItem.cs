@@ -113,7 +113,13 @@ namespace System.Windows.Controls
 			typeof(MultiSelectTreeViewItem),
 			new FrameworkPropertyMetadata(false));
 
-		public static DependencyProperty ContentTemplateEditProperty = DependencyProperty.Register(
+        public static DependencyProperty IsFocusedProperty = DependencyProperty.Register(
+            "IsFocused",
+            typeof(bool),
+            typeof(MultiSelectTreeViewItem),
+            new FrameworkPropertyMetadata(false));
+
+        public static DependencyProperty ContentTemplateEditProperty = DependencyProperty.Register(
 			"ContentTemplateEdit",
 			typeof(DataTemplate),
 			typeof(MultiSelectTreeViewItem));
@@ -274,13 +280,19 @@ namespace System.Windows.Controls
 			set { SetValue(IsEditingProperty, value); }
 		}
 
-		public bool IsSelected
+        public bool IsSelected
 		{
 			get { return (bool) GetValue(IsSelectedProperty); }
 			set { SetValue(IsSelectedProperty, value); }
 		}
 
-		public string DisplayName
+        public new bool IsFocused
+        {
+            get { return (bool)GetValue(IsFocusedProperty); }
+            set { SetValue(IsFocusedProperty, value); }
+        }
+
+        public string DisplayName
 		{
 			get { return (string) GetValue(DisplayNameProperty); }
 			set { SetValue(DisplayNameProperty, value); }
