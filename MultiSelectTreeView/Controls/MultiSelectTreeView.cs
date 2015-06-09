@@ -258,7 +258,8 @@ namespace System.Windows.Controls
 		{
 			if (SelectedItems.Count > 0)
 			{
-				foreach (var selItem in SelectedItems)
+				// Make a copy of the list and ignore changes to the selection while raising events
+				foreach (var selItem in new ArrayList(SelectedItems))
 				{
 					var e = new PreviewSelectionChangedEventArgs(false, selItem);
 					OnPreviewSelectionChanged(e);

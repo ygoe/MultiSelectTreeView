@@ -10,7 +10,8 @@ using System.Windows;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("© 2012–2015 Yves Goergen, Goroll")]
 
-[assembly: AssemblyVersion("1.0.6.0")]
+// IMPORTANT: When changing the version number, also update the NuGet package and the version history below.
+[assembly: AssemblyVersion("1.0.7.0")]
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(
@@ -23,6 +24,9 @@ using System.Windows;
 )]
 
 // Change history:
+//
+// 1.0.7 - 2015-06-09
+// * Fix: ClearSelection() throws exception if a PreviewSelectionChanged handler changes the selection
 //
 // 1.0.6 - 2015-04-09
 // * Fix: Treeview disposed on tabhide
