@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,6 +9,7 @@ namespace Demo
 	/// <summary>
 	/// Provides a configurable DataTemplateSelector.
 	/// </summary>
+	[Obfuscation(Exclude = true, ApplyToMembers = true, Feature = "renaming")]
 	public class TypeTemplateSelector : DataTemplateSelector
 	{
 		/// <summary>
@@ -42,6 +44,7 @@ namespace Demo
 	/// <summary>
 	/// Defines a template to be selected for a type.
 	/// </summary>
+	[Obfuscation(Exclude = true, ApplyToMembers = true, Feature = "renaming")]
 	public class TypeTemplateDefinition
 	{
 		/// <summary>

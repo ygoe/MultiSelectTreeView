@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Media;
 
 namespace Demo.ViewModel
 {
+	[Obfuscation(Exclude = true, ApplyToMembers = false, Feature = "renaming")]
 	public class ColorItemViewModel : TreeItemViewModel
 	{
 		#region Constructor

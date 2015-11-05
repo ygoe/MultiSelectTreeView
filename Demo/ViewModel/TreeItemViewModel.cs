@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace Demo.ViewModel
 {
@@ -7,6 +8,7 @@ namespace Demo.ViewModel
 	/// Sample base class for tree items view models. All specialised tree item view model classes
 	/// should inherit from this class.
 	/// </summary>
+	[Obfuscation(Exclude = true, ApplyToMembers = false, Feature = "renaming")]
 	public class TreeItemViewModel : INotifyPropertyChanged
 	{
 		#region Data
