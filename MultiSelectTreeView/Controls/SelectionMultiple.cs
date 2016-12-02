@@ -44,6 +44,14 @@ namespace System.Windows.Controls
 
 		#endregion
 
+		public void InvalidateLastShiftRoot(object item)
+		{
+			if (lastShiftRoot == item)
+			{
+				lastShiftRoot = null;
+			}
+		}
+
 		public void ApplyTemplate()
 		{
 			borderSelectionLogic = new BorderSelectionLogic(

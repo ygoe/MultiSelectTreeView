@@ -680,6 +680,11 @@ namespace System.Windows.Controls
 						foreach (var item in e.OldItems)
 						{
 							parentTV.SelectedItems.Remove(item);
+							var multiselection = parentTV.Selection as SelectionMultiple;
+							if (multiselection != null)
+							{
+								multiselection.InvalidateLastShiftRoot(item);
+							}
 							// Don't preview and ask, it is already gone so it must be removed from
 							// the SelectedItems list
 						}
