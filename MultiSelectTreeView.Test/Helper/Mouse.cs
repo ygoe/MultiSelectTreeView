@@ -32,7 +32,7 @@ namespace MultiSelectTreeView.Test.Model.Helper
             {
                 Click(toggleButton.GetClickablePoint());
             }
-            catch (Exception ex)
+            catch
             {
             }
             SleepAfter();
@@ -262,9 +262,8 @@ namespace MultiSelectTreeView.Test.Model.Helper
             {
                 MoveToAndClick(element.GetClickablePoint());
             }
-            catch (Exception ex)
+            catch
             {
-
             }
         }
 
