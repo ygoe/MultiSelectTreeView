@@ -257,8 +257,8 @@
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
 									Value="True"/>
 							</MultiDataTrigger.Conditions>
-							<Setter Property="Control.Background" Value="#f7f7f7"/>
-							<Setter Property="Border.BorderBrush" Value="#dedede"/>
+							<Setter Property="Control.Background" Value="#d9d9d9"/><!-- Windows 8: #f7f7f7 -->
+							<Setter Property="Border.BorderBrush" Value="#d9d9d9"/><!-- Windows 8: #dedede -->
 						</MultiDataTrigger>
 						
 						<!-- Make all selected items grey when none of this TreeView's items is focused (i.e. the TreeView is not focused) -->
@@ -274,8 +274,8 @@
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
 									Value="True"/>
 							</MultiDataTrigger.Conditions>
-							<Setter Property="Control.Background" Value="#f7f7f7"/>
-							<Setter Property="Border.BorderBrush" Value="#dedede"/>
+							<Setter Property="Control.Background" Value="#d9d9d9"/><!-- Windows 8: #f7f7f7 -->
+							<Setter Property="Border.BorderBrush" Value="#d9d9d9"/><!-- Windows 8: #dedede -->
 						</MultiDataTrigger>
 
 						<!-- Set the border and background when the mouse is located over the item and HoverHighlighting is active -->
@@ -284,8 +284,8 @@
 								<Condition Property="Controls:MultiSelectTreeViewItem.HoverHighlighting" Value="True"/>
 								<Condition Property="Controls:MultiSelectTreeViewItem.IsMouseOver" Value="True" SourceName="ElementGrid"/>
 							</MultiTrigger.Conditions>
-							<Setter Property="Control.Background" Value="#E5F3FB"/>
-							<Setter Property="Border.BorderBrush" Value="#70C0E7"/>
+							<Setter Property="Control.Background" Value="#E5F3FF"/><!-- Windows 8: #E5F3FB -->
+							<Setter Property="Border.BorderBrush" Value="#E5F3FF"/><!-- Windows 8: #70C0E7 -->
 						</MultiTrigger>
 
 						<!-- Set Selected style when the mouse is located over a selected item and HoverHighlighting is active

@@ -44,7 +44,7 @@
 			<SolidColorBrush x:Key="InactiveBorderBrush" Color="#b5c9c9c9"/>
 			<LinearGradientBrush x:Key="InactiveBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
 				<GradientStop Color="#f8f8f8" Offset="0"/>
-				<GradientStop Color="#e5e5e5" Offset="1"/>
+				<GradientStop Color="#d8d8d8" Offset="1"/>
 			</LinearGradientBrush>
 		</Style.Resources>
 
