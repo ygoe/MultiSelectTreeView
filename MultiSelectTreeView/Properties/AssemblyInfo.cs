@@ -8,10 +8,10 @@ using System.Windows;
 [assembly: AssemblyTitle("WPF control library with a TreeView supporting multiple selection.")]
 
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("© 2012–2016 Yves Goergen, Goroll")]
+[assembly: AssemblyCopyright("© 2012–2017 Yves Goergen, Goroll")]
 
 // IMPORTANT: When changing the version number, also update the NuGet package and the version history below.
-[assembly: AssemblyVersion("1.0.8.0")]
+[assembly: AssemblyVersion("1.0.9.0")]
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(
@@ -24,6 +24,9 @@ using System.Windows;
 )]
 
 // Change history:
+//
+// 1.0.9 - 2017-03-20
+// * Improved contrast of inactive selection on Windows 7 and Windows 10
 //
 // 1.0.8 - 2016-12-27
 // * Fix: #35 (Selecting items without a mouse click does not update the lastShiftRoot…)
