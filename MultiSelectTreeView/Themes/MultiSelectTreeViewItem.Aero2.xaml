@@ -66,11 +66,11 @@
 
 		<!-- Pass on the MultiSelectTreeView' HoverHighlighting value to each item because we couldn't access it otherwise in the triggers -->
 		<Setter Property="HoverHighlighting"
-			Value="{Binding (Controls:MultiSelectTreeView.HoverHighlighting), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=False}"/>
+			Value="{Binding Path=HoverHighlighting, RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=False}"/>
 		<Setter Property="ItemIndent"
-			Value="{Binding (Controls:MultiSelectTreeView.ItemIndent), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=13}"/>
+			Value="{Binding Path=ItemIndent, RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=13}"/>
 		<Setter Property="IsKeyboardMode"
-			Value="{Binding (Controls:MultiSelectTreeView.IsKeyboardMode), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=False}"/>
+			Value="{Binding Path=IsKeyboardMode, RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=False}"/>
 
 		<Setter Property="Control.Template">
 			<Setter.Value>
