@@ -247,11 +247,11 @@
 							<Setter Property="Border.BorderBrush" Value="#66a7e8"/>
 						</MultiTrigger>
 
-						<!-- Make all selected items grey when the entire Window is inactive -->
+						<!-- Make all selected items grey when the tree view is not focused -->
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition
-									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=IsActive, FallbackValue=False}"
+									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Path=IsFocused, FallbackValue=False}"
 									Value="False"/>
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
