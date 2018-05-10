@@ -24,10 +24,10 @@ namespace System.Windows.Controls
 
 			if (bringIntoView)
 			{
-				FrameworkElement itemContent = (FrameworkElement) element.Template.FindName("headerBorder", element);
+				FrameworkElement itemContent = (FrameworkElement) element.Template.FindName("PART_Header", element);
 				if (itemContent != null)   // May not be rendered yet...
 				{
-					itemContent.BringIntoView();
+					((FrameworkElement)itemContent.Parent).BringIntoView();
 				}
 			}
 		}

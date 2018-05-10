@@ -500,8 +500,8 @@ namespace System.Windows.Controls
 		{
 			base.OnMouseDoubleClick(e);
 
-			FrameworkElement itemContent = (FrameworkElement) this.Template.FindName("headerBorder", this);
-			if (!itemContent.IsMouseOver)
+			FrameworkElement itemContent = (FrameworkElement) this.Template.FindName("PART_Header", this);
+			if (itemContent == null || !((FrameworkElement)itemContent.Parent).IsMouseOver)
 			{
 				// A (probably disabled) child item was really clicked, do nothing here
 				return;
@@ -641,8 +641,8 @@ namespace System.Windows.Controls
 			//System.Diagnostics.Debug.WriteLine("MultiSelectTreeViewItem.OnMouseDown(Item = " + this.DisplayName + ", Button = " + e.ChangedButton + ")");
 			base.OnMouseDown(e);
 
-			FrameworkElement itemContent = (FrameworkElement) this.Template.FindName("headerBorder", this);
-			if (!itemContent.IsMouseOver)
+			FrameworkElement itemContent = (FrameworkElement) this.Template.FindName("PART_Header", this);
+			if (itemContent == null || !((FrameworkElement)itemContent.Parent).IsMouseOver)
 			{
 				// A (probably disabled) child item was really clicked, do nothing here
 				return;

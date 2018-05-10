@@ -128,7 +128,7 @@
 							</ToggleButton>
 
 							<Grid Grid.Column="1" x:Name="ElementGrid">
-								<Border x:Name="headerBorder"
+								<Border
 									BorderThickness="{TemplateBinding Border.BorderThickness}"
 									Padding="{TemplateBinding Control.Padding}"
 									Margin="0,0,0,-1"

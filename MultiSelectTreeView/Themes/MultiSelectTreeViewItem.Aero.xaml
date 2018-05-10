@@ -201,7 +201,7 @@
 							<!-- region Element grid -->
 							<StackPanel Grid.Column="1" Orientation="Horizontal">
 								<Grid Name="ElementGrid">
-									<Border Name="headerBorder"
+									<Border
 										BorderThickness="{TemplateBinding Border.BorderThickness}"
 										Padding="{TemplateBinding Control.Padding}"
 										Margin="0,0,0,-1"

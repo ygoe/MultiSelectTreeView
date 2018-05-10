@@ -324,8 +324,12 @@ namespace System.Windows.Controls
 			}
 
 			double targetY = item.TransformToAncestor(treeView).Transform(new Point()).Y;
-			FrameworkElement itemContent = (FrameworkElement) item.Template.FindName("headerBorder", item);
-			double offset = treeView.ActualHeight - 2 * itemContent.ActualHeight;
+			FrameworkElement itemContent = (FrameworkElement) item.Template.FindName("PART_Header", item);
+			if (itemContent == null) {
+				return down ? SelectLastFromKey() : SelectFirstFromKey();
+			}
+
+			double offset = treeView.ActualHeight - 2 * ((FrameworkElement)itemContent.Parent).ActualHeight;
 			if (!down) offset = -offset;
 			targetY += offset;
 			while (true)
