@@ -13,12 +13,31 @@ namespace System.Windows.Controls
 	public class MultiSelectTreeView : ItemsControl
 	{
 		#region Constants and Fields
-
-		public event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;
 		
-		// TODO: Provide more details. Fire once for every single change and once for all groups of changes, with different flags
-		public event EventHandler SelectionChanged;
+		public static readonly RoutedEvent SelectionChangedEvent = EventManager.RegisterRoutedEvent(
+			"SelectionChanged", 
+			RoutingStrategy.Bubble, 
+			typeof(SelectionChangedEventHandler), 
+			typeof(MultiSelectTreeView));
+		
+		public static readonly RoutedEvent PreviewSelectionChangedEvent = EventManager.RegisterRoutedEvent(
+			"PreviewSelectionChanged", 
+			RoutingStrategy.Bubble, 
+			typeof(PreviewSelectionChangedEventHandler), 
+			typeof(MultiSelectTreeView));
 
+		public event SelectionChangedEventHandler SelectionChanged
+		{
+			add { AddHandler(SelectionChangedEvent, value); }
+			remove { RemoveHandler(SelectionChangedEvent, value); }
+		}
+		
+		public event PreviewSelectionChangedEventHandler PreviewSelectionChanged
+		{
+			add { AddHandler(PreviewSelectionChangedEvent, value); }
+			remove { RemoveHandler(PreviewSelectionChangedEvent, value); }
+		}
+		
 		public static readonly DependencyProperty LastSelectedItemProperty;
 
 		public static DependencyProperty BackgroundSelectionRectangleProperty = DependencyProperty.Register(
@@ -627,6 +646,9 @@ namespace System.Windows.Controls
 		// this eventhandler reacts on the firing control to, in order to update the own status
 		private void OnSelectedItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
+			var addedItems = new ArrayList();
+			var removedItems = new ArrayList();
+			
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add:
@@ -646,6 +668,7 @@ namespace System.Windows.Controls
 						last = item.DataContext;
 					}
 
+					addedItems.AddRange(e.NewItems);
 					LastSelectedItem = last;
 					break;
 				case NotifyCollectionChangedAction.Remove:
@@ -664,13 +687,15 @@ namespace System.Windows.Controls
 							}
 						}
 					}
-
+					
+					removedItems.AddRange(e.OldItems);
 					break;
 				case NotifyCollectionChangedAction.Reset:
 					foreach (var item in RecursiveTreeViewItemEnumerable(this, true))
 					{
 						if (item.IsSelected)
 						{
+							removedItems.Add(item.DataContext);
 							item.IsSelected = false;
 						}
 					}
@@ -681,7 +706,9 @@ namespace System.Windows.Controls
 					throw new InvalidOperationException();
 			}
 
-			OnSelectionChanged();
+			var selectionChangedEventArgs = new SelectionChangedEventArgs(SelectionChangedEvent, addedItems, removedItems);
+			
+			OnSelectionChanged(selectionChangedEventArgs);
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -787,22 +814,16 @@ namespace System.Windows.Controls
 			Focus();
 		}
 
-		protected void OnPreviewSelectionChanged(PreviewSelectionChangedEventArgs e)
+		protected virtual void OnPreviewSelectionChanged(PreviewSelectionChangedEventArgs e)
 		{
-			var handler = PreviewSelectionChanged;
-			if (handler != null)
-			{
-				handler(this, e);
-			}
+			e.RoutedEvent = PreviewSelectionChangedEvent;
+			RaiseEvent(e);
 		}
 
-		protected void OnSelectionChanged()
+		protected virtual void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			var handler = SelectionChanged;
-			if (handler != null)
-			{
-				handler(this, EventArgs.Empty);
-			}
+			e.RoutedEvent = SelectionChangedEvent;
+			RaiseEvent(e);
 		}
 
 		#endregion

@@ -19,7 +19,9 @@
         bool Select(MultiSelectTreeViewItem treeViewItem);
     }
 
-	public class PreviewSelectionChangedEventArgs : EventArgs
+	public delegate void PreviewSelectionChangedEventHandler(object sender, PreviewSelectionChangedEventArgs e);
+
+	public class PreviewSelectionChangedEventArgs : RoutedEventArgs
 	{
 		/// <summary>
 		/// Gets a value indicating whether the item was selected or deselected.
