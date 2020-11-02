@@ -31,3 +31,5 @@ MultiSelectTreeView/Nuget/lib/*
 
 !tools/*
 !MultiSelectTreeView/tools/*
+
+.idea/

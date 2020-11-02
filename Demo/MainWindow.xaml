@@ -92,7 +92,7 @@
 				Name="TheTreeView"
 				ItemsSource="{Binding Children}"
 				PreviewSelectionChanged="TheTreeView_PreviewSelectionChanged">
-
+				
 				<Controls:MultiSelectTreeView.ContextMenu>
 					<ContextMenu>
 						<MenuItem Header="Expand" Click="ExpandMenuItem_Click"/>
@@ -211,6 +211,13 @@
 		<StackPanel Grid.Column="1">
 			<TextBlock Style="{StaticResource FirstCaption}">TreeView properties</TextBlock>
 			<CheckBox
+				Content="&#160;Allow multi selection"
+				HorizontalAlignment="Left"
+				IsChecked="true"
+				Checked="AllowMultiSelection_Checked"
+				Unchecked="AllowMultiSelection_Checked"/>
+			<CheckBox
+				Name="AllowMultiSelect"
 				Content="&#160;Allow editing items (F2 key)"
 				HorizontalAlignment="Left"
 				IsChecked="{Binding AllowEditItems, ElementName=TheTreeView}"/>
