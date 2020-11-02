@@ -95,6 +95,10 @@ namespace System.Windows.Controls
 			typeof(MultiSelectTreeView),
 			new FrameworkPropertyMetadata(false, null));
 
+		public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.Register(
+			"SelectionMode", typeof(TreeViewSelectionMode), typeof(MultiSelectTreeView), 
+			new FrameworkPropertyMetadata(default(TreeViewSelectionMode), FrameworkPropertyMetadataOptions.None, OnSelectionModeChanged));
+
 		#endregion
 
 		#region Constructors and Destructors
@@ -109,9 +113,9 @@ namespace System.Windows.Controls
 		{
 			SelectedItems = new ObservableCollection<object>();
 			Selection = new SelectionMultiple(this);
-			Selection.PreviewSelectionChanged += (s, e) => { OnPreviewSelectionChanged(e); };
+			Selection.PreviewSelectionChanged += PreviewSelectionChangedHandler;
 		}
-
+		
 		#endregion
 
 		#region Public Properties
@@ -214,6 +218,15 @@ namespace System.Windows.Controls
 			{
 				SetValue(LastSelectedItemPropertyKey, value);
 			}
+		}
+		
+		/// <summary>
+		///    Determines whether multi-selection is enabled or not 
+		/// </summary>
+		public TreeViewSelectionMode SelectionMode
+		{
+			get { return (TreeViewSelectionMode) GetValue(SelectionModeProperty); }
+			set { SetValue(SelectionModeProperty, value); }
 		}
 
 		private MultiSelectTreeViewItem lastFocusedItem;
@@ -494,6 +507,36 @@ namespace System.Windows.Controls
 					collection.CollectionChanged += treeView.OnSelectedItemsChanged;
 				}
 			}
+		}
+		
+		private static void OnSelectionModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			MultiSelectTreeView treeView = (MultiSelectTreeView) d;
+
+			if (treeView.Selection != null)
+			{
+				treeView.Selection.PreviewSelectionChanged -= treeView.PreviewSelectionChangedHandler;
+			}
+
+			switch ((TreeViewSelectionMode)e.NewValue)
+			{
+				case TreeViewSelectionMode.MultiSelectEnabled:
+					treeView.Selection = new SelectionMultiple(treeView);
+					break;
+				case TreeViewSelectionMode.SingleSelectOnly:
+					treeView.Selection = new SelectionSingle(treeView);
+					break;
+			}
+
+			if (treeView.Selection != null)
+			{
+				treeView.Selection.PreviewSelectionChanged += treeView.PreviewSelectionChangedHandler;	
+			}
+		}
+		
+		private void PreviewSelectionChangedHandler(object sender, PreviewSelectionChangedEventArgs e)
+		{
+			OnPreviewSelectionChanged(e);
 		}
 
 		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)

@@ -680,8 +680,7 @@ namespace System.Windows.Controls
 						foreach (var item in e.OldItems)
 						{
 							parentTV.SelectedItems.Remove(item);
-							var multiselection = parentTV.Selection as SelectionMultiple;
-							if (multiselection != null)
+							if (parentTV.Selection is SelectionMultiple multiselection)
 							{
 								multiselection.InvalidateLastShiftRoot(item);
 							}
