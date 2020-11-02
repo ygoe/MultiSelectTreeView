@@ -592,8 +592,8 @@ namespace System.Windows.Controls
 						if (ParentTreeView.AllowEditItems && ContentTemplateEdit != null && IsFocused && IsEditable)
 						{
 							IsEditing = true;
+							e.Handled = true;
 						}
-						e.Handled = true;
 						break;
 					case Key.Escape:
 						StopEditing();
