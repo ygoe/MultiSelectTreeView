@@ -1,5 +1,11 @@
 ﻿namespace System.Windows.Controls
 {
+	public enum TreeViewSelectionMode
+	{
+		MultiSelectEnabled = 0,
+		SingleSelectOnly
+	}
+	
     internal interface ISelectionStrategy : IDisposable
     {
 		event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;

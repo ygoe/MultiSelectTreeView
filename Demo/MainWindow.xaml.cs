@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -235,6 +236,23 @@ namespace Demo
 				if (LastColumn.ActualWidth > 0)
 					Width -= LastColumn.ActualWidth;
 				LastColumn.Width = new GridLength(0, GridUnitType.Pixel);
+			}
+		}
+
+		private void AllowMultiSelection_Checked(object sender, RoutedEventArgs e)
+		{
+			if (AllowMultiSelect == null || TheTreeView == null)
+			{
+				return;
+			}
+			
+			if (e.RoutedEvent == ToggleButton.CheckedEvent)
+			{
+				TheTreeView.SelectionMode = TreeViewSelectionMode.MultiSelectEnabled;
+			}
+			else
+			{
+				TheTreeView.SelectionMode = TreeViewSelectionMode.SingleSelectOnly;
 			}
 		}
 	}
