@@ -66,11 +66,11 @@
 
 		<!-- Pass on the MultiSelectTreeView' HoverHighlighting value to each item because we couldn't access it otherwise in the triggers -->
 		<Setter Property="HoverHighlighting"
-			Value="{Binding (Controls:MultiSelectTreeView.HoverHighlighting), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=False}"/>
+			Value="{Binding Path=HoverHighlighting, RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=False}"/>
 		<Setter Property="ItemIndent"
-			Value="{Binding (Controls:MultiSelectTreeView.ItemIndent), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=13}"/>
+			Value="{Binding Path=ItemIndent, RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=13}"/>
 		<Setter Property="IsKeyboardMode"
-			Value="{Binding (Controls:MultiSelectTreeView.IsKeyboardMode), RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=False}"/>
+			Value="{Binding Path=IsKeyboardMode, RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Mode=OneWay, FallbackValue=False}"/>
 
 		<Setter Property="Control.Template">
 			<Setter.Value>
@@ -173,7 +173,7 @@
 							<!-- region Element grid -->
 							<StackPanel Grid.Column="1" Orientation="Horizontal">
 									<Grid Name="ElementGrid">
-									<Border Name="headerBorder"
+									<Border
 										BorderThickness="{TemplateBinding Border.BorderThickness}"
 										Padding="{TemplateBinding Control.Padding}"
 										Margin="0,0,0,-1"
@@ -247,11 +247,11 @@
 							<Setter Property="Border.BorderBrush" Value="#66a7e8"/>
 						</MultiTrigger>
 
-						<!-- Make all selected items grey when the entire Window is inactive -->
+						<!-- Make all selected items grey when the tree view is not focused -->
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition
-									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=IsActive, FallbackValue=False}"
+									Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Controls:MultiSelectTreeView}}, Path=IsFocused, FallbackValue=False}"
 									Value="False"/>
 								<Condition
 									Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"

@@ -169,8 +169,13 @@ namespace System.Windows.Controls
 				bool foundFocusItem = false;
 				foreach (var item in items)
 				{
-					FrameworkElement itemContent = (FrameworkElement) item.Template.FindName("headerBorder", item);
-					Point p = itemContent.TransformToAncestor(content).Transform(new Point());
+					FrameworkElement itemContent = (FrameworkElement) item.Template.FindName("PART_Header", item);
+					if (itemContent == null) 
+					{
+						continue;
+					}
+
+					Point p = ((FrameworkElement)itemContent.Parent).TransformToAncestor(content).Transform(new Point());
 					double itemLeft = p.X;
 					double itemRight = p.X + itemContent.ActualWidth - 1;
 					double itemTop = p.Y;

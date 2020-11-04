@@ -13,12 +13,31 @@ namespace System.Windows.Controls
 	public class MultiSelectTreeView : ItemsControl
 	{
 		#region Constants and Fields
-
-		public event EventHandler<PreviewSelectionChangedEventArgs> PreviewSelectionChanged;
 		
-		// TODO: Provide more details. Fire once for every single change and once for all groups of changes, with different flags
-		public event EventHandler SelectionChanged;
+		public static readonly RoutedEvent SelectionChangedEvent = EventManager.RegisterRoutedEvent(
+			"SelectionChanged", 
+			RoutingStrategy.Bubble, 
+			typeof(SelectionChangedEventHandler), 
+			typeof(MultiSelectTreeView));
+		
+		public static readonly RoutedEvent PreviewSelectionChangedEvent = EventManager.RegisterRoutedEvent(
+			"PreviewSelectionChanged", 
+			RoutingStrategy.Bubble, 
+			typeof(PreviewSelectionChangedEventHandler), 
+			typeof(MultiSelectTreeView));
 
+		public event SelectionChangedEventHandler SelectionChanged
+		{
+			add { AddHandler(SelectionChangedEvent, value); }
+			remove { RemoveHandler(SelectionChangedEvent, value); }
+		}
+		
+		public event PreviewSelectionChangedEventHandler PreviewSelectionChanged
+		{
+			add { AddHandler(PreviewSelectionChangedEvent, value); }
+			remove { RemoveHandler(PreviewSelectionChangedEvent, value); }
+		}
+		
 		public static readonly DependencyProperty LastSelectedItemProperty;
 
 		public static DependencyProperty BackgroundSelectionRectangleProperty = DependencyProperty.Register(
@@ -76,6 +95,10 @@ namespace System.Windows.Controls
 			typeof(MultiSelectTreeView),
 			new FrameworkPropertyMetadata(false, null));
 
+		public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.Register(
+			"SelectionMode", typeof(TreeViewSelectionMode), typeof(MultiSelectTreeView), 
+			new FrameworkPropertyMetadata(default(TreeViewSelectionMode), FrameworkPropertyMetadataOptions.None, OnSelectionModeChanged));
+
 		#endregion
 
 		#region Constructors and Destructors
@@ -90,9 +113,9 @@ namespace System.Windows.Controls
 		{
 			SelectedItems = new ObservableCollection<object>();
 			Selection = new SelectionMultiple(this);
-			Selection.PreviewSelectionChanged += (s, e) => { OnPreviewSelectionChanged(e); };
+			Selection.PreviewSelectionChanged += PreviewSelectionChangedHandler;
 		}
-
+		
 		#endregion
 
 		#region Public Properties
@@ -195,6 +218,15 @@ namespace System.Windows.Controls
 			{
 				SetValue(LastSelectedItemPropertyKey, value);
 			}
+		}
+		
+		/// <summary>
+		///    Determines whether multi-selection is enabled or not 
+		/// </summary>
+		public TreeViewSelectionMode SelectionMode
+		{
+			get { return (TreeViewSelectionMode) GetValue(SelectionModeProperty); }
+			set { SetValue(SelectionModeProperty, value); }
 		}
 
 		private MultiSelectTreeViewItem lastFocusedItem;
@@ -476,6 +508,36 @@ namespace System.Windows.Controls
 				}
 			}
 		}
+		
+		private static void OnSelectionModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			MultiSelectTreeView treeView = (MultiSelectTreeView) d;
+
+			if (treeView.Selection != null)
+			{
+				treeView.Selection.PreviewSelectionChanged -= treeView.PreviewSelectionChangedHandler;
+			}
+
+			switch ((TreeViewSelectionMode)e.NewValue)
+			{
+				case TreeViewSelectionMode.MultiSelectEnabled:
+					treeView.Selection = new SelectionMultiple(treeView);
+					break;
+				case TreeViewSelectionMode.SingleSelectOnly:
+					treeView.Selection = new SelectionSingle(treeView);
+					break;
+			}
+
+			if (treeView.Selection != null)
+			{
+				treeView.Selection.PreviewSelectionChanged += treeView.PreviewSelectionChangedHandler;	
+			}
+		}
+		
+		private void PreviewSelectionChangedHandler(object sender, PreviewSelectionChangedEventArgs e)
+		{
+			OnPreviewSelectionChanged(e);
+		}
 
 		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
 		{
@@ -627,6 +689,9 @@ namespace System.Windows.Controls
 		// this eventhandler reacts on the firing control to, in order to update the own status
 		private void OnSelectedItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
+			var addedItems = new ArrayList();
+			var removedItems = new ArrayList();
+			
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add:
@@ -646,6 +711,7 @@ namespace System.Windows.Controls
 						last = item.DataContext;
 					}
 
+					addedItems.AddRange(e.NewItems);
 					LastSelectedItem = last;
 					break;
 				case NotifyCollectionChangedAction.Remove:
@@ -664,13 +730,15 @@ namespace System.Windows.Controls
 							}
 						}
 					}
-
+					
+					removedItems.AddRange(e.OldItems);
 					break;
 				case NotifyCollectionChangedAction.Reset:
 					foreach (var item in RecursiveTreeViewItemEnumerable(this, true))
 					{
 						if (item.IsSelected)
 						{
+							removedItems.Add(item.DataContext);
 							item.IsSelected = false;
 						}
 					}
@@ -681,7 +749,9 @@ namespace System.Windows.Controls
 					throw new InvalidOperationException();
 			}
 
-			OnSelectionChanged();
+			var selectionChangedEventArgs = new SelectionChangedEventArgs(SelectionChangedEvent, addedItems, removedItems);
+			
+			OnSelectionChanged(selectionChangedEventArgs);
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -787,22 +857,16 @@ namespace System.Windows.Controls
 			Focus();
 		}
 
-		protected void OnPreviewSelectionChanged(PreviewSelectionChangedEventArgs e)
+		protected virtual void OnPreviewSelectionChanged(PreviewSelectionChangedEventArgs e)
 		{
-			var handler = PreviewSelectionChanged;
-			if (handler != null)
-			{
-				handler(this, e);
-			}
+			e.RoutedEvent = PreviewSelectionChangedEvent;
+			RaiseEvent(e);
 		}
 
-		protected void OnSelectionChanged()
+		protected virtual void OnSelectionChanged(SelectionChangedEventArgs e)
 		{
-			var handler = SelectionChanged;
-			if (handler != null)
-			{
-				handler(this, EventArgs.Empty);
-			}
+			e.RoutedEvent = SelectionChangedEvent;
+			RaiseEvent(e);
 		}
 
 		#endregion
