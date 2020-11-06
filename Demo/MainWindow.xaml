@@ -2,7 +2,7 @@
 	x:Class="Demo.MainWindow"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=MultiSelectTreeView" 
+	xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=WPFMultiSelectTreeView" 
 	xmlns:demo="clr-namespace:Demo"
 	xmlns:vm="clr-namespace:Demo.ViewModel"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
