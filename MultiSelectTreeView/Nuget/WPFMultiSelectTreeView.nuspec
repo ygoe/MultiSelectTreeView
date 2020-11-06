@@ -13,5 +13,9 @@
 		<description>MultiSelectTreeView is a .NET/WPF control that displays a hierarchical tree of items that can be browsed, selected, collapsed and edited like in a normal tree control. This control overcomes some of the limitations that the TreeView control included in WPF has. Most prominently, it adds multiple selection and is easier to style in several aspects. It features the Windows 7 Aero theme very closely and adapts to other Windows themes (Luna, Royale, Classic, Aero2 for Windows 10). Mouse and keyboard control is largely the same as in Windows Explorer.</description>
 		<copyright>Yves Goergen, Goroll, LUZ Soluções Financeiras</copyright>
 		<tags>multiselect treeview wpf tree control themed</tags>
+		<dependencies>
+			<group targetFramework=".NETFramework4.0.0">
+			</group>
+		</dependencies>
 	</metadata>
 </package>
