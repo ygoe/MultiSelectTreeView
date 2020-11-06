@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 using System.Windows;
 
 [assembly: AssemblyProduct("MultiSelectTreeView WPF control")]
-[assembly: AssemblyTitle("WPF control library with a TreeView supporting multiple selection.")]
+[assembly: AssemblyTitle("WPFMultiSelectTreeView")]
 
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("© 2012–2017 Yves Goergen, Goroll")]
+[assembly: AssemblyCopyright("© 2012–2020 Yves Goergen, Goroll, LUZ Soluções Financeiras")]
 
 // IMPORTANT: When changing the version number, also update the NuGet package and the version history below.
-[assembly: AssemblyVersion("1.0.9.0")]
+[assembly: AssemblyVersion("1.0.10.0")]
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(
@@ -22,6 +22,7 @@ using System.Windows;
 	// (used if a resource is not found in the page, app, or any theme specific resource dictionaries)
 	ResourceDictionaryLocation.SourceAssembly
 )]
+[assembly: AssemblyDescription("WPF control library with a TreeView supporting multiple selection.")]
 
 // Change history:
 //
