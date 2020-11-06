@@ -410,11 +410,12 @@ namespace System.Windows.Controls
 			{
 				if ((bool) e.NewValue)
 				{
-					if (!item.ParentTreeView.SelectedItems.Contains(item.DataContext))
+                    if (!item.ParentTreeView.SelectedItems.Contains(item.DataContext))
 					{
 						item.ParentTreeView.SelectedItems.Add(item.DataContext);
 					}
-				}
+                    item.BringIntoView();
+                }
 				else
 				{
 					item.ParentTreeView.SelectedItems.Remove(item.DataContext);
