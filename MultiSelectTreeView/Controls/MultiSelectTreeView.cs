@@ -43,13 +43,13 @@ namespace System.Windows.Controls
 		public static DependencyProperty BackgroundSelectionRectangleProperty = DependencyProperty.Register(
 			"BackgroundSelectionRectangle",
 			typeof(Brush),
-			typeof(MultiSelectTreeViewItem),
+			typeof(MultiSelectTreeView),
 			new FrameworkPropertyMetadata(new SolidColorBrush(Color.FromArgb(0x60, 0x33, 0x99, 0xFF)), null));
 
 		public static DependencyProperty BorderBrushSelectionRectangleProperty = DependencyProperty.Register(
 			"BorderBrushSelectionRectangle",
 			typeof(Brush),
-			typeof(MultiSelectTreeViewItem),
+			typeof(MultiSelectTreeView),
 			new FrameworkPropertyMetadata(new SolidColorBrush(Color.FromRgb(0x33, 0x99, 0xFF)), null));
 
 		public static DependencyProperty HoverHighlightingProperty = DependencyProperty.Register(
