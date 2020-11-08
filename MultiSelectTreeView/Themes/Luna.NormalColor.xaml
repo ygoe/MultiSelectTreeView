@@ -3,8 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="/MultiSelectTreeView;component/Themes/EditTextBox.xaml"/>
-		<ResourceDictionary Source="/MultiSelectTreeView;component/Themes/MultiSelectTreeView.Aero.xaml"/>
-		<ResourceDictionary Source="/MultiSelectTreeView;component/Themes/MultiSelectTreeViewItem.Luna.xaml"/>
+        <ResourceDictionary Source="/WPFMultiSelectTreeView;component/Themes/EditTextBox.xaml"/>
+        <ResourceDictionary Source="/WPFMultiSelectTreeView;component/Themes/MultiSelectTreeView.Aero.xaml"/>
+        <ResourceDictionary Source="/WPFMultiSelectTreeView;component/Themes/MultiSelectTreeViewItem.Luna.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
