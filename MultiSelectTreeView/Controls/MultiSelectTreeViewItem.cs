@@ -415,6 +415,7 @@ namespace System.Windows.Controls
 						item.ParentTreeView.SelectedItems.Add(item.DataContext);
 					}
                     item.BringIntoView();
+                    item.Focus();
                 }
 				else
 				{
