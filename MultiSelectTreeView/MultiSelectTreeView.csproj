@@ -153,7 +153,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <AppDesigner Include="Properties\" />
-    <None Include="NuGet\MultiSelectTreeView.nuspec" />
+    <None Include="NuGet\WPFMultiSelectTreeView.nuspec" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
