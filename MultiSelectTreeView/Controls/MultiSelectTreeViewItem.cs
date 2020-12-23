@@ -583,7 +583,15 @@ namespace System.Windows.Controls
 						}
 						e.Handled = true;
 						break;
-					case Key.Subtract:
+                    case Key.Multiply:
+                        if (CanExpandOnInput && !IsExpanded)
+                        {
+                            IsExpanded = true;
+                            ParentTreeView.RecursiveExpand(this);
+                        }
+                        e.Handled = true;
+                        break;
+                    case Key.Subtract:
 						if (CanExpandOnInput && IsExpanded)
 						{
 							IsExpanded = false;

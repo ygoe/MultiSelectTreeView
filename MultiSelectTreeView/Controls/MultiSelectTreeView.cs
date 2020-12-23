@@ -409,7 +409,21 @@ namespace System.Windows.Controls
 			return true;
 		}
 
-		internal bool ClearSelectionByRectangle()
+
+        public void RecursiveExpand(MultiSelectTreeViewItem item)
+        {
+            foreach (var child in item.Items)
+            {
+                MultiSelectTreeViewItem tvi = item.ItemContainerGenerator.ContainerFromItem(child) as MultiSelectTreeViewItem;
+                if (tvi != null)
+                {
+                    tvi.IsExpanded = true;
+                    RecursiveExpand(tvi);
+                }
+            }
+        }
+
+        internal bool ClearSelectionByRectangle()
 		{
 			foreach (var item in new ArrayList(SelectedItems))
 			{
