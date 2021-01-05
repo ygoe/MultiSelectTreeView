@@ -412,6 +412,7 @@ namespace System.Windows.Controls
 
         public void RecursiveExpand(MultiSelectTreeViewItem item)
         {
+            item.UpdateLayout();
             foreach (var child in item.Items)
             {
                 MultiSelectTreeViewItem tvi = item.ItemContainerGenerator.ContainerFromItem(child) as MultiSelectTreeViewItem;
