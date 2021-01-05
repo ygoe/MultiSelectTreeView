@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyCopyright("© 2012–2020 Yves Goergen, Goroll, LUZ Soluções Financeiras")]
 
 // IMPORTANT: When changing the version number, also update the NuGet package and the version history below.
-[assembly: AssemblyVersion("1.0.11.0")]
+[assembly: AssemblyVersion("1.0.13.0")]
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(
