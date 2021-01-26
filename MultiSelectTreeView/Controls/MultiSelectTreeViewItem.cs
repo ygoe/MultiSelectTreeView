@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -474,6 +473,29 @@ namespace System.Windows.Controls
             base.OnPropertyChanged(e);
         }
 
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+
+            // Remove all items from the SelectedItems list that are no longer in the Items
+            if (oldValue != null)
+            {
+                MultiSelectTreeView parentTV = ParentTreeView;
+                if (parentTV == null)
+                    parentTV = lastParentTreeView;
+                if (parentTV != null)
+                {
+                    foreach (var item in oldValue)
+                    {
+                        parentTV.SelectedItems.Remove(item);
+                        if (parentTV.Selection is SelectionMultiple multiselection)
+                        {
+                            multiselection.InvalidateLastShiftRoot(item);
+                        }
+                    }
+                }
+            }
+        }
+
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new MultiSelectTreeViewItem();
@@ -673,6 +695,7 @@ namespace System.Windows.Controls
             }
         }
 
+
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
             MultiSelectTreeView parentTV;
@@ -696,32 +719,6 @@ namespace System.Windows.Controls
                             }
                             // Don't preview and ask, it is already gone so it must be removed from
                             // the SelectedItems list
-                        }
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    // Remove all items from the SelectedItems list that are no longer in the Items
-                    // list
-                    parentTV = ParentTreeView;
-                    if (parentTV == null)
-                        parentTV = lastParentTreeView;
-                    if (parentTV != null)
-                    {
-                        if (parentTV.SelectedItems.Count > 0)
-                        {
-                            var selection = new object[parentTV.SelectedItems.Count];
-
-                            parentTV.SelectedItems.CopyTo(selection, 0);
-                            HashSet<object> dataItems = new HashSet<object>(parentTV.GetAllDataItems().Cast<object>());
-                            foreach (var item in selection)
-                            {
-                                if (!dataItems.Contains(item))
-                                {
-                                    parentTV.SelectedItems.Remove(item);
-                                    // Don't preview and ask, it is already gone so it must be removed
-                                    // from the SelectedItems list
-                                }
-                            }
                         }
                     }
                     break;
