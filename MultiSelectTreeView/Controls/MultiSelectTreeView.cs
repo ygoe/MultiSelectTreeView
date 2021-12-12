@@ -68,7 +68,7 @@ namespace System.Windows.Controls
 			typeof(IList),
 			typeof(MultiSelectTreeView),
 			new FrameworkPropertyMetadata(
-				null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemsPropertyChanged));
+				new ObservableCollection<object>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemsPropertyChanged));
 
 		public static DependencyProperty AllowEditItemsProperty = DependencyProperty.Register(
 			"AllowEditItems",
@@ -88,7 +88,6 @@ namespace System.Windows.Controls
 
 		public MultiSelectTreeView()
 		{
-			SelectedItems = new ObservableCollection<object>();
 			Selection = new SelectionMultiple(this);
 			Selection.PreviewSelectionChanged += (s, e) => { OnPreviewSelectionChanged(e); };
 		}
