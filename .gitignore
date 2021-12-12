@@ -37,3 +37,5 @@ MultiSelectTreeView/Nuget/lib/*
 .vs/MultiSelectTreeView/v15/Server/sqlite3/storage.ide-shm
 .vs/MultiSelectTreeView/v15/Server/sqlite3/storage.ide
 .vs/MultiSelectTreeView/v15/Server/sqlite3/db.lock
+/packages/
+/.vs/

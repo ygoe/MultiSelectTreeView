@@ -90,8 +90,10 @@
 			<TextBlock DockPanel.Dock="Top" Style="{StaticResource FirstCaption}">The TreeView control</TextBlock>
 			<Controls:MultiSelectTreeView
 				Name="TheTreeView"
-				ItemsSource="{Binding Children}"
-				PreviewSelectionChanged="TheTreeView_PreviewSelectionChanged">
+				ItemsSource="{Binding EntireSet}"
+                SelectedItems="{Binding TheSelectedFew}"
+				PreviewSelectionChanged="TheTreeView_PreviewSelectionChanged"
+                >
 				
 				<Controls:MultiSelectTreeView.ContextMenu>
 					<ContextMenu>
@@ -286,6 +288,8 @@
 				Content="Hide selected items" ToolTip="Hides the selected nodes."/>
 			<Button HorizontalAlignment="Left" Padding="4,1" Margin="0,4,0,0" Click="ShowNodesButton_Click"
 				Content="Show all items" ToolTip="Shows all nodes."/>
+            <Button HorizontalAlignment="Left" Padding="4,1" Margin="0,4,0,0" Command="{Binding ClearSelectionCommand}"
+				Content="Clear via binding" ToolTip="Shows all nodes."/>
 		</StackPanel>
 
 		<DockPanel

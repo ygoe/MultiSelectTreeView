@@ -23,44 +23,9 @@ namespace Demo
 			InitializeComponent();
 			ShowSecondCheck_Checked(null, null);
 
-			// Create some example nodes to play with
-			var rootNode = new TreeItemViewModel(null, false) { DisplayName = "rootNode" };
-			var node1 = new TreeItemViewModel(rootNode, false) { DisplayName = "element1 (editable)", IsEditable = true };
-			var node2 = new TreeItemViewModel(rootNode, false) { DisplayName = "element2" };
-			var node11 = new TreeItemViewModel(node1, false) { DisplayName = "element11", Remarks = "Look at me!" };
-			var node12 = new TreeItemViewModel(node1, false) { DisplayName = "element12 (disabled)", IsEnabled = false };
-			var node13 = new TreeItemViewModel(node1, false) { DisplayName = "element13" };
-			var node131 = new TreeItemViewModel(node13, false) { DisplayName = "element131" };
-			var node132 = new TreeItemViewModel(node13, false) { DisplayName = "element132" };
-			var node14 = new TreeItemViewModel(node1, false) { DisplayName = "element14 with colours" };
-			var colorNode1 = new ColorItemViewModel(node14, false) { Color = Colors.Aqua, IsEditable = true };
-			var colorNode2 = new ColorItemViewModel(node14, false) { Color = Colors.ForestGreen };
-			var colorNode3 = new ColorItemViewModel(node14, false) { Color = Colors.LightSalmon };
-			var node15 = new TreeItemViewModel(node1, true) { DisplayName = "element15 (lazy loading)" };
+			DataContext = new MainViewModel();
 
-			// Add them all to each other
-			rootNode.Children.Add(node1);
-			rootNode.Children.Add(node2);
-			node1.Children.Add(node11);
-			node1.Children.Add(node12);
-			node1.Children.Add(node13);
-			node13.Children.Add(node131);
-			node13.Children.Add(node132);
-			node1.Children.Add(node14);
-			node14.Children.Add(colorNode1);
-			node14.Children.Add(colorNode2);
-			node14.Children.Add(colorNode3);
-			node1.Children.Add(node15);
-
-			// Use the root node as the window's DataContext to allow data binding. The TreeView
-			// will use the Children property of the DataContext as list of root tree items. This
-			// property happens to be the same as each item DataTemplate uses to find its subitems.
-			DataContext = rootNode;
-
-			// Preset some node states
-			node1.IsSelected = true;
-			node13.IsSelected = true;
-			node14.IsExpanded = true;
+			
 		}
 
 		private void TheTreeView_PreviewSelectionChanged(object sender, PreviewSelectionChangedEventArgs e)
